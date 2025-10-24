@@ -1,22 +1,14 @@
 {
   "buildCommand": "echo 'No build step required'",
   "outputDirectory": ".",
-  "routes": [
+  "rewrites": [
     {
-      "src": "/register",
-      "dest": "/index.html"
+      "source": "/register",
+      "destination": "/index.html"
     },
     {
-      "src": "/digitalcheck",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/",
-      "dest": "/index.html"
-    },
-    {
-      "src": "/api/send-otp",
-      "dest": "/api/send-otp.js"
+      "source": "/digitalcheck",
+      "destination": "/index.html"
     }
   ],
   "functions": {

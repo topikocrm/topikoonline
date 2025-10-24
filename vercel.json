@@ -1,0 +1,25 @@
+{
+  "routes": [
+    {
+      "src": "/register",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/digitalcheck",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/api/send-otp",
+      "dest": "/api/send-otp.js"
+    }
+  ],
+  "functions": {
+    "api/send-otp.js": {
+      "maxDuration": 10
+    }
+  }
+}

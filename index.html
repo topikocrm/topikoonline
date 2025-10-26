@@ -750,21 +750,21 @@
         }
 
         .landing-logo {
-            margin-bottom: 40px;
+            margin-bottom: 36px;
         }
 
         .landing-title {
             font-size: 28px;
             font-weight: 700;
             color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             line-height: 1.2;
         }
 
         .landing-subtitle {
             font-size: 16px;
             color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 32px;
+            margin-bottom: 36px;
             line-height: 1.4;
         }
 
@@ -772,9 +772,9 @@
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             grid-template-rows: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 40px;
-            padding: 20px;
+            gap: 14px;
+            margin-bottom: 44px;
+            padding: 24px;
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(20px);
             border-radius: 20px;
@@ -786,7 +786,7 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            padding: 16px 8px;
+            padding: 18px 10px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 12px;
@@ -828,7 +828,7 @@
         .landing-start-btn {
             width: 100%;
             max-width: 280px;
-            padding: 16px 32px;
+            padding: 18px 32px;
             font-size: 16px;
             font-weight: 600;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -837,6 +837,7 @@
             color: white;
             cursor: pointer;
             transition: all 0.3s ease;
+            margin-bottom: 24px;
         }
 
         .landing-start-btn:hover {
@@ -865,8 +866,8 @@
 
         /* Testimonials Section */
         .testimonials-section {
-            margin-top: 32px;
-            padding: 20px;
+            margin-top: 16px;
+            padding: 20px 0;
         }
 
         .section-title {
@@ -881,8 +882,8 @@
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
+            padding: 18px;
+            margin-bottom: 16px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -964,92 +965,7 @@
         }
 
 
-        /* RECOMMENDATION PREVIEW STYLES */
-        .recommendation-preview {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.9);
-            border-radius: 12px;
-            padding: 12px;
-            border: 1px solid rgba(102, 126, 234, 0.3);
-            z-index: 1000;
-            animation: slideInUp 0.5s ease-out;
-        }
 
-        .preview-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .preview-icon {
-            font-size: 16px;
-        }
-
-        .preview-text {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.8);
-            flex: 1;
-            margin-left: 8px;
-        }
-
-        .preview-confidence {
-            font-size: 12px;
-            color: #667eea;
-            font-weight: 600;
-        }
-
-        .preview-products {
-            display: flex;
-            gap: 8px;
-        }
-
-        .preview-product {
-            flex: 1;
-            height: 40px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 600;
-            transition: all 0.5s ease;
-        }
-
-        .preview-product.mystery {
-            background: rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.5);
-            border: 1px dashed rgba(255, 255, 255, 0.3);
-        }
-
-        .preview-product.revealed {
-            background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
-            color: white;
-            border: 1px solid #667eea;
-            animation: reveal 0.5s ease-out;
-        }
-
-        @keyframes reveal {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .recommendation-preview {
-                bottom: 10px;
-                left: 10px;
-                right: 10px;
-            }
-        }
 
         /* Hide desktop elements on mobile/tablet */
         @media (max-width: 767px) {
@@ -1252,10 +1168,258 @@
                 }
             }
 
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7);
+                }
+                70% {
+                    transform: scale(1.05);
+                    box-shadow: 0 0 0 10px rgba(251, 191, 36, 0);
+                }
+                100% {
+                    transform: scale(1);
+                    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0);
+                }
+            }
+
             /* Enhanced mobile profile for desktop */
             .mobile-profile {
                 margin-top: 60px; /* Account for desktop header */
             }
+        }
+
+        /* New Results Page Styles */
+        .results-container {
+            padding: 20px;
+            gap: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .recommendation-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .primary-card {
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            font-size: 24px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.9);
+            letter-spacing: 0.5px;
+        }
+
+        .product-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .product-divider {
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.3) 100%);
+            margin-bottom: 20px;
+        }
+
+        .features-list {
+            margin-bottom: 20px;
+        }
+
+        .feature-item {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .pricing {
+            font-size: 20px;
+            font-weight: 700;
+            color: #4ade80;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .consultation-btn {
+            width: 100%;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .consultation-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .consultation-btn.secondary {
+            background: linear-gradient(135deg, #a78bfa 0%, #c084fc 100%);
+            font-size: 14px;
+            padding: 12px 20px;
+        }
+
+        .marketing-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, #fbbf24 50%, transparent 100%);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .marketing-divider::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 2px;
+            background: #fbbf24;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+        }
+
+        .marketing-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .marketing-icon {
+            font-size: 20px;
+        }
+
+        .marketing-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fbbf24;
+        }
+
+        .marketing-product {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .marketing-price {
+            font-size: 16px;
+            font-weight: 600;
+            color: #4ade80;
+            margin-bottom: 16px;
+        }
+
+        .marketing-features {
+            margin-bottom: 16px;
+        }
+
+        .marketing-features .feature-item {
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .marketing-cta {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        .bundle-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+            margin-bottom: 20px;
+        }
+
+        .bundle-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .bundle-icon {
+            font-size: 20px;
+        }
+
+        .bundle-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #a78bfa;
+            letter-spacing: 0.5px;
+        }
+
+        .bundle-content {
+            margin-bottom: 16px;
+        }
+
+        .consultation-preview {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 8px;
+        }
+
+        .preview-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .preview-icon {
+            font-size: 18px;
+        }
+
+        .preview-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .preview-content {
+            margin-bottom: 12px;
+        }
+
+        .preview-item {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .preview-footer {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+            text-align: center;
         }
 
         /* Large desktop optimizations */
@@ -1613,19 +1777,6 @@
             <div class="progress-bar" id="progressBar"></div>
         </div>
         
-        <!-- Recommendation Building Preview -->
-        <div id="recommendationPreview" class="recommendation-preview" style="display: none;">
-            <div class="preview-header">
-                <span class="preview-icon">🔮</span>
-                <span class="preview-text">Building your strategy...</span>
-                <span class="preview-confidence" id="previewConfidence">67%</span>
-            </div>
-            <div class="preview-products" id="previewProducts">
-                <div class="preview-product mystery">?</div>
-                <div class="preview-product mystery">?</div>
-                <div class="preview-product mystery">?</div>
-            </div>
-        </div>
 
         <!-- Mobile Profile Bar -->
         <div class="mobile-profile" id="mobileProfile" style="display: none;">
@@ -1749,21 +1900,23 @@
                     <div class="question-title">What type of business?</div>
                     <select class="form-input" id="businessType" style="height: 48px;">
                         <option value="">Select your business type</option>
-                        <option value="retail">Retail Store</option>
-                        <option value="restaurant">Restaurant/Food</option>
-                        <option value="salon">Salon/Beauty</option>
-                        <option value="boutique">Boutique/Fashion</option>
-                        <option value="services">Professional Services</option>
-                        <option value="healthcare">Healthcare/Medical</option>
-                        <option value="education">Education/Training</option>
-                        <option value="manufacturing">Manufacturing</option>
-                        <option value="consulting">Consulting</option>
-                        <option value="fitness">Fitness/Gym</option>
-                        <option value="travel">Travel/Tourism</option>
-                        <option value="real_estate">Real Estate</option>
-                        <option value="automotive">Automotive</option>
-                        <option value="electronics">Electronics/Tech</option>
-                        <option value="other">Other</option>
+                        <option value="Retail Store">Retail Store</option>
+                        <option value="Restaurant/Cafe">Restaurant/Cafe</option>
+                        <option value="Salon/Spa">Salon/Spa</option>
+                        <option value="Healthcare/Clinic">Healthcare/Clinic</option>
+                        <option value="Education/Training">Education/Training</option>
+                        <option value="Construction/Real Estate">Construction/Real Estate</option>
+                        <option value="Automotive">Automotive</option>
+                        <option value="Fashion/Apparel">Fashion/Apparel</option>
+                        <option value="Jewelry">Jewelry</option>
+                        <option value="Creative Services">Creative Services</option>
+                        <option value="IT/Software Services">IT/Software Services</option>
+                        <option value="Manufacturing">Manufacturing</option>
+                        <option value="Logistics/Transport">Logistics/Transport</option>
+                        <option value="Agency/Marketing">Agency/Marketing</option>
+                        <option value="B2B Services">B2B Services</option>
+                        <option value="Professional Services">Professional Services</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
                 
@@ -1820,47 +1973,87 @@
         <div id="screen3" class="screen">
             <div class="chat-message" id="chatMessage3">🎉 Congratulations! Your personalized digital strategy is ready.</div>
             
-            <div class="question-card">
-                <div class="question-title" style="text-align: center; margin-bottom: 24px;">Your Assessment Results</div>
-                
-                <!-- Two Score Display -->
-                <div style="display: flex; justify-content: space-between; margin-bottom: 24px; gap: 16px;">
-                    <!-- Digital Readiness Score -->
-                    <div style="flex: 1; text-align: center;">
-                        <div style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 8px;">Digital Readiness</div>
-                        <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);">
-                            <div style="font-size: 24px; font-weight: 800; color: white;" id="digitalReadinessScore">35</div>
-                        </div>
-                        <div style="font-size: 12px; color: rgba(255,255,255,0.7);" id="readinessLabel">Digital Opportunity</div>
+            <div class="results-container">
+                <!-- Main Recommendation Card -->
+                <div class="recommendation-card primary-card" id="primaryRecommendation">
+                    <div class="card-header">
+                        <div class="card-icon">💎</div>
+                        <div class="card-title">RECOMMENDED FOR YOU</div>
                     </div>
                     
-                    <!-- Solution Match Score -->
-                    <div style="flex: 1; text-align: center;">
-                        <div style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 8px;">Solution Match</div>
-                        <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; box-shadow: 0 4px 16px rgba(245, 87, 108, 0.3);">
-                            <div style="font-size: 24px; font-weight: 800; color: white;" id="solutionMatchScore">85</div>
-                        </div>
-                        <div style="font-size: 12px; color: rgba(255,255,255,0.7);" id="matchLabel">Perfect Match</div>
+                    <div class="product-name" id="primaryProductName">Disblay Website</div>
+                    <div class="product-divider"></div>
+                    
+                    <div class="features-list" id="primaryFeatures">
+                        <div class="feature-item">✓ Product showcase website</div>
+                        <div class="feature-item">✓ WhatsApp-friendly links</div>
+                        <div class="feature-item">✓ Payment & shipping integration</div>
+                        <div class="feature-item">✓ Mobile-first design</div>
+                        <div class="feature-item">✓ Easy to update yourself</div>
                     </div>
-                </div>
-                
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;" id="scoreTitle">Great Growth Potential!</div>
-                    <div style="font-size: 14px; color: rgba(255, 255, 255, 0.7);" id="scoreDescription">Perfect starting point for digital transformation.</div>
-                </div>
-                
-                <div id="recommendationContent">
-                    <!-- Personalized recommendations will be inserted here -->
-                </div>
-                
-                <div class="nav-buttons" style="flex-direction: column; gap: 12px;">
-                    <button class="btn" onclick="startDetailedAudit()">🔍 Get My Detailed Plan</button>
-                    <button class="btn btn-secondary" onclick="skipAuditAndBookCall()" style="background: linear-gradient(135deg, #667eea 0%, #f093fb 100%); color: white; border: none;">
-                        ⚡ Skip Audit - Book Consultation Now
+                    
+                    <div class="pricing" id="primaryPricing">Just ₹1,499/year</div>
+                    
+                    <button class="consultation-btn" id="consultationBtn" onclick="skipAuditAndBookCall()">
+                        📞 Book 10-Min Consultation
                     </button>
-                    <div style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 8px;">
-                        We have enough information to help you. The detailed audit is optional.
+                </div>
+
+                <!-- Marketing Add-on Card -->
+                <div class="recommendation-card marketing-card" id="marketingRecommendation" style="display: none;">
+                    <div class="marketing-divider"></div>
+                    
+                    <div class="marketing-header" id="marketingHeader">
+                        <div class="marketing-icon">📢</div>
+                        <div class="marketing-title">Want Customer Inquiries Too?</div>
                     </div>
+                    
+                    <div class="marketing-product">Add Digital Marketing</div>
+                    <div class="marketing-price" id="marketingPrice">Starting from ₹10,000/month</div>
+                    
+                    <div class="marketing-features">
+                        <div class="feature-item">✓ Social media campaigns</div>
+                        <div class="feature-item">✓ Google/Facebook ads</div>
+                        <div class="feature-item">✓ Lead generation</div>
+                        <div class="feature-item">✓ Month-to-month (no lock-in)</div>
+                    </div>
+                    
+                    <div class="marketing-cta">Discuss in consultation ↗</div>
+                </div>
+
+                <!-- Alternative/Bundle Card -->
+                <div class="recommendation-card bundle-card" id="bundleRecommendation" style="display: none;">
+                    <div class="bundle-divider"></div>
+                    
+                    <div class="bundle-header">
+                        <div class="bundle-icon">🎯</div>
+                        <div class="bundle-title">COMPLETE SOLUTION</div>
+                    </div>
+                    
+                    <div class="bundle-content" id="bundleContent">
+                        <!-- Bundle content will be populated by routing logic -->
+                    </div>
+                    
+                    <div class="bundle-cta">
+                        <button class="consultation-btn secondary" onclick="skipAuditAndBookCall()">
+                            Discuss Package Options
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Consultation Preview -->
+                <div class="consultation-preview">
+                    <div class="preview-header">
+                        <div class="preview-icon">💬</div>
+                        <div class="preview-title">In your 10-minute consultation:</div>
+                    </div>
+                    <div class="preview-content" id="consultationPreview">
+                        <div class="preview-item">• See your recommended solution with examples</div>
+                        <div class="preview-item">• Get exact pricing & timeline</div>
+                        <div class="preview-item">• Try free for 7 days if unsure</div>
+                        <div class="preview-item" id="customPreviewItem"></div>
+                    </div>
+                    <div class="preview-footer">Quick call. No pressure. Just showing you what's possible.</div>
                 </div>
             </div>
         </div>
@@ -1978,6 +2171,34 @@
         let currentQuestionIndex = 0;
         let inputTimeout;
         let formData = {
+            // Screen 1: Phone Verification
+            phone_number: '',
+            phone_verified: false,
+            
+            // Screen 2: Basic Information
+            name: '',
+            business_name: '',
+            email: '',
+            business_type: '',
+            city: '',
+            
+            // Screen 3: Goals (Multi-select - can be multiple true)
+            goal_more_customers: false,
+            goal_showcase: false,
+            goal_branding: false,
+            goal_website: false,
+            goal_app: false,
+            goal_custom: false,
+            goal_whitelabel: false,
+            goal_unsure: false,
+            
+            // Screen 4: Current Digital Presence (Single select)
+            digital_presence: '',
+            
+            // Screen 5: Challenge & Urgency (Single select)
+            challenge_urgency: '',
+            
+            // Legacy fields for backward compatibility
             fullName: '',
             businessName: '',
             businessType: '',
@@ -2005,36 +2226,36 @@
                 question: 'Okay [Name], what brings you here today?\nSelect all that apply',
                 type: 'checkbox',
                 options: [
-                    { value: 'need_customers', label: '📢 Need more customers' },
-                    { value: 'showcase_products', label: '🏪 Showcase my products/services' },
-                    { value: 'create_branding', label: '🎨 Create/improve my branding' },
-                    { value: 'build_website', label: '🌐 Build professional website' },
-                    { value: 'need_mobile_app', label: '📱 Need mobile app' },
-                    { value: 'custom_solution', label: '🔧 Custom solution' },
-                    { value: 'white_label', label: '🤝 White-label solutions' },
-                    { value: 'not_sure', label: '❓ Not sure where to start' }
+                    { value: 'goal_more_customers', label: '📢 Need more customers' },
+                    { value: 'goal_showcase', label: '🏪 Showcase my products/services' },
+                    { value: 'goal_branding', label: '🎨 Create/improve my branding' },
+                    { value: 'goal_website', label: '🌐 Build professional website' },
+                    { value: 'goal_app', label: '📱 Need mobile app' },
+                    { value: 'goal_custom', label: '🔧 Custom solution' },
+                    { value: 'goal_whitelabel', label: '🤝 White-label solutions' },
+                    { value: 'goal_unsure', label: '❓ Not sure where to start' }
                 ]
             },
             {
-                id: 'digitalStatus',
+                id: 'digital_presence',
                 question: 'What\'s your current digital presence?',
                 type: 'radio',
                 options: [
                     { value: 'starting_out', label: '🌱 Just starting out - No digital presence yet' },
-                    { value: 'basic_presence', label: '💬 Basic presence only - WhatsApp Business / Google listing' },
+                    { value: 'basic', label: '💬 Basic presence only - WhatsApp Business / Google listing' },
                     { value: 'have_website', label: '🌐 Have a website - But not getting results' },
-                    { value: 'active_scale', label: '📈 Active online - But want to scale further' }
+                    { value: 'active', label: '📈 Active online - But want to scale further' }
                 ]
             },
             {
-                id: 'challenge',
+                id: 'challenge_urgency',
                 question: 'Last question! What\'s your biggest challenge right now?',
                 type: 'radio',
                 options: [
-                    { value: 'need_customers_asap', label: '🚨 Not getting enough customers - Need solution ASAP' },
-                    { value: 'improve_results', label: '📉 Have presence but no results - Looking to improve in 1-3 months' },
-                    { value: 'dont_know_start', label: '🤔 Don\'t know where to start - Want to explore options (3-6 months)' },
-                    { value: 'no_time_manage', label: '⏰ No time to handle digital - Need someone to manage it all' }
+                    { value: 'immediate_need_customers', label: '🚨 Not getting enough customers - Need solution ASAP' },
+                    { value: 'have_presence_no_results', label: '📉 Have presence but no results - Looking to improve in 1-3 months' },
+                    { value: 'exploring_dont_know', label: '🤔 Don\'t know where to start - Want to explore options (3-6 months)' },
+                    { value: 'no_time_need_management', label: '⏰ No time to handle digital - Need someone to manage it all' }
                 ]
             }
         ];
@@ -2063,6 +2284,7 @@
             
             // Store phone number
             formData.phoneNumber = fullNumber;
+            formData.phone_number = fullNumber; // New field for routing
             
             // Show OTP section
             document.getElementById('otpSection').style.display = 'block';
@@ -2176,6 +2398,7 @@
         function handleNameInput() {
             const fullName = document.getElementById('fullName').value.trim();
             formData.fullName = fullName;
+            formData.name = fullName; // New field for routing
             
             // Clear previous timeout
             clearTimeout(inputTimeout);
@@ -2186,8 +2409,6 @@
                 currentStep = 1;
                 updateProgress();
                 
-                // Update AI recommendation preview
-                updateRecommendationPreview();
                 updateProfile();
                 
                 // Debounced chat message update
@@ -2243,6 +2464,7 @@
         function handleBusinessNameInput() {
             const businessName = document.getElementById('businessName').value.trim();
             formData.businessName = businessName;
+            formData.business_name = businessName; // New field for routing
             
             // Clear previous timeout
             clearTimeout(inputTimeout);
@@ -2280,14 +2502,13 @@
         function handleBusinessTypeChange() {
             const businessType = document.getElementById('businessType').value;
             formData.businessType = businessType;
+            formData.business_type = businessType; // New field for routing
             
             if (businessType) {
                 // Show next step
                 currentStep = 3;
                 updateProgress();
                 
-                // Update AI recommendation preview immediately
-                updateRecommendationPreview();
                 
                 const typeMessages = {
                     retail: "Retail stores are perfect for digital transformation! Where are you located?",
@@ -2326,6 +2547,7 @@
         function handleCityInput() {
             const city = document.getElementById('cityLocation').value.trim();
             formData.cityLocation = city;
+            formData.city = city; // New field for routing
             
             // Clear previous timeout
             clearTimeout(inputTimeout);
@@ -2424,20 +2646,13 @@
             if (screenNumber === 2) {
                 loadQuestion(0);
                 setTimeout(() => showProgressiveInsight(1), 1500); // Show insight after profile completion
-                setTimeout(() => showRecommendationPreview(), 2000); // Show recommendation preview
             } else if (screenNumber === 3) {
                 setTimeout(() => showProgressiveInsight(2), 1000); // Show insight after goals completion
-                updateRecommendationPreview(); // Update preview
             } else if (screenNumber === 4) {
                 generateResults();
                 setTimeout(() => showProgressiveInsight(3), 2000); // Show insight after results
-                hideRecommendationPreview(); // Hide preview on results
             }
             
-            // Update recommendation preview if it's visible
-            if (screenNumber > 1 && screenNumber < 4) {
-                setTimeout(() => updateRecommendationPreview(), 500);
-            }
         }
 
         function updateProgress() {
@@ -2557,6 +2772,13 @@
             
             formData[questionId] = value;
             
+            // Also set new field names for routing compatibility
+            if (questionId === 'digital_presence') {
+                formData.digitalStatus = value; // Keep legacy field
+            } else if (questionId === 'challenge_urgency') {
+                formData.challenge = value; // Keep legacy field
+            }
+            
             // Show/hide other text box for challenge question
             if (questionId === 'challenge') {
                 const otherTextDiv = document.getElementById('otherChallengeText');
@@ -2589,10 +2811,6 @@
             // Update chat message based on selection
             updateChatMessage(questionId, value);
             
-            // Update AI recommendation preview in real-time for key questions
-            if (['digitalStatus', 'budget', 'challenge'].includes(questionId)) {
-                updateRecommendationPreview();
-            }
             
             validateCurrentQuestion();
         }
@@ -2610,14 +2828,18 @@
                 if (!formData[questionId].includes(value)) {
                     formData[questionId].push(value);
                 }
+                // Also set the new boolean goal fields
+                if (questionId === 'goals') {
+                    formData[value] = true;
+                }
             } else {
                 formData[questionId] = formData[questionId].filter(v => v !== value);
+                // Also unset the new boolean goal fields
+                if (questionId === 'goals') {
+                    formData[value] = false;
+                }
             }
             
-            // Update AI recommendation preview in real-time for goals
-            if (questionId === 'goals') {
-                updateRecommendationPreview();
-            }
             
             // Add engaging messages for goals selection
             if (questionId === 'goals') {
@@ -2849,6 +3071,7 @@
                 
                 if (isValidOTP) {
                     formData.otpVerified = true;
+                    formData.phone_verified = true; // New field for routing
                     otpBtn.disabled = false;
                     document.getElementById('otpStatus').textContent = '✅ Verified! Click to view results.';
                     document.getElementById('chatMessage3').textContent = '✅ Verified! Click to view your results.';
@@ -2864,8 +3087,497 @@
             }
         }
 
+        // TOPIKO FUNNEL ROUTING LOGIC - IMPLEMENTATION
+        function routeLead(data) {
+          
+          // ═══════════════════════════════════════
+          // STEP 1: PRIORITY ROUTING (Override everything)
+          // ═══════════════════════════════════════
+          
+          if (data.goal_whitelabel === true) {
+            return {
+              team: "Flex Team",
+              primary_product: "Flex White-Label Platform",
+              price: "Custom pricing (discuss in call)",
+              marketing_addon: false,
+              priority: 1,
+              call_within: "2 hours",
+              expected_aov: "₹50,000+",
+              consultation_notes: [
+                "B2B sale - different approach",
+                "Understand their client volume",
+                "Show white-label demo",
+                "Discuss partnership vs licensing"
+              ]
+            };
+          }
+          
+          if (data.goal_custom === true || data.goal_app === true) {
+            return {
+              team: "HEBT Team",
+              primary_product: "HEBT Custom Development",
+              price: "₹50,000+ (project-based)",
+              marketing_addon: false,
+              priority: 1,
+              call_within: "4 hours",
+              expected_aov: "₹50,000 - ₹3,00,000",
+              consultation_notes: [
+                "Understand project scope",
+                "Show similar projects",
+                "Discuss timeline and milestones",
+                "Custom pricing based on requirements"
+              ]
+            };
+          }
+          
+          // ═══════════════════════════════════════
+          // STEP 2: DIGITAL MATURITY ASSESSMENT
+          // ═══════════════════════════════════════
+          
+          let maturity_level;
+          let base_product;
+          
+          switch(data.digital_presence) {
+            case "starting_out":
+              maturity_level = 0;
+              base_product = "GMB_or_Disblay";
+              break;
+            case "basic":
+              maturity_level = 1;
+              base_product = "Disblay_or_Topiko";
+              break;
+            case "have_website":
+              maturity_level = 2;
+              base_product = "Marketing_or_Optimization";
+              break;
+            case "active":
+              maturity_level = 3;
+              base_product = "Marketing_Advanced_or_HEBT";
+              break;
+          }
+          
+          // ═══════════════════════════════════════
+          // STEP 3: URGENCY & PRIORITY SCORING
+          // ═══════════════════════════════════════
+          
+          let urgency_score;
+          let call_timing;
+          let priority;
+          let challenge_type;
+          
+          switch(data.challenge_urgency) {
+            case "immediate_need_customers":
+              urgency_score = 4;
+              call_timing = "2 hours";
+              priority = 1;
+              challenge_type = "leads";
+              break;
+            case "have_presence_no_results":
+              urgency_score = 3;
+              call_timing = "24 hours";
+              priority = 2;
+              challenge_type = "optimization";
+              break;
+            case "exploring_dont_know":
+              urgency_score = 2;
+              call_timing = "48 hours";
+              priority = 3;
+              challenge_type = "awareness";
+              break;
+            case "no_time_need_management":
+              urgency_score = 3;
+              call_timing = "24 hours";
+              priority = 2;
+              challenge_type = "time";
+              break;
+          }
+          
+          // ═══════════════════════════════════════
+          // STEP 4: GOAL-BASED PRODUCT MATCHING
+          // ═══════════════════════════════════════
+          
+          let product_recommendation = {};
+          let marketing_push_strength = "medium";
+          
+          // COMBINATION 1: Need customers + Showcase products
+          if (data.goal_more_customers && data.goal_showcase) {
+            product_recommendation = {
+              primary: "Disblay",
+              primary_price: "₹1,499",
+              marketing_addon: true,
+              marketing_price: "₹10,000/month",
+              pitch: "Get online + start getting customer inquiries",
+              expected_aov: "₹11,499 - ₹21,499"
+            };
+            marketing_push_strength = "high";
+          }
+          
+          // COMBINATION 2: Branding + Website
+          else if (data.goal_branding && data.goal_website) {
+            product_recommendation = {
+              primary: "Topiko + Brandpreneuring",
+              primary_price: "₹13,000 - ₹17,000",
+              marketing_addon: true,
+              marketing_price: "₹10,000/month (optional)",
+              pitch: "Professional brand + professional website",
+              expected_aov: "₹13,000 - ₹27,000"
+            };
+            marketing_push_strength = "medium";
+          }
+          
+          // COMBINATION 3: Branding + Showcase
+          else if (data.goal_branding && data.goal_showcase) {
+            product_recommendation = {
+              primary: "Disblay + Brandpreneuring",
+              primary_price: "₹9,499",
+              marketing_addon: true,
+              marketing_price: "₹10,000/month (optional)",
+              pitch: "Professional brand + product showcase",
+              expected_aov: "₹9,499 - ₹19,499"
+            };
+            marketing_push_strength = "medium";
+          }
+          
+          // COMBINATION 4: Need customers + Branding
+          else if (data.goal_more_customers && data.goal_branding) {
+            product_recommendation = {
+              primary: "Brandpreneuring",
+              primary_price: "₹8,000",
+              marketing_addon: true,
+              marketing_price: "₹10,000/month",
+              pitch: "Create professional brand + promote it to get customers",
+              expected_aov: "₹18,000 - ₹28,000"
+            };
+            marketing_push_strength = "high";
+          }
+          
+          // SINGLE GOALS - If no combination matched
+          else if (data.goal_showcase === true) {
+            product_recommendation = {
+              primary: "Disblay",
+              primary_price: "₹1,499",
+              marketing_addon: true,
+              marketing_price: "₹10,000/month (optional)",
+              pitch: "Get your products online and shareable",
+              expected_aov: "₹1,499 - ₹11,499"
+            };
+          }
+          
+          else if (data.goal_website === true) {
+            product_recommendation = {
+              primary: "Topiko",
+              primary_price: "₹5,000 - ₹9,000",
+              marketing_addon: true,
+              marketing_price: "₹10,000/month (optional)",
+              pitch: "Professional website with your custom domain",
+              expected_aov: "₹5,000 - ₹19,000"
+            };
+          }
+          
+          else if (data.goal_branding === true) {
+            product_recommendation = {
+              primary: "Brandpreneuring",
+              primary_price: "₹8,000",
+              marketing_addon: true,
+              marketing_price: "₹10,000/month (optional)",
+              pitch: "Create professional brand identity",
+              expected_aov: "₹8,000 - ₹18,000"
+            };
+          }
+          
+          else if (data.goal_more_customers === true) {
+            product_recommendation = {
+              primary: "Digital Marketing Services",
+              primary_price: "₹10,000/month",
+              secondary: "Disblay or Topiko (if needed)",
+              secondary_price: "₹1,499 or ₹5,000-9,000",
+              pitch: "Lead generation campaigns to get customer inquiries",
+              expected_aov: "₹10,000 - ₹20,000"
+            };
+            marketing_push_strength = "very_high";
+          }
+          
+          else if (data.goal_unsure === true) {
+            product_recommendation = {
+              primary: "GMB Setup",
+              primary_price: "Free/Nominal",
+              secondary: "Disblay",
+              secondary_price: "₹1,499",
+              pitch: "Start with basics - get on Google, then website",
+              expected_aov: "₹0 - ₹5,000"
+            };
+            marketing_push_strength = "low";
+          }
+          
+          // ═══════════════════════════════════════
+          // STEP 5: BUSINESS TYPE MODIFIER
+          // ═══════════════════════════════════════
+          
+          switch(data.business_type) {
+            case "Retail Store":
+            case "Fashion/Apparel":
+            case "Jewelry":
+              if (product_recommendation.primary !== "Disblay") {
+                product_recommendation.alternative_disblay = {
+                  product: "Disblay",
+                  price: "₹1,499",
+                  note: "Perfect for showcasing products"
+                };
+              }
+              break;
+              
+            case "Restaurant/Cafe":
+            case "Salon/Spa":
+              marketing_push_strength = "high";
+              product_recommendation.consultation_note = "Emphasize local visibility + Google Maps";
+              break;
+              
+            case "B2B Services":
+            case "IT/Software Services":
+            case "Professional Services":
+              if (product_recommendation.primary === "Disblay") {
+                product_recommendation.upsell_to_topiko = {
+                  product: "Topiko",
+                  price: "₹5,000-9,000",
+                  reason: "Professional businesses need professional website"
+                };
+              }
+              break;
+              
+            case "Healthcare/Clinic":
+            case "Education/Training":
+              product_recommendation.consultation_note = "Emphasize trust elements + testimonials";
+              break;
+              
+            case "Agency/Marketing":
+              product_recommendation.ask_about_flex = true;
+              product_recommendation.consultation_note = "Ask if they want to resell to their clients";
+              break;
+          }
+          
+          // ═══════════════════════════════════════
+          // STEP 6: URGENCY MODIFIERS
+          // ═══════════════════════════════════════
+          
+          if (urgency_score === 4) {
+            marketing_push_strength = "very_high";
+            product_recommendation.urgency_offer = {
+              message: "Fast-start option available",
+              offer: "Start this week, see results in 7-14 days"
+            };
+          }
+          
+          if (challenge_type === "optimization") {
+            product_recommendation.primary = "Digital Marketing Services";
+            product_recommendation.primary_price = "₹10,000/month";
+            product_recommendation.secondary = "Website audit + fixes (HEBT)";
+            product_recommendation.consultation_note = "Diagnose why current digital isn't working";
+          }
+          
+          if (challenge_type === "time") {
+            product_recommendation.consultation_note = "Emphasize 'we handle everything' approach";
+            product_recommendation.full_service = true;
+          }
+          
+          // ═══════════════════════════════════════
+          // STEP 7: TEAM ROUTING
+          // ═══════════════════════════════════════
+          
+          let assigned_team;
+          
+          if (marketing_push_strength === "very_high" || challenge_type === "optimization") {
+            assigned_team = "Marketing Team";
+          } else if (product_recommendation.primary && product_recommendation.primary.includes("Branding")) {
+            assigned_team = "Branding Team";
+          } else if (product_recommendation.ask_about_flex) {
+            assigned_team = "Flex Team (but SMB Team if not interested in white-label)";
+          } else {
+            assigned_team = "SMB Team";
+          }
+          
+          // ═══════════════════════════════════════
+          // STEP 8: RETURN COMPLETE ROUTING
+          // ═══════════════════════════════════════
+          
+          return {
+            team: assigned_team,
+            priority: priority,
+            call_within: call_timing,
+            primary_product: product_recommendation.primary,
+            primary_price: product_recommendation.primary_price,
+            secondary_product: product_recommendation.secondary || null,
+            alternative_products: product_recommendation.alternative_disblay || null,
+            marketing_addon_available: product_recommendation.marketing_addon,
+            marketing_price: product_recommendation.marketing_price || "₹10,000/month",
+            marketing_push_strength: marketing_push_strength,
+            expected_aov: product_recommendation.expected_aov,
+            pitch: product_recommendation.pitch,
+            consultation_notes: [
+              product_recommendation.consultation_note,
+              product_recommendation.urgency_offer?.message,
+              ...(product_recommendation.ask_about_flex ? ["Ask about white-label interest"] : [])
+            ].filter(Boolean),
+            crm_tags: generateCRMTags(data, urgency_score, marketing_push_strength)
+          };
+        }
+
+        function generateCRMTags(data, urgency_score, marketing_push) {
+          let tags = [];
+          
+          // Priority tags
+          tags.push(`priority_${urgency_score}`);
+          
+          // Team routing tags
+          if (data.goal_whitelabel) {
+            tags.push("route_flex_team");
+          } else if (data.goal_custom || data.goal_app) {
+            tags.push("route_hebt_team");
+          } else if (marketing_push === "very_high") {
+            tags.push("route_marketing_team");
+          } else if (data.goal_branding) {
+            tags.push("route_branding_team");
+          } else {
+            tags.push("route_smb_team");
+          }
+          
+          // Product interest tags
+          if (data.goal_showcase) tags.push("interest_disblay");
+          if (data.goal_website) tags.push("interest_topiko");
+          if (data.goal_branding) tags.push("interest_branding");
+          if (data.goal_more_customers) tags.push("interest_marketing");
+          if (data.goal_app || data.goal_custom) tags.push("interest_hebt");
+          if (data.goal_whitelabel) tags.push("interest_flex");
+          if (data.goal_unsure) tags.push("interest_gmb");
+          
+          // Digital maturity tags
+          tags.push(`maturity_${data.digital_presence}`);
+          
+          // Business segment tags
+          const segment = data.business_type ? data.business_type.toLowerCase().replace(/\s+/g, '_').replace(/\//g, '_') : 'unknown';
+          tags.push(`segment_${segment}`);
+          
+          // Marketing qualification tags
+          if (marketing_push === "very_high" || marketing_push === "high") {
+            tags.push("marketing_qualified");
+          }
+          
+          // Bundle qualification tags
+          if (data.goal_more_customers && data.goal_showcase) {
+            tags.push("bundle_website_marketing");
+          }
+          if (data.goal_branding && data.goal_website) {
+            tags.push("bundle_branding_website");
+          }
+          if (data.goal_branding && data.goal_showcase) {
+            tags.push("bundle_branding_showcase");
+          }
+          
+          // Lead quality tags
+          if (urgency_score === 4 && data.goal_more_customers) {
+            tags.push("quality_hot");
+          } else if (urgency_score >= 3) {
+            tags.push("quality_warm");
+          } else {
+            tags.push("quality_cold");
+          }
+          
+          // Challenge type tags
+          switch(data.challenge_urgency) {
+            case "immediate_need_customers":
+              tags.push("challenge_leads");
+              tags.push("urgency_immediate");
+              break;
+            case "have_presence_no_results":
+              tags.push("challenge_optimization");
+              tags.push("urgency_1_3_months");
+              break;
+            case "exploring_dont_know":
+              tags.push("challenge_awareness");
+              tags.push("urgency_exploring");
+              break;
+            case "no_time_need_management":
+              tags.push("challenge_time");
+              tags.push("urgency_1_3_months");
+              break;
+          }
+          
+          // Follow-up action tags
+          if (urgency_score === 4) {
+            tags.push("action_call_immediate");
+          } else if (urgency_score === 3) {
+            tags.push("action_call_24h");
+          } else {
+            tags.push("action_call_48h");
+            tags.push("action_add_nurture_sequence");
+          }
+          
+          return tags;
+        }
+
+        // Data mapping function to convert form data to routing format
+        function prepareRoutingData() {
+            // Convert legacy fields to new format and sync both ways
+            const routingData = {
+                // Phone verification
+                phone_number: formData.phoneNumber || formData.phone_number || '',
+                phone_verified: formData.otpVerified || formData.phone_verified || false,
+                
+                // Basic information
+                name: formData.fullName || formData.name || '',
+                business_name: formData.businessName || formData.business_name || '',
+                email: formData.email || '',
+                business_type: formData.businessType || formData.business_type || '',
+                city: formData.cityLocation || formData.city || '',
+                
+                // Goals - convert array to boolean flags
+                goal_more_customers: (formData.goals && formData.goals.includes('need_customers')) || formData.goal_more_customers || false,
+                goal_showcase: (formData.goals && formData.goals.includes('showcase_products')) || formData.goal_showcase || false,
+                goal_branding: (formData.goals && formData.goals.includes('create_branding')) || formData.goal_branding || false,
+                goal_website: (formData.goals && formData.goals.includes('build_website')) || formData.goal_website || false,
+                goal_app: (formData.goals && formData.goals.includes('need_mobile_app')) || formData.goal_app || false,
+                goal_custom: (formData.goals && formData.goals.includes('custom_solution')) || formData.goal_custom || false,
+                goal_whitelabel: (formData.goals && formData.goals.includes('white_label')) || formData.goal_whitelabel || false,
+                goal_unsure: (formData.goals && formData.goals.includes('not_sure')) || formData.goal_unsure || false,
+                
+                // Digital presence - map legacy values
+                digital_presence: mapDigitalPresence(formData.digitalStatus || formData.digital_presence),
+                
+                // Challenge urgency - map legacy values  
+                challenge_urgency: mapChallengeUrgency(formData.challenge || formData.challenge_urgency)
+            };
+            
+            return routingData;
+        }
+        
+        function mapDigitalPresence(value) {
+            const mapping = {
+                'starting_out': 'starting_out',
+                'basic_presence': 'basic',
+                'have_website': 'have_website', 
+                'active_scale': 'active'
+            };
+            return mapping[value] || value;
+        }
+        
+        function mapChallengeUrgency(value) {
+            const mapping = {
+                'need_customers_asap': 'immediate_need_customers',
+                'improve_results': 'have_presence_no_results',
+                'dont_know_start': 'exploring_dont_know',
+                'no_time_manage': 'no_time_need_management'
+            };
+            return mapping[value] || value;
+        }
+
         // Digital Readiness & Recommendation Engine
         async function generateResults() {
+            // Use new routing logic
+            const routingData = prepareRoutingData();
+            const routing = routeLead(routingData);
+            
+            console.log('🎯 Routing Result:', routing);
+            
+            // Keep legacy calculation for backward compatibility
             const recommendation = getTopikkoRecommendation(formData);
             const digitalReadiness = calculateDigitalReadiness(formData);
             
@@ -2921,8 +3633,8 @@
             document.getElementById('scoreTitle').textContent = title;
             document.getElementById('scoreDescription').textContent = description;
             
-            // Generate recommendations based on engine results
-            generateRecommendations(recommendation, digitalReadiness, solutionMatch);
+            // Generate recommendations based on new routing engine
+            generateRecommendationsFromRouting(routing, digitalReadiness, solutionMatch);
         }
         
         function getTopikkoRecommendation(data) {
@@ -3303,6 +4015,365 @@
             
             // Ensure score is within 0-100 range
             return Math.min(100, Math.max(0, Math.round(readinessScore)));
+        }
+        
+        function generateRecommendationsFromRouting(routing, digitalReadiness, solutionMatch) {
+            const firstName = formData.fullName ? formData.fullName.split(' ')[0] : 'there';
+            
+            // Populate primary recommendation card
+            populatePrimaryCard(routing);
+            
+            // Show/hide and populate marketing card
+            populateMarketingCard(routing);
+            
+            // Show/hide and populate bundle card if applicable
+            populateBundleCard(routing);
+            
+            // Populate consultation preview
+            populateConsultationPreview(routing, firstName);
+            
+            // Update consultation button with urgency
+            updateConsultationButton(routing);
+            
+            // Log routing details for debugging
+            console.log('🎯 Routing Result:', routing);
+            console.log('🏷️ CRM Tags:', routing.crm_tags);
+            console.log('👥 Team Assignment:', routing.team);
+            console.log('⚡ Priority:', routing.priority, '- Call within:', routing.call_within);
+        }
+
+        function populatePrimaryCard(routing) {
+            // Update product name
+            document.getElementById('primaryProductName').textContent = routing.primary_product || 'Recommended Solution';
+            
+            // Update pricing
+            document.getElementById('primaryPricing').textContent = 
+                routing.primary_price ? `Just ${routing.primary_price}` : 'Pricing discussed in consultation';
+            
+            // Update features based on product
+            const featuresElement = document.getElementById('primaryFeatures');
+            const features = getProductFeatures(routing.primary_product);
+            featuresElement.innerHTML = features.map(feature => 
+                `<div class="feature-item">✓ ${feature}</div>`
+            ).join('');
+        }
+
+        function populateMarketingCard(routing) {
+            const marketingCard = document.getElementById('marketingRecommendation');
+            
+            if (routing.marketing_addon_available) {
+                marketingCard.style.display = 'block';
+                
+                // Update title based on push strength
+                const titleElement = document.querySelector('.marketing-title');
+                const titles = {
+                    "very_high": "Want Customers Immediately?",
+                    "high": "Want More Customer Inquiries?",
+                    "medium": "Want Customer Inquiries Too?",
+                    "low": "Consider Adding Marketing Later"
+                };
+                titleElement.textContent = titles[routing.marketing_push_strength] || "Add Digital Marketing";
+                
+                // Update pricing
+                document.getElementById('marketingPrice').textContent = 
+                    `Starting from ${routing.marketing_price}`;
+                
+                // Add visual emphasis for high urgency
+                if (routing.marketing_push_strength === 'very_high') {
+                    marketingCard.style.border = '2px solid #fbbf24';
+                    marketingCard.style.background = 'rgba(251, 191, 36, 0.1)';
+                    marketingCard.style.animation = 'pulse 2s infinite';
+                } else if (routing.marketing_push_strength === 'high') {
+                    marketingCard.style.border = '1px solid #fbbf24';
+                    marketingCard.style.background = 'rgba(251, 191, 36, 0.05)';
+                }
+            } else {
+                marketingCard.style.display = 'none';
+            }
+        }
+
+        function populateBundleCard(routing) {
+            const bundleCard = document.getElementById('bundleRecommendation');
+            
+            // Show bundle card for branding combinations or alternatives
+            if (shouldShowBundle(routing)) {
+                bundleCard.style.display = 'block';
+                
+                const bundleContent = document.getElementById('bundleContent');
+                bundleContent.innerHTML = generateBundleContent(routing);
+            } else {
+                bundleCard.style.display = 'none';
+            }
+        }
+
+        function shouldShowBundle(routing) {
+            // Show bundle for branding combinations or when there are alternatives
+            const routingData = prepareRoutingData();
+            return (routingData.goal_branding && routingData.goal_website) ||
+                   (routingData.goal_branding && routingData.goal_showcase) ||
+                   routing.alternative_products;
+        }
+
+        function generateBundleContent(routing) {
+            const routingData = prepareRoutingData();
+            
+            if (routingData.goal_branding && routingData.goal_website) {
+                return `
+                    <div class="bundle-item">
+                        <div style="font-weight: 600; margin-bottom: 8px;">Professional Digital Presence</div>
+                        <div style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 12px;">
+                            • Topiko Website (₹5,000-9,000)<br>
+                            • Professional Branding (₹8,000)<br>
+                            • Complete brand identity package
+                        </div>
+                        <div style="font-weight: 600; color: #4ade80;">Total: ₹13,000 - ₹17,000</div>
+                    </div>
+                `;
+            } else if (routingData.goal_branding && routingData.goal_showcase) {
+                return `
+                    <div class="bundle-item">
+                        <div style="font-weight: 600; margin-bottom: 8px;">Brand + Showcase Package</div>
+                        <div style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 12px;">
+                            • Disblay Website (₹1,499)<br>
+                            • Professional Branding (₹8,000)<br>
+                            • Logo & brand assets
+                        </div>
+                        <div style="font-weight: 600; color: #4ade80;">Total: ₹9,499</div>
+                    </div>
+                `;
+            } else if (routing.alternative_products) {
+                return `
+                    <div class="bundle-item">
+                        <div style="font-weight: 600; margin-bottom: 8px;">Alternative Option</div>
+                        <div style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 12px;">
+                            ${routing.alternative_products.product}: ${routing.alternative_products.note}
+                        </div>
+                        <div style="font-weight: 600; color: #4ade80;">${routing.alternative_products.price}</div>
+                    </div>
+                `;
+            }
+            
+            return '<div>Multiple solution options available</div>';
+        }
+
+        function populateConsultationPreview(routing, firstName) {
+            const customItem = document.getElementById('customPreviewItem');
+            const notes = routing.consultation_notes.filter(note => note && note.trim());
+            
+            if (notes.length > 0) {
+                customItem.textContent = `• ${notes[0]}`;
+                customItem.style.display = 'block';
+            } else {
+                customItem.style.display = 'none';
+            }
+        }
+
+        function getProductFeatures(product_name) {
+            const features_map = {
+                "Disblay": [
+                    "Product showcase website",
+                    "WhatsApp-friendly links",
+                    "Payment & shipping integration",
+                    "Mobile-first design",
+                    "Easy to update yourself"
+                ],
+                "Topiko": [
+                    "Custom domain & professional design",
+                    "Payment & shipping integration",
+                    "Multiple themes & layouts",
+                    "Ongoing maintenance included",
+                    "Priority support"
+                ],
+                "Topiko + Brandpreneuring": [
+                    "Professional website with custom domain",
+                    "Complete brand identity package",
+                    "Logo design & brand assets",
+                    "Social media templates",
+                    "Priority support"
+                ],
+                "Disblay + Brandpreneuring": [
+                    "Product showcase website",
+                    "Professional logo & branding",
+                    "Brand identity guidelines",
+                    "Social media assets",
+                    "WhatsApp-ready links"
+                ],
+                "Brandpreneuring": [
+                    "Professional logo design",
+                    "Brand identity & guidelines",
+                    "Social media assets",
+                    "Business card design",
+                    "Brand consultation"
+                ],
+                "Digital Marketing Services": [
+                    "Social media management",
+                    "Google/Facebook ad campaigns",
+                    "Lead generation strategies",
+                    "Monthly performance reports",
+                    "Month-to-month, no lock-in"
+                ],
+                "GMB Setup": [
+                    "Google My Business profile setup",
+                    "Basic business information",
+                    "Location & hours setup",
+                    "Free/Nominal pricing",
+                    "Foundation for digital presence"
+                ],
+                "HEBT Custom Development": [
+                    "Custom website/app development",
+                    "Tailored to your requirements",
+                    "Scalable architecture",
+                    "Ongoing technical support",
+                    "Project-based pricing"
+                ],
+                "Flex White-Label Platform": [
+                    "Sell under your brand",
+                    "Complete white-label solution",
+                    "Technical support included",
+                    "Partner dashboard access",
+                    "Custom pricing discussion"
+                ]
+            };
+            
+            return features_map[product_name] || [
+                "Custom solution for your needs",
+                "Professional implementation",
+                "Ongoing support",
+                "Flexible pricing"
+            ];
+        }
+        
+        function createProductCard(routing, type, digitalReadiness) {
+            const isMarketing = routing.primary_product?.includes('Marketing');
+            const productName = routing.primary_product;
+            const price = routing.primary_price;
+            const pitch = routing.pitch || 'Perfect solution for your business needs';
+            
+            // Create contextual message based on digital readiness
+            let context = "";
+            if (digitalReadiness < 40) {
+                context = "Perfect starting point for your digital journey! ";
+            } else if (digitalReadiness < 60) {
+                context = "Great foundation to build upon! ";
+            } else {
+                context = "Excellent choice to accelerate your growth! ";
+            }
+            
+            return `
+                <div style="text-align: left; margin-bottom: 20px; border: 2px solid rgba(255,255,255,0.2); border-radius: 16px; padding: 20px; background: rgba(255,255,255,0.05);">
+                    <div style="font-size: 18px; font-weight: 700; margin-bottom: 8px; color: #667eea;">
+                        💎 ${productName}
+                    </div>
+                    <div style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 12px;">
+                        ${pitch}
+                    </div>
+                    <div style="font-size: 16px; font-weight: 600; margin-bottom: 12px; color: #4ade80;">
+                        ${price}
+                    </div>
+                    <div style="font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 12px; font-style: italic;">
+                        ${context}Based on your goals and current setup.
+                    </div>
+                    <div style="font-size: 12px; color: rgba(255,255,255,0.6);">
+                        Expected value: ${routing.expected_aov || 'Discuss in consultation'}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function createMarketingCard(routing) {
+            const pushStrength = routing.marketing_push_strength;
+            let title = "📢 Add Digital Marketing";
+            let emphasis = "";
+            
+            if (pushStrength === "very_high") {
+                title = "⚡ Want Customers Immediately?";
+                emphasis = "style='border: 2px solid #fbbf24; background: rgba(251, 191, 36, 0.1); animation: pulse 2s infinite;'";
+            } else if (pushStrength === "high") {
+                title = "📢 Want More Customer Inquiries?";
+                emphasis = "style='border: 2px solid #60a5fa; background: rgba(96, 165, 250, 0.1);'";
+            }
+            
+            return `
+                <div ${emphasis} style="text-align: left; margin-bottom: 20px; border-radius: 16px; padding: 20px; background: rgba(255,255,255,0.05);">
+                    <div style="font-size: 17px; font-weight: 700; margin-bottom: 8px; color: #fbbf24;">
+                        ${title}
+                    </div>
+                    <div style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 12px;">
+                        Social media campaigns, Google/Facebook ads, Lead generation
+                    </div>
+                    <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px; color: #4ade80;">
+                        ${routing.marketing_price}
+                    </div>
+                    <div style="font-size: 12px; color: rgba(255,255,255,0.6);">
+                        Month-to-month, no lock-in • Discuss in consultation
+                    </div>
+                </div>
+            `;
+        }
+        
+        function createAlternativeCard(alternative) {
+            return `
+                <div style="text-align: left; margin-bottom: 20px; border: 1px dashed rgba(255,255,255,0.3); border-radius: 16px; padding: 20px; background: rgba(255,255,255,0.02);">
+                    <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px; color: #a78bfa;">
+                        🔄 Alternative: ${alternative.product}
+                    </div>
+                    <div style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 8px;">
+                        ${alternative.note}
+                    </div>
+                    <div style="font-size: 14px; font-weight: 600; color: #4ade80;">
+                        ${alternative.price}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function createConsultationPreview(routing, firstName) {
+            const notes = routing.consultation_notes.filter(note => note && note.trim());
+            const notesHtml = notes.length > 0 ? 
+                `<div style="margin-top: 12px;">
+                    ${notes.map(note => `<div style="font-size: 12px; color: rgba(255,255,255,0.7); margin-bottom: 4px;">• ${note}</div>`).join('')}
+                </div>` : '';
+            
+            return `
+                <div style="text-align: left; margin-bottom: 20px; border: 2px solid rgba(102, 126, 234, 0.3); border-radius: 16px; padding: 20px; background: rgba(102, 126, 234, 0.05);">
+                    <div style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: #667eea;">
+                        📞 In your 10-minute consultation:
+                    </div>
+                    <div style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 8px;">
+                        • See ${routing.primary_product} with your business
+                    </div>
+                    <div style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 8px;">
+                        • View 2-3 examples from your industry
+                    </div>
+                    <div style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 8px;">
+                        • Get exact pricing & timeline
+                    </div>
+                    <div style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 8px;">
+                        • Try free for 7 days if unsure
+                    </div>
+                    ${notesHtml}
+                    <div style="font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 12px; font-style: italic;">
+                        Quick call. No pressure. Just showing you what's possible.
+                    </div>
+                </div>
+            `;
+        }
+        
+        function updateConsultationButton(routing) {
+            const consultBtn = document.getElementById('consultationBtn');
+            if (consultBtn) {
+                if (routing.priority === 1) {
+                    consultBtn.innerHTML = '⚡ Book Same-Day Call';
+                    consultBtn.style.background = 'linear-gradient(135deg, #fbbf24, #f59e0b)';
+                    consultBtn.style.animation = 'pulse 2s infinite';
+                } else if (routing.priority === 2) {
+                    consultBtn.innerHTML = '📅 Book Tomorrow Call';
+                    consultBtn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+                } else {
+                    consultBtn.innerHTML = '📞 Book 10-Min Consultation';
+                    consultBtn.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+                }
+            }
         }
         
         function generateRecommendations(recommendation, digitalReadiness, solutionMatch) {
@@ -4305,21 +5376,6 @@ We have all the information needed to help you get started!`);
             return types[type] || 'Business';
         }
         
-        // Recommendation Preview Functions
-        function showRecommendationPreview() {
-            const preview = document.getElementById('recommendationPreview');
-            if (preview) {
-                preview.style.display = 'block';
-                updateRecommendationPreview();
-            }
-        }
-        
-        function hideRecommendationPreview() {
-            const preview = document.getElementById('recommendationPreview');
-            if (preview) {
-                preview.style.display = 'none';
-            }
-        }
         
         function mapProductToVisualCategory(productId) {
             const mapping = {
@@ -4333,236 +5389,7 @@ We have all the information needed to help you get started!`);
             return mapping[productId] || 'Solution';
         }
         
-        function getRecommendationBasedBoxes() {
-            const goals = formData.goals || [];
-            const businessType = formData.businessType || '';
-            const budget = formData.budget || '';
-            const digitalStatus = formData.digitalStatus || '';
-            const challenge = formData.challenge || '';
-            
-            console.log('🧠 AI Analysis - Goals:', goals, 'Type:', businessType, 'Budget:', budget, 'Digital:', digitalStatus);
-            
-            // AI-powered recommendation engine that gets smarter with each input
-            let recommendations = [];
-            
-            // PHASE 1: Initial Business Type Analysis (appears immediately)
-            if (businessType) {
-                switch (businessType) {
-                    case 'retail':
-                        recommendations = ['Showcase', 'Marketing', 'Website'];
-                        break;
-                    case 'services':
-                        recommendations = ['Website Pro', 'Marketing', 'Branding'];
-                        break;
-                    case 'food':
-                        recommendations = ['Showcase', 'Website', 'Marketing'];
-                        break;
-                    case 'manufacturing':
-                        recommendations = ['Website Pro', 'Marketing', 'Custom Solutions'];
-                        break;
-                    default:
-                        recommendations = ['Website', 'Marketing', 'Branding'];
-                }
-            } else {
-                // Before business type is selected, show generic but appealing options
-                recommendations = ['Website', 'Marketing', 'Branding'];
-            }
-            
-            // PHASE 2: Goal-Based Refinement (gets more specific)
-            if (goals.length > 0) {
-                const goalBasedRecommendations = [];
-                
-                // Direct goal mapping with priority order
-                if (goals.includes('showcase_products')) {
-                    goalBasedRecommendations.push('Showcase');
-                }
-                if (goals.includes('get_customers')) {
-                    goalBasedRecommendations.push('Marketing');
-                }
-                if (goals.includes('build_brand')) {
-                    goalBasedRecommendations.push('Branding');
-                }
-                if (goals.includes('create_website')) {
-                    // Smart Website vs Website Pro decision
-                    if (budget === '10k_25k' || budget === '25k_plus' || 
-                        goals.includes('get_customers') || businessType === 'services') {
-                        goalBasedRecommendations.push('Website Pro');
-                    } else {
-                        goalBasedRecommendations.push('Website');
-                    }
-                }
-                if (goals.includes('custom_solution')) {
-                    goalBasedRecommendations.push('Custom Solutions');
-                }
-                
-                // Merge goal-based with business type recommendations
-                recommendations = [...new Set([...goalBasedRecommendations, ...recommendations])];
-            }
-            
-            // PHASE 3: Digital Status Intelligence (refines further)
-            if (digitalStatus) {
-                if (digitalStatus === 'none') {
-                    // No digital presence - prioritize foundational solutions
-                    recommendations = recommendations.filter(r => r !== 'Custom Solutions');
-                    if (!recommendations.includes('Website') && !recommendations.includes('Website Pro')) {
-                        recommendations.unshift('Website');
-                    }
-                } else if (digitalStatus === 'basic_website') {
-                    // Has basic website - focus on optimization and marketing
-                    recommendations = recommendations.filter(r => r !== 'Website');
-                    if (!recommendations.includes('Website Pro')) {
-                        recommendations.unshift('Website Pro');
-                    }
-                } else if (digitalStatus === 'active_no_results') {
-                    // Active but no results - prioritize marketing
-                    if (!recommendations.includes('Marketing')) {
-                        recommendations.unshift('Marketing');
-                    }
-                }
-            }
-            
-            // PHASE 4: Budget Intelligence (final optimization)
-            if (budget) {
-                if (budget === 'below_2k') {
-                    // Budget-conscious - prioritize cost-effective solutions
-                    recommendations = recommendations.filter(r => !['Website Pro', 'Custom Solutions'].includes(r));
-                    if (!recommendations.includes('Showcase')) {
-                        recommendations.unshift('Showcase');
-                    }
-                } else if (budget === '25k_plus') {
-                    // High budget - show premium solutions
-                    recommendations = recommendations.map(r => r === 'Website' ? 'Website Pro' : r);
-                    if (!recommendations.includes('Custom Solutions')) {
-                        recommendations.push('Custom Solutions');
-                    }
-                }
-            }
-            
-            // PHASE 5: Challenge-Based Fine-tuning
-            if (challenge) {
-                if (challenge === 'no_leads' && !recommendations.includes('Marketing')) {
-                    recommendations.unshift('Marketing');
-                } else if (challenge === 'competitors_ahead' && !recommendations.includes('Branding')) {
-                    recommendations.push('Branding');
-                }
-            }
-            
-            // Ensure exactly 3 premium recommendations
-            const finalRecommendations = [...new Set(recommendations)].slice(0, 3);
-            
-            // Always ensure we have 3 boxes for visual consistency
-            while (finalRecommendations.length < 3) {
-                const fallbackOptions = ['Website', 'Marketing', 'Branding', 'Showcase'];
-                for (const option of fallbackOptions) {
-                    if (!finalRecommendations.includes(option)) {
-                        finalRecommendations.push(option);
-                        break;
-                    }
-                }
-            }
-            
-            console.log('🎯 AI Recommendations Generated:', finalRecommendations);
-            return finalRecommendations;
-        }
 
-        function updateRecommendationPreview() {
-            const confidence = calculatePreliminaryScore();
-            const previewText = document.querySelector('.preview-text');
-            const previewConfidence = document.getElementById('previewConfidence');
-            const products = document.querySelectorAll('.preview-product');
-            
-            // Update confidence
-            if (previewConfidence) {
-                previewConfidence.textContent = `${confidence}%`;
-            }
-            
-            // AI Coach Messages based on progress and data
-            if (previewText) {
-                if (currentScreen === 1) {
-                    if (formData.businessType) {
-                        previewText.textContent = `AI analyzing ${getBusinessTypeLabel(formData.businessType)} business needs...`;
-                    } else if (formData.fullName) {
-                        previewText.textContent = "Building your personalized roadmap...";
-                    } else {
-                        previewText.textContent = "AI-powered recommendation engine ready...";
-                    }
-                } else if (currentScreen === 2) {
-                    if (formData.goals && formData.goals.length > 0) {
-                        previewText.textContent = `Optimizing ${formData.goals.length} goal${formData.goals.length > 1 ? 's' : ''} with budget analysis...`;
-                    } else {
-                        previewText.textContent = "Understanding your business objectives...";
-                    }
-                } else if (currentScreen === 3) {
-                    previewText.textContent = "Finalizing your custom solution stack...";
-                }
-            }
-            
-            // AI-Powered Dynamic Recommendation Display
-            if (products) {
-                let numRevealed = 0;
-                let recommendationBoxes = getRecommendationBasedBoxes(); // Always get fresh recommendations
-                
-                // Show progressive revelation based on data completion
-                if (currentScreen === 1) {
-                    // Screen 1: Show initial AI analysis based on available data
-                    if (formData.businessType) {
-                        numRevealed = 3; // Business type selected - show full AI analysis
-                    } else if (formData.fullName && formData.businessName) {
-                        numRevealed = 1; // Basic info - show first recommendation
-                    } else {
-                        numRevealed = 0; // Just started - mystery boxes
-                        recommendationBoxes = ['?', '?', '?'];
-                    }
-                } else if (currentScreen === 2) {
-                    // Screen 2: Always show all recommendations as AI gets smarter
-                    numRevealed = 3; // Show full AI analysis with goals
-                } else if (currentScreen >= 3) {
-                    // Screen 3+: Full confident recommendations
-                    numRevealed = 3; // Complete AI analysis
-                }
-                
-                // Ensure we have exactly 3 boxes for consistent layout
-                while (recommendationBoxes.length < 3) {
-                    recommendationBoxes.push('?');
-                }
-                
-                // Calculate 3-category match percentages using the scoring system
-                const categoryPercentages = window.digitalReadinessScorer ? 
-                    window.digitalReadinessScorer.calculateThreeCategoryMatch(formData) : 
-                    { Marketing: 55, Website: 70, Branding: 45 }; // Fallback values
-
-                products.forEach((product, index) => {
-                    if (index < numRevealed && recommendationBoxes[index] !== '?') {
-                        product.classList.remove('mystery');
-                        product.classList.add('revealed');
-                        
-                        // Show category name with realistic percentage
-                        const categoryName = recommendationBoxes[index];
-                        let percentage = 55; // Default fallback
-                        
-                        // Map recommendation names to category percentages
-                        if (categoryName === 'Marketing' || categoryName.includes('Marketing')) {
-                            percentage = categoryPercentages.Marketing;
-                        } else if (categoryName === 'Website' || categoryName.includes('Website') || categoryName === 'Showcase') {
-                            percentage = categoryPercentages.Website;
-                        } else if (categoryName === 'Branding' || categoryName.includes('Brand')) {
-                            percentage = categoryPercentages.Branding;
-                        } else {
-                            // For other categories, calculate a weighted average
-                            percentage = Math.round((categoryPercentages.Marketing + categoryPercentages.Website + categoryPercentages.Branding) / 3);
-                        }
-                        
-                        product.textContent = categoryName;
-                        // You could also show percentage by adding: `${percentage}%` if desired
-                    } else {
-                        // Keep as mystery box
-                        product.classList.add('mystery');
-                        product.classList.remove('revealed');
-                        product.textContent = '?';
-                    }
-                });
-            }
-        }
 
         // Supabase Database Functions
         async function saveAssessmentProgress() {
@@ -4931,6 +5758,44 @@ www.topikopartner.com`;
         //     }
         // };
 
+        // Function to completely remove any recommendation preview elements
+        function removeRecommendationPreviews() {
+            // Hide any elements that might contain recommendation previews
+            const previewElements = [
+                'recommendation-preview',
+                'rec-preview',
+                'preview-container',
+                'progress-preview',
+                'recommendation-cards',
+                'rec-cards',
+                'preview-cards'
+            ];
+            
+            previewElements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.style.display = 'none !important';
+                    element.remove();
+                }
+            });
+            
+            // Also check for class names
+            const previewClassElements = document.querySelectorAll('.recommendation-preview, .rec-preview, .preview-container, .progress-preview, .recommendation-cards, .rec-cards, .preview-cards');
+            previewClassElements.forEach(element => {
+                element.style.display = 'none !important';
+                element.remove();
+            });
+            
+            // Remove any dynamically generated preview content
+            const allDivs = document.querySelectorAll('div');
+            allDivs.forEach(div => {
+                if (div.textContent && div.textContent.includes('Optimizing') && div.textContent.includes('goals')) {
+                    div.style.display = 'none !important';
+                    div.remove();
+                }
+            });
+        }
+
         // Initialize desktop enhancements on load and resize - DISABLED
         // window.addEventListener('load', initializeDesktopEnhancements);
         window.addEventListener('resize', () => {
@@ -4944,6 +5809,14 @@ www.topikopartner.com`;
                 document.querySelector('.desktop-trust-badges').style.display = 'none';
             }
         });
+
+        // Remove recommendation previews immediately and on page load
+        removeRecommendationPreviews();
+        document.addEventListener('DOMContentLoaded', removeRecommendationPreviews);
+        window.addEventListener('load', removeRecommendationPreviews);
+        
+        // Run cleanup every 500ms to catch any dynamically generated content
+        setInterval(removeRecommendationPreviews, 500);
 
         // Continuous particle generation for desktop
         if (window.innerWidth >= 768) {

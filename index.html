@@ -359,6 +359,49 @@
         </div>
     </div>
 
+    <!-- Basic Info Collection Screen -->
+    <div id="screen1" class="screen">
+        <div class="question-card">
+            <div class="question-title">Let's get started! Tell us about yourself</div>
+            
+            <div class="form-group">
+                <label class="form-label">What's your name?</label>
+                <input type="text" class="form-input" id="fullName" placeholder="Enter your full name">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Business name</label>
+                <input type="text" class="form-input" id="businessName" placeholder="Enter your business name">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">What type of business?</label>
+                <select class="form-input" id="businessType">
+                    <option value="">Select your business type</option>
+                    <option value="Retail Store">Retail Store</option>
+                    <option value="Restaurant/Cafe">Restaurant/Cafe</option>
+                    <option value="Salon/Spa">Salon/Spa</option>
+                    <option value="Healthcare/Clinic">Healthcare/Clinic</option>
+                    <option value="Education/Training">Education/Training</option>
+                    <option value="Construction/Real Estate">Construction/Real Estate</option>
+                    <option value="Automotive">Automotive</option>
+                    <option value="Fashion/Apparel">Fashion/Apparel</option>
+                    <option value="Creative Services">Creative Services</option>
+                    <option value="IT/Software Services">IT/Software Services</option>
+                    <option value="Professional Services">Professional Services</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Which city are you in?</label>
+                <input type="text" class="form-input" id="cityLocation" placeholder="Enter your city">
+            </div>
+            
+            <button class="btn" id="continueBtn" disabled>Continue to Assessment</button>
+        </div>
+    </div>
+
     <script>
         console.log('Page loaded successfully!');
         
@@ -408,11 +451,41 @@
                 
                 verifyOtpBtn.addEventListener('click', function() {
                     if (otpInput.value === '123456') {
-                        alert('OTP Verified! Next: Basic info collection screen');
-                        // Here we would go to next screen
+                        // Hide OTP screen and show Basic Info screen
+                        document.getElementById('otpScreen').classList.remove('active');
+                        document.getElementById('screen1').classList.add('active');
                     } else {
                         alert('Invalid OTP. Please try 123456 for demo.');
                     }
+                });
+            }
+            
+            // Basic Info Form Validation
+            const fullName = document.getElementById('fullName');
+            const businessName = document.getElementById('businessName');
+            const businessType = document.getElementById('businessType');
+            const cityLocation = document.getElementById('cityLocation');
+            const continueBtn = document.getElementById('continueBtn');
+            
+            function validateBasicInfo() {
+                if (fullName && businessName && businessType && cityLocation && continueBtn) {
+                    const isValid = fullName.value.length > 2 && 
+                                   businessName.value.length > 1 && 
+                                   businessType.value && 
+                                   cityLocation.value.length > 2;
+                    continueBtn.disabled = !isValid;
+                }
+            }
+            
+            if (fullName) fullName.addEventListener('input', validateBasicInfo);
+            if (businessName) businessName.addEventListener('input', validateBasicInfo);
+            if (businessType) businessType.addEventListener('change', validateBasicInfo);
+            if (cityLocation) cityLocation.addEventListener('input', validateBasicInfo);
+            
+            if (continueBtn) {
+                continueBtn.addEventListener('click', function() {
+                    alert('Basic info collected! Next: Assessment questions screen');
+                    // Here we would go to assessment questions screen
                 });
             }
             

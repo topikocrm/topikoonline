@@ -169,6 +169,101 @@
             color: #ffc107;
             font-size: 14px;
         }
+
+        /* OTP Screen Styles */
+        .question-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 32px 24px;
+            max-width: 400px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .question-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .question-subtitle {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 24px;
+            line-height: 1.4;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+        }
+
+        .phone-input-container {
+            display: flex;
+            gap: 8px;
+        }
+
+        .country-code {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 12px;
+            color: white;
+            font-size: 14px;
+            width: 90px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: white;
+            font-size: 14px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
     </style>
 </head>
 <body>
@@ -233,6 +328,37 @@
         </div>
     </div>
 
+    <!-- OTP Validation Screen -->
+    <div id="otpScreen" class="screen">
+        <div class="question-card">
+            <div class="question-title">Let's verify your WhatsApp number</div>
+            <p class="question-subtitle">We'll send your personalized plan here. No spam, ever!</p>
+            
+            <div class="form-group">
+                <label class="form-label">WhatsApp Number</label>
+                <div class="phone-input-container">
+                    <select class="country-code" id="countryCode">
+                        <option value="+91">🇮🇳 +91</option>
+                        <option value="+1">🇺🇸 +1</option>
+                        <option value="+44">🇬🇧 +44</option>
+                        <option value="+971">🇦🇪 +971</option>
+                    </select>
+                    <input type="tel" class="form-input" id="phoneNumber" placeholder="Enter your WhatsApp number" maxlength="10">
+                </div>
+            </div>
+            
+            <button class="btn" id="sendOtpBtn" disabled>Send OTP</button>
+            
+            <div id="otpSection" style="display: none; margin-top: 20px;">
+                <div class="form-group">
+                    <label class="form-label">Enter 6-digit OTP</label>
+                    <input type="text" class="form-input" id="otpInput" placeholder="000000" maxlength="6">
+                </div>
+                <button class="btn" id="verifyOtpBtn" disabled>Verify & Continue</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         console.log('Page loaded successfully!');
         
@@ -242,7 +368,51 @@
             const startBtn = document.getElementById('startAssessmentBtn');
             if (startBtn) {
                 startBtn.addEventListener('click', function() {
-                    alert('Assessment starting - we can build the full flow from here!');
+                    // Hide landing screen and show OTP screen
+                    document.getElementById('landingScreen').classList.remove('active');
+                    document.getElementById('otpScreen').classList.add('active');
+                });
+            }
+            
+            // Phone number validation
+            const phoneNumber = document.getElementById('phoneNumber');
+            const sendOtpBtn = document.getElementById('sendOtpBtn');
+            
+            if (phoneNumber && sendOtpBtn) {
+                phoneNumber.addEventListener('input', function() {
+                    const isValid = this.value.length === 10 && /^\d+$/.test(this.value);
+                    sendOtpBtn.disabled = !isValid;
+                });
+                
+                sendOtpBtn.addEventListener('click', function() {
+                    // Show OTP section
+                    document.getElementById('otpSection').style.display = 'block';
+                    this.disabled = true;
+                    this.textContent = 'OTP Sent!';
+                    
+                    // Simulate OTP for demo
+                    setTimeout(() => {
+                        alert('Demo OTP: 123456\n(In production, this would be sent via SMS)');
+                    }, 1000);
+                });
+            }
+            
+            // OTP verification
+            const otpInput = document.getElementById('otpInput');
+            const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+            
+            if (otpInput && verifyOtpBtn) {
+                otpInput.addEventListener('input', function() {
+                    verifyOtpBtn.disabled = this.value.length !== 6;
+                });
+                
+                verifyOtpBtn.addEventListener('click', function() {
+                    if (otpInput.value === '123456') {
+                        alert('OTP Verified! Next: Basic info collection screen');
+                        // Here we would go to next screen
+                    } else {
+                        alert('Invalid OTP. Please try 123456 for demo.');
+                    }
                 });
             }
             

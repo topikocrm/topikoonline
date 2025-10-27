@@ -300,6 +300,63 @@
             font-size: 14px;
             color: rgba(255, 255, 255, 0.7);
         }
+
+        /* Results Screen Styles */
+        .result-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-card.primary {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            border-color: #667eea;
+        }
+
+        .result-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 8px;
+        }
+
+        .result-description {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .result-features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .result-features li {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 6px;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .result-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .result-price {
+            font-size: 16px;
+            font-weight: 600;
+            color: #4CAF50;
+            margin-top: 8px;
+        }
     </style>
 </head>
 <body>
@@ -471,6 +528,48 @@
         </div>
     </div>
 
+    <!-- Contact Info Screen -->
+    <div id="screen3" class="screen">
+        <div class="question-card">
+            <div class="question-title">Almost done! One last step</div>
+            <p class="question-subtitle">We'll send your personalized digital plan here</p>
+            
+            <div class="form-group">
+                <label class="form-label">Mobile Number</label>
+                <div class="phone-input-container">
+                    <select class="country-code" id="contactCountryCode">
+                        <option value="+91">🇮🇳 +91</option>
+                        <option value="+1">🇺🇸 +1</option>
+                        <option value="+44">🇬🇧 +44</option>
+                        <option value="+971">🇦🇪 +971</option>
+                    </select>
+                    <input type="tel" class="form-input" id="contactMobile" placeholder="Enter mobile number" maxlength="10">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Email Address (Optional)</label>
+                <input type="email" class="form-input" id="emailAddress" placeholder="Enter your email">
+            </div>
+            
+            <button class="btn" id="generateResultsBtn" disabled>Generate My Digital Plan</button>
+        </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div id="screen4" class="screen">
+        <div class="question-card" style="max-width: 600px;">
+            <div class="question-title" id="resultsTitle">Your Personalized Digital Plan</div>
+            <p class="question-subtitle" id="resultsSubtitle">Based on your assessment, here's what we recommend</p>
+            
+            <div id="resultsContent">
+                <!-- Results will be populated by JavaScript -->
+            </div>
+            
+            <button class="btn" onclick="alert('Consultation booking coming soon!')">📞 Book Free Consultation</button>
+        </div>
+    </div>
+
     <script>
         console.log('Page loaded successfully!');
         
@@ -587,9 +686,105 @@
             
             if (nextBtn) {
                 nextBtn.addEventListener('click', function() {
-                    alert(`Goals selected: ${selectedGoals.join(', ')}\n\nNext: We'll add more assessment questions!`);
-                    // Here we would go to next question or results screen
+                    // Hide Assessment screen and show Contact Info screen
+                    document.getElementById('screen2').classList.remove('active');
+                    document.getElementById('screen3').classList.add('active');
                 });
+            }
+            
+            // Contact Info Validation
+            const contactMobile = document.getElementById('contactMobile');
+            const generateResultsBtn = document.getElementById('generateResultsBtn');
+            
+            if (contactMobile && generateResultsBtn) {
+                contactMobile.addEventListener('input', function() {
+                    const isValid = this.value.length === 10 && /^\d+$/.test(this.value);
+                    generateResultsBtn.disabled = !isValid;
+                });
+                
+                generateResultsBtn.addEventListener('click', function() {
+                    // Collect all form data
+                    const formData = {
+                        name: document.getElementById('fullName')?.value || '',
+                        businessName: document.getElementById('businessName')?.value || '',
+                        businessType: document.getElementById('businessType')?.value || '',
+                        city: document.getElementById('cityLocation')?.value || '',
+                        goals: selectedGoals,
+                        mobile: contactMobile.value,
+                        email: document.getElementById('emailAddress')?.value || ''
+                    };
+                    
+                    // Generate results and show results screen
+                    generateResults(formData);
+                    document.getElementById('screen3').classList.remove('active');
+                    document.getElementById('screen4').classList.add('active');
+                });
+            }
+            
+            // Results Generation Function
+            function generateResults(data) {
+                const resultsContent = document.getElementById('resultsContent');
+                const resultsTitle = document.getElementById('resultsTitle');
+                const resultsSubtitle = document.getElementById('resultsSubtitle');
+                
+                if (!resultsContent) return;
+                
+                // Personalize title
+                if (resultsTitle) {
+                    resultsTitle.textContent = `${data.name}'s Digital Plan`;
+                }
+                
+                if (resultsSubtitle) {
+                    resultsSubtitle.textContent = `For ${data.businessName} in ${data.city}`;
+                }
+                
+                // Simple routing logic based on goals
+                let primaryRecommendation = '';
+                let features = [];
+                let price = '';
+                
+                if (data.goals.includes('app')) {
+                    primaryRecommendation = 'Custom Mobile App Development';
+                    features = ['Native iOS & Android app', 'Custom features for your business', 'App store deployment', 'Ongoing support'];
+                    price = '₹25,000+/month';
+                } else if (data.goals.includes('automate')) {
+                    primaryRecommendation = 'Business Automation Suite';
+                    features = ['Automated workflows', 'CRM integration', 'Lead management', 'Process optimization'];
+                    price = '₹15,000/month';
+                } else if (data.goals.includes('brand')) {
+                    primaryRecommendation = 'Complete Branding Package';
+                    features = ['Brand identity design', 'Professional website', 'Marketing materials', 'Social media setup'];
+                    price = '₹12,000/month';
+                } else if (data.goals.includes('more_customers')) {
+                    primaryRecommendation = 'Digital Marketing Suite';
+                    features = ['Lead generation system', 'Social media marketing', 'Google Ads management', 'Analytics dashboard'];
+                    price = '₹8,000/month';
+                } else {
+                    primaryRecommendation = 'Professional Website';
+                    features = ['Responsive website design', 'SEO optimization', 'Contact forms', 'Basic analytics'];
+                    price = '₹5,000/month';
+                }
+                
+                resultsContent.innerHTML = `
+                    <div class="result-card primary">
+                        <div class="result-title">🎯 Recommended: ${primaryRecommendation}</div>
+                        <div class="result-description">Perfect match for ${data.businessType.toLowerCase()} businesses looking to ${data.goals.join(', ').replace(/_/g, ' ')}</div>
+                        <ul class="result-features">
+                            ${features.map(feature => `<li>${feature}</li>`).join('')}
+                        </ul>
+                        <div class="result-price">${price}</div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <div class="result-title">📞 Free Consultation Included</div>
+                        <div class="result-description">30-minute strategy call to discuss your specific needs and create a custom implementation plan.</div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <div class="result-title">🚀 Next Steps</div>
+                        <div class="result-description">Book your free consultation to get started. We'll send a detailed proposal within 24 hours.</div>
+                    </div>
+                `;
             }
             
             // Test that landing screen is visible

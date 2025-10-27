@@ -264,6 +264,42 @@
             cursor: not-allowed;
             transform: none;
         }
+
+        /* Assessment Questions Styles */
+        .option-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .option-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .option-card.selected {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .option-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 4px;
+        }
+
+        .option-subtitle {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
     </style>
 </head>
 <body>
@@ -402,6 +438,39 @@
         </div>
     </div>
 
+    <!-- Assessment Questions Screen -->
+    <div id="screen2" class="screen">
+        <div class="question-card">
+            <div class="question-title" id="currentQuestion">What are your main business goals?</div>
+            <p class="question-subtitle">Select all that apply - this helps us recommend the right tools</p>
+            
+            <div id="questionContent">
+                <div class="option-card" data-value="more_customers">
+                    <div class="option-title">Get more customers</div>
+                    <div class="option-subtitle">Increase leads and sales through digital marketing</div>
+                </div>
+                <div class="option-card" data-value="showcase">
+                    <div class="option-title">Showcase my business online</div>
+                    <div class="option-subtitle">Professional website and online presence</div>
+                </div>
+                <div class="option-card" data-value="brand">
+                    <div class="option-title">Build my brand</div>
+                    <div class="option-subtitle">Create strong brand identity and recognition</div>
+                </div>
+                <div class="option-card" data-value="automate">
+                    <div class="option-title">Automate my processes</div>
+                    <div class="option-subtitle">Streamline operations and save time</div>
+                </div>
+                <div class="option-card" data-value="app">
+                    <div class="option-title">Create a mobile app</div>
+                    <div class="option-subtitle">Custom app for customers and business management</div>
+                </div>
+            </div>
+            
+            <button class="btn" id="nextBtn" disabled>Next Question</button>
+        </div>
+    </div>
+
     <script>
         console.log('Page loaded successfully!');
         
@@ -484,8 +553,42 @@
             
             if (continueBtn) {
                 continueBtn.addEventListener('click', function() {
-                    alert('Basic info collected! Next: Assessment questions screen');
-                    // Here we would go to assessment questions screen
+                    // Hide Basic Info screen and show Assessment Questions screen
+                    document.getElementById('screen1').classList.remove('active');
+                    document.getElementById('screen2').classList.add('active');
+                });
+            }
+            
+            // Assessment Questions Logic
+            let selectedGoals = [];
+            const nextBtn = document.getElementById('nextBtn');
+            
+            // Handle option selection
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.option-card')) {
+                    const card = e.target.closest('.option-card');
+                    const value = card.dataset.value;
+                    
+                    // Toggle selection
+                    if (card.classList.contains('selected')) {
+                        card.classList.remove('selected');
+                        selectedGoals = selectedGoals.filter(goal => goal !== value);
+                    } else {
+                        card.classList.add('selected');
+                        selectedGoals.push(value);
+                    }
+                    
+                    // Enable/disable next button
+                    if (nextBtn) {
+                        nextBtn.disabled = selectedGoals.length === 0;
+                    }
+                }
+            });
+            
+            if (nextBtn) {
+                nextBtn.addEventListener('click', function() {
+                    alert(`Goals selected: ${selectedGoals.join(', ')}\n\nNext: We'll add more assessment questions!`);
+                    // Here we would go to next question or results screen
                 });
             }
             

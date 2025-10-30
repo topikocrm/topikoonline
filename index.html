@@ -2534,11 +2534,13 @@
                     console.log('result.success:', result.success);
                     console.log('Full result object:', JSON.stringify(result));
                     
+                    // Always show OTP section since API responded
+                    document.getElementById('otpSection').style.display = 'block';
+                    formData.otpSent = true;
+                    updateProgress();
+                    
                     if (result.success) {
-                        document.getElementById('otpSection').style.display = 'block';
                         document.getElementById('otpBtn').textContent = 'Continue to Assessment';
-                        formData.otpSent = true;
-                        updateProgress();
                         document.getElementById('otpStatus').textContent = 'Verification code sent to your mobile';
                         document.getElementById('chatMessage3').textContent = 'Verification code sent! Please check your mobile.';
                     } else {

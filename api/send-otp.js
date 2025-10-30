@@ -25,16 +25,16 @@ export default async function handler(req, res) {
         });
     }
 
-    // Prepare SMS data for MagicText API
+    // Prepare SMS data for MagicText API - EXACT SAME AS YOUR PHP
     const smsMessage = `${otp} is your registration OTP for Topiko. Do not share this OTP with anyone. Contact 885 886 8889 for any help.`;
     
-    const formData = new URLSearchParams({
+    const postData = {
         apikey: '3NwCuamS0SnyYDUw',
         senderid: 'TOPIKO',
         number: mobile,
         message: smsMessage,
         format: 'json'
-    });
+    };
 
     try {
         console.log('Sending OTP to:', mobile, 'OTP:', otp);
@@ -42,21 +42,40 @@ export default async function handler(req, res) {
         const response = await fetch('https://msg.magictext.in/V2/http-api-post.php', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/json',
             },
-            body: formData
+            body: JSON.stringify(postData)
         });
         
         const responseText = await response.text();
         console.log('MagicText Response:', response.status, responseText);
 
-        // Return success regardless of SMS API response
-        // This ensures the flow continues even if SMS service has issues
+        // Parse response like your PHP code
+        let apiResponse;
+        try {
+            apiResponse = JSON.parse(responseText);
+        } catch (e) {
+            // If JSON fails, try to parse key=value format like PHP
+            apiResponse = {};
+            const cleanText = responseText.replace(/[\n\r]/g, '');
+            const pairs = cleanText.split('&');
+            pairs.forEach(pair => {
+                const [key, value] = pair.split('=');
+                if (key && value) {
+                    apiResponse[key] = decodeURIComponent(value);
+                }
+            });
+        }
+
+        const msg = (apiResponse.message || '').toLowerCase();
+        const success = msg.includes('success') || msg.includes('submitted successfully');
+
         return res.status(200).json({
-            success: true,
-            message: 'OTP sent successfully',
+            success: success,
+            message: apiResponse.message || 'OTP sent',
             otp: otp,
-            smsResponse: responseText
+            txn_id: apiResponse.msgid || apiResponse.txn_id || 'N/A',
+            rawResponse: responseText
         });
         
     } catch (error) {

@@ -1779,27 +1779,6 @@
                     { value: '2k_10k', label: '💳 Monthly small budget - I prefer monthly payments under ₹5,000' },
                     { value: '10k_25k', label: '💎 Flexible with budget - I can invest for the right solution' }
                 ]
-            },
-            {
-                id: 'timeline',
-                question: 'How soon are you looking for a solution?',
-                type: 'radio',
-                options: [
-                    { value: 'immediate', label: 'Immediately', icon: '⚡' },
-                    { value: '1_3_months', label: '1-3 months', icon: '📅' },
-                    { value: '3_6_months', label: '3-6 months', icon: '🗓️' },
-                    { value: 'exploring', label: 'Just exploring', icon: '🔍' }
-                ]
-            },
-            {
-                id: 'brandHelp',
-                question: 'Do you need help with branding?',
-                type: 'radio',
-                options: [
-                    { value: 'yes', label: 'Yes, need logo/branding', icon: '🎨' },
-                    { value: 'improve', label: 'Want to improve existing', icon: '✨' },
-                    { value: 'no', label: 'Happy with current branding', icon: '✅' }
-                ]
             }
         ];
 
@@ -2122,7 +2101,7 @@
         // Question management for Screen 2
         function loadQuestion(index) {
             if (index >= questions.length) {
-                showScreen(3);
+                showScreen(4); // Skip redundant OTP screen 3, go directly to results
                 return;
             }
             

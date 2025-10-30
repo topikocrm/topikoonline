@@ -1839,10 +1839,10 @@
                 question: 'What\'s your current digital presence?',
                 type: 'radio',
                 options: [
-                    { value: 'none', label: 'No digital presence', icon: '🌱' },
-                    { value: 'whatsapp_only', label: 'Only WhatsApp/Google', icon: '💬' },
-                    { value: 'basic_website', label: 'Basic website', icon: '🌐' },
-                    { value: 'active_no_results', label: 'Active but no results', icon: '📉' }
+                    { value: 'none', label: '🌱 Just starting out' },
+                    { value: 'whatsapp_only', label: '💬 Basic presence - Social Media' },
+                    { value: 'basic_website', label: '🌐 Have a website' },
+                    { value: 'active_no_results', label: '📈 Active online' }
                 ]
             },
             {
@@ -1861,11 +1861,10 @@
                 question: 'What\'s your biggest challenge?',
                 type: 'radio',
                 options: [
-                    { value: 'not_getting_leads', label: 'Not getting leads', icon: '📢' },
-                    { value: 'low_sales', label: 'Low sales despite being online', icon: '📉' },
-                    { value: 'dont_know_start', label: 'Don\'t know where to start', icon: '❓' },
-                    { value: 'no_time', label: 'No time to manage', icon: '⏰' },
-                    { value: 'other', label: 'Others', icon: '📝' }
+                    { value: 'not_getting_leads', label: '🚨 Not getting enough customers' },
+                    { value: 'low_sales', label: '📉 Have online presence but no results' },
+                    { value: 'dont_know_start', label: '🤔 Don\'t know where to start' },
+                    { value: 'no_time', label: '⏰ No time to manage digital myself' }
                 ]
             },
             {
@@ -2279,13 +2278,6 @@
                 checkbox.addEventListener('change', handleCheckboxChange);
             });
             
-            // Add input handler for challenge other text
-            const challengeOtherInput = document.getElementById('challengeOtherInput');
-            if (challengeOtherInput) {
-                challengeOtherInput.addEventListener('input', function() {
-                    formData.challengeOther = this.value.trim();
-                });
-            }
             
             // Update navigation
             document.getElementById('backBtn').style.display = index > 0 ? 'inline-block' : 'none';
@@ -2303,22 +2295,6 @@
             
             formData[questionId] = value;
             
-            // Show/hide other text box for challenge question
-            if (questionId === 'challenge') {
-                const otherTextDiv = document.getElementById('otherChallengeText');
-                if (otherTextDiv) {
-                    if (value === 'other') {
-                        otherTextDiv.style.display = 'block';
-                        const otherInput = document.getElementById('challengeOtherInput');
-                        if (otherInput) {
-                            setTimeout(() => otherInput.focus(), 100);
-                        }
-                    } else {
-                        otherTextDiv.style.display = 'none';
-                        formData.challengeOther = '';
-                    }
-                }
-            }
             
             updateProgress();
             validateCurrentQuestion();
@@ -2419,8 +2395,8 @@
                     '25k_plus': "Enterprise level! Custom solutions await."
                 },
                 challenge: {
-                    not_getting_leads: "We'll fix your lead pipeline!",
-                    low_sales: "Time to convert that traffic and boost sales!",
+                    not_getting_leads: "We'll fix your customer acquisition!",
+                    low_sales: "Time to convert that presence into results!",
                     dont_know_start: "That's why I'm here! We'll guide you step-by-step.",
                     no_time: "We'll handle everything for you!"
                 },

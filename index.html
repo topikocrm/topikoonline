@@ -820,92 +820,6 @@
             line-height: 1.4;
         }
 
-        /* RECOMMENDATION PREVIEW STYLES */
-        .recommendation-preview {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.9);
-            border-radius: 12px;
-            padding: 12px;
-            border: 1px solid rgba(102, 126, 234, 0.3);
-            z-index: 1000;
-            animation: slideInUp 0.5s ease-out;
-        }
-
-        .preview-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .preview-icon {
-            font-size: 16px;
-        }
-
-        .preview-text {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.8);
-            flex: 1;
-            margin-left: 8px;
-        }
-
-        .preview-confidence {
-            font-size: 12px;
-            color: #667eea;
-            font-weight: 600;
-        }
-
-        .preview-products {
-            display: flex;
-            gap: 8px;
-        }
-
-        .preview-product {
-            flex: 1;
-            height: 40px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 600;
-            transition: all 0.5s ease;
-        }
-
-        .preview-product.mystery {
-            background: rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.5);
-            border: 1px dashed rgba(255, 255, 255, 0.3);
-        }
-
-        .preview-product.revealed {
-            background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
-            color: white;
-            border: 1px solid #667eea;
-            animation: reveal 0.5s ease-out;
-        }
-
-        @keyframes reveal {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .recommendation-preview {
-                bottom: 10px;
-                left: 10px;
-                right: 10px;
-            }
-        }
 
         /* Hide desktop elements on mobile/tablet */
         @media (max-width: 767px) {
@@ -1467,19 +1381,6 @@
             <div class="progress-bar" id="progressBar"></div>
         </div>
         
-        <!-- Recommendation Building Preview -->
-        <div id="recommendationPreview" class="recommendation-preview" style="display: none;">
-            <div class="preview-header">
-                <span class="preview-icon">🔮</span>
-                <span class="preview-text">Building your strategy...</span>
-                <span class="preview-confidence" id="previewConfidence">67%</span>
-            </div>
-            <div class="preview-products" id="previewProducts">
-                <div class="preview-product mystery">?</div>
-                <div class="preview-product mystery">?</div>
-                <div class="preview-product mystery">?</div>
-            </div>
-        </div>
 
         <!-- Mobile Profile Bar -->
         <div class="mobile-profile" id="mobileProfile" style="display: none;">
@@ -1865,8 +1766,7 @@
                 options: [
                     { value: 'below_2k', label: '💸 Low yearly budget - I\'m just starting, need affordable options' },
                     { value: '2k_10k', label: '💳 Monthly small budget - I prefer monthly payments under ₹5,000' },
-                    { value: '10k_25k', label: '💎 Flexible with budget - I can invest for the right solution' },
-                    { value: '25k_plus', label: '🚀 Results-focused investment - If it brings ROI, budget is flexible' }
+                    { value: '10k_25k', label: '💎 Flexible with budget - I can invest for the right solution' }
                 ]
             },
             {
@@ -1940,8 +1840,6 @@
                 currentStep = 1;
                 updateProgress();
                 
-                // Update AI recommendation preview
-                updateRecommendationPreview();
                 updateProfile();
                 
                 // Debounced chat message update
@@ -2040,8 +1938,6 @@
                 currentStep = 3;
                 updateProgress();
                 
-                // Update AI recommendation preview immediately
-                updateRecommendationPreview();
                 
                 const typeMessages = {
                     retail: "Retail stores are perfect for digital transformation! Where are you located?",
@@ -2178,20 +2074,13 @@
             if (screenNumber === 2) {
                 loadQuestion(0);
                 setTimeout(() => showProgressiveInsight(1), 1500); // Show insight after profile completion
-                setTimeout(() => showRecommendationPreview(), 2000); // Show recommendation preview
             } else if (screenNumber === 3) {
                 setTimeout(() => showProgressiveInsight(2), 1000); // Show insight after goals completion
-                updateRecommendationPreview(); // Update preview
             } else if (screenNumber === 4) {
                 generateResults();
                 setTimeout(() => showProgressiveInsight(3), 2000); // Show insight after results
-                hideRecommendationPreview(); // Hide preview on results
             }
             
-            // Update recommendation preview if it's visible
-            if (screenNumber > 1 && screenNumber < 4) {
-                setTimeout(() => updateRecommendationPreview(), 500);
-            }
         }
 
         function updateProgress() {
@@ -2313,10 +2202,6 @@
             // Update chat message based on selection
             updateChatMessage(questionId, value);
             
-            // Update AI recommendation preview in real-time for key questions
-            if (['digitalStatus', 'budget', 'challenge'].includes(questionId)) {
-                updateRecommendationPreview();
-            }
             
             validateCurrentQuestion();
         }
@@ -2338,10 +2223,6 @@
                 formData[questionId] = formData[questionId].filter(v => v !== value);
             }
             
-            // Update AI recommendation preview in real-time for goals
-            if (questionId === 'goals') {
-                updateRecommendationPreview();
-            }
             
             // Add engaging messages for goals selection
             if (questionId === 'goals') {
@@ -2393,8 +2274,7 @@
                 budget: {
                     below_2k: "Smart starting approach! Affordable solutions that deliver value.",
                     '2k_10k': "Perfect for monthly growth! Consistent investment pays off.",
-                    '10k_25k': "Great mindset! Flexible budgets unlock better solutions.",
-                    '25k_plus': "ROI-focused approach! Let's maximize your returns."
+                    '10k_25k': "Great mindset! Flexible budgets unlock better solutions."
                 },
                 challenge: {
                     not_getting_leads: "We'll fix your customer acquisition!",
@@ -2891,7 +2771,7 @@
             
             // Brand help + good budget
             if ((data.brandHelp === 'yes' || data.brandHelp === 'improve') && 
-                (data.budget === '10k_25k' || data.budget === '25k_plus')) {
+                data.budget === '10k_25k') {
                 return {
                     product: 'brandpreneuring',
                     confidence: 85,
@@ -3004,10 +2884,6 @@
                 scores.topiko_pro += 30;
             }
             
-            // Budget modifiers
-            if (data.budget === '25k_plus') {
-                scores.hebt += 50;
-            }
             
             // Timeline modifiers
             if (data.timeline === 'immediate' && data.budget === '2k_10k') {
@@ -3055,8 +2931,7 @@
                 const budgetReasons = {
                     'below_2k': ' that fits your budget perfectly.',
                     '2k_10k': ' with excellent value in your budget range.',
-                    '10k_25k': ' allowing for comprehensive features.',
-                    '25k_plus': ' with premium capabilities.'
+                    '10k_25k': ' allowing for comprehensive features.'
                 };
                 reason += budgetReasons[data.budget] || '.';
             } else {
@@ -3142,9 +3017,6 @@
                     readinessScore += 15;
                     break;
                 case '10k_25k':
-                    readinessScore += 18;
-                    break;
-                case '25k_plus':
                     readinessScore += 20;
                     break;
             }
@@ -3455,7 +3327,7 @@
             }
             
             // Add scalability question for growing businesses
-            if (formData.budget === '10k_25k' || formData.budget === '25k_plus') {
+            if (formData.budget === '10k_25k') {
                 questions.push({
                     id: 'scalability_plans',
                     question: 'Are you planning to scale your business operations in the next 1-2 years?',
@@ -4128,8 +4000,7 @@ We have all the information needed to help you get started!`);
             const budgetScores = {
                 'below_2k': 8,
                 '2k_10k': 15,
-                '10k_25k': 20,
-                '25k_plus': 25
+                '10k_25k': 25
             };
             score += budgetScores[formData.budget] || 0;
             
@@ -4267,7 +4138,7 @@ We have all the information needed to help you get started!`);
                 }
                 if (goals.includes('create_website')) {
                     // Smart Website vs Website Pro decision
-                    if (budget === '10k_25k' || budget === '25k_plus' || 
+                    if (budget === '10k_25k' || 
                         goals.includes('get_customers') || businessType === 'services') {
                         goalBasedRecommendations.push('Website Pro');
                     } else {
@@ -4320,12 +4191,6 @@ We have all the information needed to help you get started!`);
                     recommendations = recommendations.filter(r => !['Website Pro', 'Custom Solutions'].includes(r));
                     if (!recommendations.includes('Showcase')) {
                         recommendations.unshift('Showcase');
-                    }
-                } else if (budget === '25k_plus') {
-                    // High budget - show premium solutions
-                    recommendations = recommendations.map(r => r === 'Website' ? 'Website Pro' : r);
-                    if (!recommendations.includes('Custom Solutions')) {
-                        recommendations.push('Custom Solutions');
                     }
                 }
             }

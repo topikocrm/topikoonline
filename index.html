@@ -1511,8 +1511,21 @@
                     <div class="landing-urgency">🎯 Get Free Consultation and Guaranteed discounts worth rupees 15000*</div>
                 </div>
                 
-                <!-- Start Button -->
-                <button class="btn btn-large landing-start-btn" id="startAssessmentBtn">Check My Business Readiness</button>
+                <!-- Mobile Number & OTP Section -->
+                <div class="landing-otp-section">
+                    <div class="question-title" style="margin-bottom: 16px; font-size: 16px;">Enter your mobile number to get started</div>
+                    <input type="tel" class="form-input" id="landingMobileNumber" placeholder="Enter 10-digit mobile number" maxlength="10">
+                    
+                    <div id="landingOtpSection" style="display: none;">
+                        <div class="question-title" style="margin-top: 20px; font-size: 16px;">Verification Code</div>
+                        <input type="text" class="form-input" id="landingOtpInput" placeholder="Enter 4-digit code" maxlength="4">
+                        <div style="font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 8px;" id="landingOtpStatus">
+                            Enter the verification code sent to your mobile
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-large landing-start-btn" id="landingOtpBtn" disabled onclick="handleLandingOTP()">Send OTP</button>
+                </div>
                 <p class="landing-small-print">Takes less than 2 minutes • Instant insights • Join 10,000+ growing businesses</p>
             </div>
         </div>
@@ -1892,16 +1905,9 @@
 
         // Initialize event listeners when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
-            // Landing page start button
-            document.getElementById('startAssessmentBtn').addEventListener('click', function() {
-                document.getElementById('landingScreen').classList.remove('active');
-                document.getElementById('screen1').classList.add('active');
-                currentScreen = 1;
-                updateProgress();
-                
-                // Initialize social proof after starting assessment
-                setTimeout(() => showSocialProof(), 3000);
-            });
+            // Landing page OTP inputs
+            document.getElementById('landingMobileNumber').addEventListener('input', handleLandingContactInput);
+            document.getElementById('landingOtpInput').addEventListener('input', handleLandingOTPInput);
             
             // Screen 1 inputs
             document.getElementById('fullName').addEventListener('input', handleNameInput);
@@ -1913,12 +1919,8 @@
                 if (!assessmentId && formData.fullName && formData.businessName) {
                     await createAssessment();
                 }
-                showScreen(3);
+                showScreen(2);
             });
-            
-            // Screen 3 inputs
-            document.getElementById('mobileNumber').addEventListener('input', handleContactInput);
-            document.getElementById('otpInput').addEventListener('input', handleOTPInput);
             
             // Initialize first question
             loadQuestion(0);
@@ -2590,6 +2592,146 @@
                 formData.otpVerified = false;
                 otpBtn.disabled = true;
                 document.getElementById('otpStatus').textContent = 'Enter the verification code sent to your mobile';
+            }
+        }
+
+        // Landing OTP Functions
+        function handleLandingContactInput() {
+            const mobile = document.getElementById('landingMobileNumber').value.trim();
+            
+            formData.mobileNumber = mobile;
+            
+            const otpBtn = document.getElementById('landingOtpBtn');
+            const isValid = mobile.length === 10 && /^\d+$/.test(mobile);
+            
+            otpBtn.disabled = !isValid;
+            
+            if (isValid && !formData.otpSent) {
+                otpBtn.textContent = 'Send OTP';
+            }
+        }
+
+        async function handleLandingOTP() {
+            if (!formData.otpSent) {
+                // Send real OTP
+                const mobile = document.getElementById('landingMobileNumber').value.trim();
+                if (!mobile || mobile.length !== 10) {
+                    document.getElementById('landingOtpStatus').textContent = 'Please enter a valid 10-digit mobile number';
+                    return;
+                }
+                
+                // Check for bypass numbers
+                const bypassNumbers = ['8858868889', '5010000000'];
+                const isBypassNumber = bypassNumbers.includes(mobile);
+                
+                if (isBypassNumber) {
+                    // For bypass numbers, use demo mode
+                    formData.actualOTP = '1111';
+                    document.getElementById('landingOtpSection').style.display = 'block';
+                    document.getElementById('landingOtpBtn').textContent = 'Get Started';
+                    formData.otpSent = true;
+                    document.getElementById('landingOtpStatus').textContent = 'Demo mode: Use 1111 as verification code';
+                    return;
+                }
+                
+                // Generate 4-digit OTP for regular numbers
+                formData.actualOTP = Math.floor(1000 + Math.random() * 9000).toString();
+                const message = `Your Topiko verification code is: ${formData.actualOTP}. Valid for 10 minutes.`;
+                
+                document.getElementById('landingOtpBtn').textContent = 'Sending...';
+                document.getElementById('landingOtpBtn').disabled = true;
+                
+                try {
+                    console.log('Sending OTP to:', mobile, 'OTP:', formData.actualOTP);
+                    
+                    const response = await fetch('/api/send-otp', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            mobile: mobile,
+                            otp: formData.actualOTP,
+                            message: message
+                        })
+                    });
+                    
+                    console.log('Response status:', response.status);
+                    
+                    const result = await response.json();
+                    console.log('API Response:', result);
+                    
+                    // Always show OTP section since API responded
+                    document.getElementById('landingOtpSection').style.display = 'block';
+                    formData.otpSent = true;
+                    
+                    if (result.success) {
+                        document.getElementById('landingOtpBtn').textContent = 'Get Started';
+                        document.getElementById('landingOtpStatus').textContent = 'Verification code sent to your mobile';
+                    } else {
+                        console.error('OTP Send Failed:', result);
+                        // Show OTP section with fallback
+                        formData.actualOTP = '1111'; // Fallback OTP
+                        document.getElementById('landingOtpStatus').textContent = `SMS service temporarily unavailable. Use 1111 as verification code.`;
+                        document.getElementById('landingOtpBtn').textContent = 'Get Started';
+                    }
+                } catch (error) {
+                    console.error('OTP Network Error:', error);
+                    // Show OTP section with fallback for network errors too
+                    document.getElementById('landingOtpSection').style.display = 'block';
+                    formData.actualOTP = '1111'; // Fallback OTP
+                    formData.otpSent = true;
+                    document.getElementById('landingOtpStatus').textContent = 'Network issue detected. Use 1111 as verification code.';
+                    document.getElementById('landingOtpBtn').textContent = 'Get Started';
+                }
+            } else if (formData.otpVerified) {
+                // Go to basic info screen
+                document.getElementById('landingScreen').classList.remove('active');
+                document.getElementById('screen1').classList.add('active');
+                currentScreen = 1;
+                updateProgress();
+                
+                // Initialize social proof after starting assessment
+                setTimeout(() => showSocialProof(), 3000);
+            }
+        }
+
+        function handleLandingOTPInput() {
+            const otp = document.getElementById('landingOtpInput').value.trim();
+            const otpBtn = document.getElementById('landingOtpBtn');
+            const mobile = document.getElementById('landingMobileNumber').value.trim();
+            
+            console.log('Landing OTP Validation:', {
+                enteredOTP: otp,
+                expectedOTP: formData.actualOTP,
+                mobile: mobile,
+                isBypassNumber: ['8858868889', '5010000000'].includes(mobile)
+            });
+            
+            if (otp.length === 4) {
+                // Check for bypass numbers
+                const bypassNumbers = ['8858868889', '5010000000'];
+                const isBypassNumber = bypassNumbers.includes(mobile);
+                
+                // Only allow 1111 for bypass numbers or when actualOTP is set to 1111 (SMS failures)
+                const isValidOTP = (otp === formData.actualOTP) || 
+                                 (otp === '1111' && (isBypassNumber || formData.actualOTP === '1111'));
+                
+                console.log('Landing OTP Check Result:', { isValidOTP, isBypassNumber, actualOTP: formData.actualOTP });
+                
+                if (isValidOTP) {
+                    formData.otpVerified = true;
+                    otpBtn.disabled = false;
+                    document.getElementById('landingOtpStatus').textContent = '✅ Verified! Click to get started.';
+                } else {
+                    formData.otpVerified = false;
+                    otpBtn.disabled = true;
+                    document.getElementById('landingOtpStatus').textContent = '❌ Invalid code. Please try again.';
+                }
+            } else {
+                formData.otpVerified = false;
+                otpBtn.disabled = true;
+                document.getElementById('landingOtpStatus').textContent = 'Enter the verification code sent to your mobile';
             }
         }
 

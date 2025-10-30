@@ -1621,7 +1621,7 @@
                 </div>
                 
                 <div class="nav-buttons">
-                    <button class="btn btn-secondary" onclick="showScreen(2)">Back</button>
+                    <button class="btn btn-secondary" onclick="showScreen(1)">Back</button>
                     <button class="btn" id="otpBtn" disabled onclick="handleOTP()">Send OTP</button>
                 </div>
                 
@@ -1911,7 +1911,7 @@
                 if (!assessmentId && formData.fullName && formData.businessName) {
                     await createAssessment();
                 }
-                showScreen(2);
+                showScreen(3);
             });
             
             // Screen 3 inputs
@@ -2534,7 +2534,7 @@
                     
                     if (result.success) {
                         document.getElementById('otpSection').style.display = 'block';
-                        document.getElementById('otpBtn').textContent = 'View My Results';
+                        document.getElementById('otpBtn').textContent = 'Continue to Assessment';
                         formData.otpSent = true;
                         updateProgress();
                         document.getElementById('otpStatus').textContent = 'Verification code sent to your mobile';
@@ -2547,7 +2547,7 @@
                         formData.otpSent = true;
                         updateProgress();
                         document.getElementById('otpStatus').textContent = `SMS service temporarily unavailable. Use 1111 as verification code.`;
-                        document.getElementById('otpBtn').textContent = 'View My Results';
+                        document.getElementById('otpBtn').textContent = 'Continue to Assessment';
                         document.getElementById('chatMessage3').textContent = 'SMS service issue. Use 1111 to continue.';
                     }
                 } catch (error) {
@@ -2562,8 +2562,8 @@
                     document.getElementById('chatMessage3').textContent = 'Network issue. Use 1111 to continue.';
                 }
             } else if (formData.otpVerified) {
-                // Show results
-                showScreen(4);
+                // Go to business questions
+                showScreen(2);
             }
         }
 
@@ -2593,8 +2593,8 @@
                 if (isValidOTP) {
                     formData.otpVerified = true;
                     otpBtn.disabled = false;
-                    document.getElementById('otpStatus').textContent = '✅ Verified! Click to view results.';
-                    document.getElementById('chatMessage3').textContent = '✅ Verified! Click to view your results.';
+                    document.getElementById('otpStatus').textContent = '✅ Verified! Click to continue.';
+                    document.getElementById('chatMessage3').textContent = '✅ Verified! Click to continue to assessment.';
                 } else {
                     formData.otpVerified = false;
                     otpBtn.disabled = true;

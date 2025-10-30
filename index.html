@@ -1735,7 +1735,7 @@
         const questions = [
             {
                 id: 'goals',
-                question: 'Select top goals up to 3',
+                question: 'What drives your business forward? (Choose up to 3)',
                 type: 'checkbox',
                 options: [
                     { value: 'get_customers', label: '📢 Need more customers' },
@@ -1772,12 +1772,13 @@
             },
             {
                 id: 'budget',
-                question: 'What budget do you have?',
+                question: 'What budget feels right for your business?',
                 type: 'radio',
                 options: [
-                    { value: 'below_2k', label: '💸 Low yearly budget - I\'m just starting, need affordable options' },
-                    { value: '2k_10k', label: '💳 Monthly small budget - I prefer monthly payments under ₹5,000' },
-                    { value: '10k_25k', label: '💎 Flexible with budget - I can invest for the right solution' }
+                    { value: 'affordable', label: '💸 Need affordable options\n(under ₹10,000)' },
+                    { value: 'quality', label: '💎 Want quality solution\n(₹10,000 - ₹30,000)' },
+                    { value: 'premium', label: '🚀 Ready for premium investment\n(₹30,000 - ₹50,000)' },
+                    { value: 'custom', label: '🔧 Custom project\n(pricing based on requirements)' }
                 ]
             },
             {

@@ -34,18 +34,16 @@ export default async function handler(req, res) {
         // Try to exactly mimic your working PHP cURL implementation
         console.log('Sending to MagicText (exact PHP format):', JSON.stringify(postData));
         
-        // Use exact same approach as PHP: JSON body with cURL-equivalent headers
-        response = await fetch('http://msg.magictext.in/V2/http-api-post.php', {
+        // Use form-encoded data like typical SMS APIs
+        const formData = new URLSearchParams(postData);
+        
+        response = await fetch('https://msg.magictext.in/V2/http-api-post.php', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': JSON.stringify(postData).length.toString(),
-                'Accept': '*/*',
-                'Connection': 'keep-alive'
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Accept': '*/*'
             },
-            body: JSON.stringify(postData),
-            // Mimic cURL SSL settings
-            agent: false
+            body: formData
         });
         
         responseText = await response.text();

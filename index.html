@@ -1824,11 +1824,14 @@
                 question: 'What are your main goals? (Select all that apply)',
                 type: 'checkbox',
                 options: [
-                    { value: 'get_customers', label: 'Get more customers' },
-                    { value: 'showcase_products', label: 'Showcase products/services' },
-                    { value: 'build_brand', label: 'Build brand identity' },
-                    { value: 'create_website', label: 'Create website/app' },
-                    { value: 'custom_solution', label: 'Need custom solution' }
+                    { value: 'get_customers', label: '📢 Need more customers' },
+                    { value: 'showcase_products', label: '🏪 Showcase my products/services' },
+                    { value: 'build_brand', label: '🎨 Create/improve my branding' },
+                    { value: 'create_website', label: '🌐 Build professional website' },
+                    { value: 'mobile_app', label: '📱 Need Website / mobile app' },
+                    { value: 'custom_solution', label: '🔧 Custom solution' },
+                    { value: 'white_label', label: '🤝 White-label solutions' },
+                    { value: 'not_sure', label: '❓ Not sure where to start' }
                 ]
             },
             {
@@ -2369,7 +2372,10 @@
                     showcase_products: ["Visual storytelling sells! 📸", "Show off your amazing work! ✨", "Professional showcase drives trust! 🌟"],
                     build_brand: ["Brand identity creates lasting value! 🎨", "Strong branding = premium pricing! 💎", "Your brand is your business asset! 🏆"],
                     create_website: ["Your 24/7 digital storefront! 🏪", "Websites that work while you sleep! 💤", "Your digital headquarters! 🏢"],
-                    custom_solution: ["Custom solutions drive real results! 🎯", "Tailored approach for unique needs! ⚡", "Bespoke systems that scale! 🚀"]
+                    mobile_app: ["Mobile-first approach wins! 📱", "Apps create deeper engagement! 🚀", "Mobile presence is essential today! ⚡"],
+                    custom_solution: ["Custom solutions drive real results! 🎯", "Tailored approach for unique needs! ⚡", "Bespoke systems that scale! 🚀"],
+                    white_label: ["Scale through partnerships! 🤝", "White-label solutions accelerate growth! 🚀", "Smart business model choice! 💡"],
+                    not_sure: ["Perfect! Let's explore together! 🗺️", "Discovery is the first step to success! 🎯", "We'll find the right path for you! ✨"]
                 };
                 
                 if (checkbox.checked && goalMessages[value]) {
@@ -2820,8 +2826,20 @@
                             scores.topiko_basic += 45;
                             scores.disblay += 20;
                             break;
+                        case 'mobile_app':
+                            scores.topiko_pro += 40;
+                            scores.hebt += 30;
+                            break;
                         case 'custom_solution':
                             scores.hebt += 100;
+                            break;
+                        case 'white_label':
+                            scores.hebt += 80;
+                            scores.topiko_pro += 20;
+                            break;
+                        case 'not_sure':
+                            scores.topiko_basic += 20;
+                            scores.topiko_pro += 20;
                             break;
                     }
                 });
@@ -4138,8 +4156,17 @@ We have all the information needed to help you get started!`);
                         goalBasedRecommendations.push('Website');
                     }
                 }
+                if (goals.includes('mobile_app')) {
+                    goalBasedRecommendations.push('Mobile App');
+                }
                 if (goals.includes('custom_solution')) {
                     goalBasedRecommendations.push('Custom Solutions');
+                }
+                if (goals.includes('white_label')) {
+                    goalBasedRecommendations.push('White Label');
+                }
+                if (goals.includes('not_sure')) {
+                    goalBasedRecommendations.push('Consultation');
                 }
                 
                 // Merge goal-based with business type recommendations

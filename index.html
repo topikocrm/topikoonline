@@ -2531,6 +2531,8 @@
                     
                     const result = await response.json();
                     console.log('API Response:', result);
+                    console.log('result.success:', result.success);
+                    console.log('Full result object:', JSON.stringify(result));
                     
                     if (result.success) {
                         document.getElementById('otpSection').style.display = 'block';

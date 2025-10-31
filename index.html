@@ -2146,7 +2146,10 @@
             } else {
                 document.getElementById(`screen${currentScreen}`).classList.add('active');
                 const screenNames = {1: 'basic_info', 2: 'assessment', 3: 'otp_verification', 4: 'results', 5: 'results'};
-                trackScreenView(screenNames[currentScreen] || `screen_${currentScreen}`);
+                // Only track screen view if we haven't already tracked mobile_entry for screen 1
+                if (currentScreen !== 1 || !window.mobileEntryTracked) {
+                    trackScreenView(screenNames[currentScreen] || `screen_${currentScreen}`);
+                }
             }
             
             // Update progress and profile
@@ -2699,8 +2702,12 @@
                 document.getElementById('landingScreen').classList.remove('active');
                 document.getElementById('screen1').classList.add('active');
                 currentScreen = 1;
-                trackScreenView('mobile_entry'); // Track entry to mobile info screen
+                trackScreenView('mobile_entry'); // Track mobile entry completion
+                window.mobileEntryTracked = true;
                 updateProgress();
+                
+                // Also track basic info screen view since we're showing screen 1
+                setTimeout(() => trackScreenView('basic_info'), 100);
                 
                 // Initialize social proof after starting assessment
                 setTimeout(() => showSocialProof(), 3000);

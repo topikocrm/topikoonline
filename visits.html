@@ -577,20 +577,26 @@
         
         // Update funnel visualization
         function updateFunnel(funnelData) {
+            // Debug: Log all screen names found in funnel data
+            const allScreenNames = [...new Set(funnelData.map(f => f.screen_name))];
+            console.log('🔍 All screen names in funnel data:', allScreenNames);
+            console.log('🔍 All funnel records:', funnelData);
+            
             const steps = [
                 { name: 'Landing Page', key: 'landing', step: 1 },
                 { name: 'Mobile Entry', key: 'mobile_entry', step: 2 },
                 { name: 'Basic Info', key: 'basic_info', step: 3 },
                 { name: 'Assessment', key: 'assessment', step: 4 },
-                { name: 'OTP Verification', key: 'otp_verification', step: 5 },
-                { name: 'Results', key: 'results', step: 6 }
+                { name: 'Results', key: 'results', step: 5 }
             ];
             
             const stepCounts = {};
             steps.forEach(step => {
-                stepCounts[step.key] = funnelData.filter(f => 
+                const count = funnelData.filter(f => 
                     f.screen_name === step.key && f.action_type === 'screen_view'
                 ).length;
+                stepCounts[step.key] = count;
+                console.log(`📊 ${step.name} (${step.key}): ${count} views`);
             });
             
             const funnelContainer = document.getElementById('funnel-steps');

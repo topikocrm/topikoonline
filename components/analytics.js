@@ -65,6 +65,17 @@ class TopikoAnalytics {
 
             this.isInitialized = true;
             console.log('📊 Analytics initialized successfully');
+            
+            // Process any queued tracking calls
+            if (window.trackingQueue && window.trackingQueue.length > 0) {
+                console.log(`📊 Processing ${window.trackingQueue.length} queued tracking calls`);
+                window.trackingQueue.forEach(call => {
+                    if (call.type === 'screenView') {
+                        this.trackScreenView(call.screenName, call.details);
+                    }
+                });
+                window.trackingQueue = []; // Clear the queue
+            }
         } catch (error) {
             console.log('📊 Analytics initialization failed (non-critical):', error);
         }
@@ -479,10 +490,17 @@ class TopikoAnalytics {
 // Utility functions for easy integration
 window.TopikoAnalytics = TopikoAnalytics;
 
-// Safe tracking wrapper functions
+// Safe tracking wrapper functions with enhanced logging
 window.trackScreenView = function(screenName, details = {}) {
+    console.log(`📊 trackScreenView called: ${screenName}`, details);
     if (window.analytics && window.analytics.isInitialized) {
+        console.log(`📊 Analytics ready - tracking ${screenName}`);
         window.analytics.trackScreenView(screenName, details);
+    } else {
+        console.log(`📊 Analytics not ready - queuing ${screenName}`);
+        // Queue the tracking call for when analytics is ready
+        if (!window.trackingQueue) window.trackingQueue = [];
+        window.trackingQueue.push({ type: 'screenView', screenName, details });
     }
 };
 

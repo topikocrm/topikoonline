@@ -582,6 +582,14 @@
             console.log('🔍 All screen names in funnel data:', allScreenNames);
             console.log('🔍 All funnel records:', funnelData);
             
+            // Debug: Group by screen and action type
+            const debugSummary = {};
+            funnelData.forEach(record => {
+                const key = `${record.screen_name}-${record.action_type}`;
+                debugSummary[key] = (debugSummary[key] || 0) + 1;
+            });
+            console.log('🔍 Debug summary by screen-action:', debugSummary);
+            
             const steps = [
                 { name: 'Landing Page', key: 'landing', step: 1 },
                 { name: 'Mobile Entry', key: 'mobile_entry', step: 2 },
@@ -606,7 +614,17 @@
             
             steps.forEach((step, index) => {
                 const count = stepCounts[step.key] || 0;
-                const rate = previousCount > 0 ? ((count / previousCount) * 100).toFixed(1) : 0;
+                let rate;
+                
+                if (index === 0) {
+                    rate = '100%'; // Landing page is always 100%
+                } else if (previousCount === 0) {
+                    rate = count > 0 ? '∞' : '0%'; // Show infinity if we have count but no previous, otherwise 0%
+                } else {
+                    rate = ((count / previousCount) * 100).toFixed(1) + '%';
+                }
+                
+                console.log(`📊 ${step.name}: ${count} users, ${rate} conversion from previous step`);
                 
                 const stepDiv = document.createElement('div');
                 stepDiv.className = 'funnel-step';
@@ -614,7 +632,7 @@
                     <div class="step-name">${step.name}</div>
                     <div class="step-stats">
                         <div class="step-count">${count.toLocaleString()}</div>
-                        <div class="step-rate">${index === 0 ? '100%' : rate + '%'}</div>
+                        <div class="step-rate">${rate}</div>
                     </div>
                 `;
                 

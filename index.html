@@ -1888,6 +1888,12 @@
 
         // Initialize event listeners when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
+            // Track initial landing page view
+            console.log('📊 Initial page load - tracking landing page view');
+            setTimeout(() => {
+                trackScreenView('landing');
+            }, 1000); // Wait for analytics to initialize
+            
             // Landing page OTP inputs
             document.getElementById('landingMobileNumber').addEventListener('input', handleLandingContactInput);
             document.getElementById('landingOtpInput').addEventListener('input', handleLandingOTPInput);
@@ -2131,6 +2137,8 @@
         }
 
         async function showScreen(screenNumber) {
+            console.log(`🔄 Screen transition: ${currentScreen} → ${screenNumber}`);
+            
             // Hide current screen
             if (currentScreen === 0) {
                 document.getElementById('landingScreen').classList.remove('active');
@@ -2142,14 +2150,14 @@
             currentScreen = screenNumber;
             if (currentScreen === 0) {
                 document.getElementById('landingScreen').classList.add('active');
+                console.log('📊 Tracking: landing screen view');
                 trackScreenView('landing');
             } else {
                 document.getElementById(`screen${currentScreen}`).classList.add('active');
                 const screenNames = {1: 'basic_info', 2: 'assessment', 3: 'otp_verification', 4: 'results', 5: 'results'};
-                // Only track screen view if we haven't already tracked mobile_entry for screen 1
-                if (currentScreen !== 1 || !window.mobileEntryTracked) {
-                    trackScreenView(screenNames[currentScreen] || `screen_${currentScreen}`);
-                }
+                const screenName = screenNames[currentScreen] || `screen_${currentScreen}`;
+                console.log(`📊 Tracking: ${screenName} screen view`);
+                trackScreenView(screenName);
             }
             
             // Update progress and profile
@@ -2699,15 +2707,17 @@
                 }
             } else if (formData.otpVerified) {
                 // Go to basic info screen
+                console.log('📊 Mobile OTP verified - tracking mobile_entry');
+                trackScreenView('mobile_entry'); // Track mobile entry completion
+                
                 document.getElementById('landingScreen').classList.remove('active');
                 document.getElementById('screen1').classList.add('active');
                 currentScreen = 1;
-                trackScreenView('mobile_entry'); // Track mobile entry completion
-                window.mobileEntryTracked = true;
                 updateProgress();
                 
-                // Also track basic info screen view since we're showing screen 1
-                setTimeout(() => trackScreenView('basic_info'), 100);
+                // Track basic info screen view
+                console.log('📊 Now showing screen 1 - tracking basic_info');
+                setTimeout(() => trackScreenView('basic_info'), 500);
                 
                 // Initialize social proof after starting assessment
                 setTimeout(() => showSocialProof(), 3000);

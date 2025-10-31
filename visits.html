@@ -293,10 +293,12 @@
             </div>
             
             <div class="charts-grid">
+                <!-- Temporarily disabled - causing performance issues
                 <div class="chart-container">
                     <div class="chart-title">📅 Visits Over Time</div>
                     <canvas id="visitsChart" width="400" height="200"></canvas>
                 </div>
+                -->
                 <div class="chart-container">
                     <div class="chart-title">📱 Device Types</div>
                     <canvas id="deviceChart" width="400" height="200"></canvas>
@@ -553,13 +555,14 @@
         
         // Update charts
         function updateCharts(visits, sessions) {
-            updateVisitsChart(visits);
+            // updateVisitsChart(visits); // Temporarily disabled for performance
             updateDeviceChart(sessions);
             updateTrafficChart(sessions);
             updateHoursChart(visits);
         }
         
-        // Visits over time chart
+        // Visits over time chart - TEMPORARILY DISABLED FOR PERFORMANCE
+        /*
         function updateVisitsChart(visits) {
             const ctx = document.getElementById('visitsChart').getContext('2d');
             
@@ -596,6 +599,7 @@
                 }
             });
         }
+        */
         
         // Device types chart
         function updateDeviceChart(sessions) {

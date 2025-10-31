@@ -69,17 +69,28 @@ class TopikoAnalytics {
             // Process any queued tracking calls
             if (window.trackingQueue && window.trackingQueue.length > 0) {
                 console.log(`📊 Processing ${window.trackingQueue.length} queued tracking calls`);
-                window.trackingQueue.forEach(call => {
-                    if (call.type === 'screenView') {
-                        // Skip landing page if already tracked
-                        if (call.screenName === 'landing' && window.landingPageTracked) {
+                
+                // Filter out landing page calls if already tracked
+                const filteredQueue = window.trackingQueue.filter(call => {
+                    if (call.type === 'screenView' && call.screenName === 'landing') {
+                        if (window.landingPageTracked) {
                             console.log(`📊 Skipping queued landing page - already tracked`);
-                            return;
+                            return false;
+                        } else {
+                            console.log(`📊 Processing queued landing page - first time`);
+                            window.landingPageTracked = true;
+                            return true;
                         }
+                    }
+                    return true;
+                });
+                
+                filteredQueue.forEach(call => {
+                    if (call.type === 'screenView') {
                         this.trackScreenView(call.screenName, call.details);
-                        if (call.screenName === 'landing') window.landingPageTracked = true;
                     }
                 });
+                
                 window.trackingQueue = []; // Clear the queue
             }
         } catch (error) {
@@ -488,9 +499,19 @@ window.trackScreenView = function(screenName, details = {}) {
     console.log(`📊 trackScreenView called: ${screenName}`, details);
     
     // Prevent duplicate landing page tracking
-    if (screenName === 'landing' && window.landingPageTracked) {
-        console.log(`📊 Landing page already tracked, skipping duplicate`);
-        return;
+    if (screenName === 'landing') {
+        if (window.landingPageTracked) {
+            console.log(`📊 Landing page already tracked, skipping duplicate`);
+            return;
+        }
+        
+        // Check if landing is already in queue to prevent double queuing
+        if (window.trackingQueue && window.trackingQueue.some(call => 
+            call.type === 'screenView' && call.screenName === 'landing'
+        )) {
+            console.log(`📊 Landing page already in queue, skipping duplicate queue entry`);
+            return;
+        }
     }
     
     if (window.analytics && window.analytics.isInitialized) {

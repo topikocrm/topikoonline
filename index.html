@@ -12,6 +12,7 @@
     <!-- Supabase -->
     <script src="https://unpkg.com/@supabase/supabase-js@2.38.0/dist/umd/supabase.js"></script>
     <script src="components/scoring-system.js"></script>
+    <script src="components/analytics.js"></script>
     <style>
         /* MOBILE-FIRST RESET - NO SPACING ISSUES */
         * {
@@ -1757,7 +1758,7 @@
 
     <script>
         // Supabase Configuration
-        const SUPABASE_URL = 'https://uyaubwfmxmxelcshuyaf.supabase.co';
+        const SUPABASE_URL = 'https://uyaubwfmxelcshuyaf.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5YXVid2ZteG14ZWxjc2h1eWFmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5NDA0MTksImV4cCI6MjA2OTUxNjQxOX0.Sc9qUUXr73x8yw5-2rs-pcI03lFpMTSyuhW9RDLcOLI';
         
         // Initialize Supabase
@@ -1769,6 +1770,14 @@
             if (typeof window.supabase !== 'undefined') {
                 supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 console.log('✅ Supabase initialized successfully');
+                
+                // Initialize analytics tracking safely
+                if (typeof window.TopikoAnalytics !== 'undefined') {
+                    window.analytics = new window.TopikoAnalytics(supabase, sessionId);
+                    console.log('📊 Analytics initialized successfully');
+                } else {
+                    console.log('📊 Analytics module not available, continuing without tracking');
+                }
             } else {
                 console.warn('⚠️ Supabase not available');
             }
@@ -2133,8 +2142,11 @@
             currentScreen = screenNumber;
             if (currentScreen === 0) {
                 document.getElementById('landingScreen').classList.add('active');
+                trackScreenView('landing');
             } else {
                 document.getElementById(`screen${currentScreen}`).classList.add('active');
+                const screenNames = {1: 'mobile_entry', 2: 'otp_verification', 3: 'basic_info', 4: 'assessment', 5: 'results'};
+                trackScreenView(screenNames[currentScreen] || `screen_${currentScreen}`);
             }
             
             // Update progress and profile
@@ -2146,6 +2158,10 @@
             
             // Screen-specific initialization
             if (screenNumber === 2) {
+                // Track assessment start
+                window.assessmentStartTime = Date.now();
+                trackConversion('assessment_started', { question_count: questions.length });
+                
                 loadQuestion(0);
                 setTimeout(() => showProgressiveInsight(1), 1500); // Show insight after profile completion
             } else if (screenNumber === 3) {
@@ -2196,6 +2212,12 @@
         // Question management for Screen 2
         function loadQuestion(index) {
             if (index >= questions.length) {
+                // Track assessment completion
+                trackConversion('assessment_completed', { 
+                    total_questions: questions.length,
+                    completion_time: Date.now() - (window.assessmentStartTime || Date.now())
+                });
+                
                 showScreen(4); // Skip redundant OTP screen 3, go directly to results
                 return;
             }
@@ -2455,6 +2477,9 @@
                     return;
                 }
                 
+                // Track mobile number entry
+                trackAction('mobile_entered', { mobile_length: mobile.length });
+                
                 // Check for bypass numbers
                 const bypassNumbers = ['8858868889', '5010000000'];
                 const isBypassNumber = bypassNumbers.includes(mobile);
@@ -2565,6 +2590,9 @@
                     otpBtn.disabled = false;
                     document.getElementById('otpStatus').textContent = '✅ Verified! Click to continue.';
                     document.getElementById('chatMessage3').textContent = '✅ Verified! Click to continue to assessment.';
+                    
+                    // Track OTP verification success
+                    trackConversion('otp_verified', { mobile: mobile });
                 } else {
                     formData.otpVerified = false;
                     otpBtn.disabled = true;
@@ -2705,6 +2733,9 @@
                     formData.otpVerified = true;
                     otpBtn.disabled = false;
                     document.getElementById('landingOtpStatus').textContent = '✅ Verified! Click to get started.';
+                    
+                    // Track OTP verification success on landing page
+                    trackConversion('otp_verified', { mobile: mobile, source: 'landing' });
                 } else {
                     formData.otpVerified = false;
                     otpBtn.disabled = true;
@@ -4614,6 +4645,9 @@ www.topikopartner.com`;
                 const whatsappUrl = `https://wa.me/${mobileWithCode}?text=${encodeURIComponent(summary)}`;
                 
                 console.log('Opening WhatsApp URL:', whatsappUrl);
+                
+                // Track WhatsApp conversion
+                trackConversion('whatsapp_clicked', { mobile: mobile, report_type: 'assessment_complete' });
                 
                 // Open WhatsApp
                 window.open(whatsappUrl, '_blank');

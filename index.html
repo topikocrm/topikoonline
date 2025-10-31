@@ -110,15 +110,23 @@
             padding: 12px;
             margin-bottom: 8px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .option-card:hover, .option-card.selected {
-            border-color: rgba(102, 126, 234, 0.5);
-            background: rgba(102, 126, 234, 0.1);
+        .option-card:hover {
+            border-color: rgba(102, 126, 234, 0.4);
+            background: rgba(102, 126, 234, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+        }
+
+        .option-card.selected {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.15) 0%, rgba(102, 126, 234, 0.1) 100%);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.2);
         }
 
         .option-icon {
@@ -279,12 +287,20 @@
             border: 2px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .checkbox-item:hover, .checkbox-item.selected {
-            border-color: rgba(102, 126, 234, 0.5);
-            background: rgba(102, 126, 234, 0.1);
+        .checkbox-item:hover {
+            border-color: rgba(102, 126, 234, 0.4);
+            background: rgba(102, 126, 234, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+        }
+
+        .checkbox-item.selected {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.15) 0%, rgba(102, 126, 234, 0.1) 100%);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.2);
         }
 
         .checkbox-item input[type="checkbox"] {
@@ -348,10 +364,17 @@
             color: rgba(255, 255, 255, 0.5);
         }
 
+        .form-input:hover {
+            border-color: rgba(102, 126, 234, 0.4);
+            background: rgba(102, 126, 234, 0.08);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
+        }
+
         .form-input:focus {
             outline: none;
             border-color: rgba(102, 126, 234, 0.6);
             background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
         }
 
         /* BUTTON */
@@ -366,11 +389,12 @@
             font-weight: 600;
             cursor: pointer;
             margin-top: 12px;
-            transition: transform 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .btn:hover:not(:disabled) {
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
         }
 
         .btn:disabled {
@@ -2120,6 +2144,7 @@
         let currentStep = 0; // 0=name only, 1=+business name, 2=+type, 3=+city, 4=complete
         let currentQuestionIndex = 0;
         let inputTimeout;
+        let landingPageTracked = false; // Flag to prevent duplicate landing page tracking
         let formData = {
             fullName: '',
             businessName: '',
@@ -2207,8 +2232,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Track initial landing page view once when page loads
             setTimeout(() => {
-                if (currentScreen === 0) { // Only track if still on landing page
+                if (currentScreen === 0 && !landingPageTracked) { // Only track if still on landing page and not tracked yet
                     console.log('📊 Initial landing page view');
+                    landingPageTracked = true;
                     trackScreenView('landing');
                 }
             }, 1500); // Wait for analytics to initialize
@@ -2227,11 +2253,14 @@
             document.getElementById('fullName').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter' && this.value.trim().length > 2) {
                     e.preventDefault();
-                    // Trigger the same logic as handleNameInput
+                    // Update form data first
+                    formData.fullName = this.value.trim();
+                    // Show next step if not already shown
                     if (currentStep === 0) {
                         currentStep = 1;
                         updateProgress();
                         document.getElementById('businessNameSection').style.display = 'block';
+                        document.getElementById('nextIndicator').classList.add('show');
                         setTimeout(() => document.getElementById('businessName').focus(), 100);
                     }
                 }
@@ -2240,6 +2269,9 @@
             document.getElementById('businessName').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter' && this.value.trim().length > 2) {
                     e.preventDefault();
+                    // Update form data first
+                    formData.businessName = this.value.trim();
+                    // Show next step if not already shown
                     if (currentStep === 1) {
                         currentStep = 2;
                         updateProgress();
@@ -2252,6 +2284,9 @@
             document.getElementById('cityLocation').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter' && this.value.trim().length > 2) {
                     e.preventDefault();
+                    // Update form data first
+                    formData.cityLocation = this.value.trim();
+                    // Trigger continue button if enabled
                     const continueBtn = document.getElementById('continueBtn');
                     if (!continueBtn.disabled) {
                         continueBtn.click();
@@ -2507,9 +2542,10 @@
             currentScreen = screenNumber;
             if (currentScreen === 0) {
                 document.getElementById('landingScreen').classList.add('active');
-                // Only track landing screen view if this is a navigation back to landing (not initial load)
-                if (previousScreen !== 0) {
+                // Only track landing screen view if this is a navigation back to landing (not initial load) and not already tracked
+                if (previousScreen !== 0 && !landingPageTracked) {
                     console.log('📊 Tracking: return to landing screen view');
+                    landingPageTracked = true;
                     trackScreenView('landing');
                 }
             } else {

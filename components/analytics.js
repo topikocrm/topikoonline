@@ -71,7 +71,13 @@ class TopikoAnalytics {
                 console.log(`📊 Processing ${window.trackingQueue.length} queued tracking calls`);
                 window.trackingQueue.forEach(call => {
                     if (call.type === 'screenView') {
+                        // Skip landing page if already tracked
+                        if (call.screenName === 'landing' && window.landingPageTracked) {
+                            console.log(`📊 Skipping queued landing page - already tracked`);
+                            return;
+                        }
                         this.trackScreenView(call.screenName, call.details);
+                        if (call.screenName === 'landing') window.landingPageTracked = true;
                     }
                 });
                 window.trackingQueue = []; // Clear the queue
@@ -480,9 +486,17 @@ window.TopikoAnalytics = TopikoAnalytics;
 // Safe tracking wrapper functions with enhanced logging
 window.trackScreenView = function(screenName, details = {}) {
     console.log(`📊 trackScreenView called: ${screenName}`, details);
+    
+    // Prevent duplicate landing page tracking
+    if (screenName === 'landing' && window.landingPageTracked) {
+        console.log(`📊 Landing page already tracked, skipping duplicate`);
+        return;
+    }
+    
     if (window.analytics && window.analytics.isInitialized) {
         console.log(`📊 Analytics ready - tracking ${screenName}`);
         window.analytics.trackScreenView(screenName, details);
+        if (screenName === 'landing') window.landingPageTracked = true;
     } else {
         console.log(`📊 Analytics not ready - queuing ${screenName}`);
         // Queue the tracking call for when analytics is ready

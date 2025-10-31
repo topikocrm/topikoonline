@@ -2107,6 +2107,11 @@
         let sessionId = generateSessionId();
         let assessmentId = null;
         
+        // Initialize landing page tracking flag early to prevent duplicates
+        if (typeof window.landingPageTracked === 'undefined') {
+            window.landingPageTracked = false;
+        }
+        
         try {
             if (typeof window.supabase !== 'undefined') {
                 supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -2144,7 +2149,6 @@
         let currentStep = 0; // 0=name only, 1=+business name, 2=+type, 3=+city, 4=complete
         let currentQuestionIndex = 0;
         let inputTimeout;
-        let landingPageTracked = false; // Flag to prevent duplicate landing page tracking
         let formData = {
             fullName: '',
             businessName: '',
@@ -2232,10 +2236,17 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Track initial landing page view once when page loads
             setTimeout(() => {
-                if (currentScreen === 0 && !landingPageTracked) { // Only track if still on landing page and not tracked yet
-                    console.log('📊 Initial landing page view');
-                    landingPageTracked = true;
+                console.log('📊 Landing page tracking check:', {
+                    currentScreen,
+                    landingPageTracked: window.landingPageTracked,
+                    shouldTrack: currentScreen === 0 && !window.landingPageTracked
+                });
+                if (currentScreen === 0 && !window.landingPageTracked) { // Only track if still on landing page and not tracked yet
+                    console.log('📊 ✅ Tracking initial landing page view');
+                    window.landingPageTracked = true;
                     trackScreenView('landing');
+                } else {
+                    console.log('📊 ❌ Skipping initial landing page view - already tracked or not on landing');
                 }
             }, 1500); // Wait for analytics to initialize
             
@@ -2543,10 +2554,17 @@
             if (currentScreen === 0) {
                 document.getElementById('landingScreen').classList.add('active');
                 // Only track landing screen view if this is a navigation back to landing (not initial load) and not already tracked
-                if (previousScreen !== 0 && !landingPageTracked) {
-                    console.log('📊 Tracking: return to landing screen view');
-                    landingPageTracked = true;
+                console.log('📊 showScreen landing check:', {
+                    previousScreen,
+                    landingPageTracked: window.landingPageTracked,
+                    shouldTrack: previousScreen !== 0 && !window.landingPageTracked
+                });
+                if (previousScreen !== 0 && !window.landingPageTracked) {
+                    console.log('📊 ✅ Tracking: return to landing screen view');
+                    window.landingPageTracked = true;
                     trackScreenView('landing');
+                } else {
+                    console.log('📊 ❌ Skipping return to landing - already tracked or initial load');
                 }
             } else {
                 document.getElementById(`screen${currentScreen}`).classList.add('active');

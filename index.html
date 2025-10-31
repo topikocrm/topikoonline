@@ -2012,9 +2012,8 @@
                             <span id="productDescription">Mobile-ready, SEO-friendly, professionally designed</span><br>
                             <span>Live in 3-4 days</span>
                         </div>
-                        <div class="optional-marketing">
-                            <strong>📱 Marketing: Rs 15,000/month (optional)</strong><br>
-                            <span>50-100 leads/month, managed by us</span>
+                        <div id="additionalRecommendations">
+                            <!-- Additional recommendations will be dynamically inserted here -->
                         </div>
                     </div>
                 </div>
@@ -3568,11 +3567,10 @@
 
         function getBudgetDescription(data) {
             const budgetMap = {
-                'below_2k': 'Under Rs 2,000',
-                '2k_10k': 'Rs 2,000 - 10,000',
-                '10k_25k': 'Rs 10,000 - 25,000',
-                '25k_50k': 'Rs 25,000 - 50,000',
-                'above_50k': 'Above Rs 50,000'
+                'affordable': 'Under ₹10,000',
+                'quality': '₹10,000 - ₹30,000',
+                'premium': '₹30,000 - ₹50,000',
+                'custom': 'Custom pricing'
             };
             return budgetMap[data.budget] || 'Not specified';
         }

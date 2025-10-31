@@ -3278,49 +3278,226 @@
                 };
             }
             
-            // Extract budget from form data
+            // Extract budget from form data (Fixed to match actual assessment values)
             let budget = 0;
             if (data.budget) {
-                if (data.budget.includes('1000-2000')) budget = 1500;
-                else if (data.budget.includes('2000-5000')) budget = 3500;
-                else if (data.budget.includes('5000-10000')) budget = 7500;
-                else if (data.budget.includes('10000-25000')) budget = 17500;
-                else if (data.budget.includes('25000+')) budget = 50000;
-                else budget = 5000; // Default
+                if (data.budget === 'affordable') budget = 5000; // Under ₹10,000
+                else if (data.budget === 'quality') budget = 20000; // ₹10,000 - ₹30,000
+                else if (data.budget === 'premium') budget = 40000; // ₹30,000 - ₹50,000
+                else if (data.budget === 'custom') budget = 100000; // Custom pricing
+                else budget = 5000; // Default to affordable
             }
             
-            // Product recommendation logic from .md file
+            // Enhanced product recommendation logic with challenge, business type, and digital status consideration
             
-            // Option 1: DISBLAY (Rs 1,500/year)
-            if (budget < 2000 || 
-                (data.businessType && ['retail', 'boutique'].includes(data.businessType)) ||
-                (data.goals && data.goals.includes('showcase_products'))) {
+            // Digital status + Challenge combination logic (highest priority)
+            if (data.digitalStatus === 'active_no_results' && data.challenge === 'not_getting_leads' && budget >= 12000) {
+                return {
+                    product: 'Digital Marketing + Website Optimization',
+                    price: 18000,
+                    period: 'year',
+                    description: 'Website optimization + targeted marketing campaigns to convert your existing presence into customers',
+                    confidence: 95,
+                    reason: 'You have digital presence but no results - marketing optimization will convert your efforts into customers'
+                };
+            }
+            
+            if (data.digitalStatus === 'none' && budget >= 5000) {
+                return {
+                    product: 'Topiko Foundation + Setup',
+                    price: 6000,
+                    period: 'year',
+                    description: 'Complete digital foundation: professional website + social setup + SEO basics',
+                    confidence: 88,
+                    reason: 'Starting from scratch requires solid foundation before marketing efforts'
+                };
+            }
+            
+            if (data.digitalStatus === 'whatsapp_only' && budget >= 3000) {
+                return {
+                    product: 'Topiko + Social Integration',
+                    price: 5500,
+                    period: 'year',
+                    description: 'Professional website that integrates with your social media presence',
+                    confidence: 85,
+                    reason: 'Build on your social foundation with a professional website'
+                };
+            }
+            
+            if (data.digitalStatus === 'basic_website' && data.challenge === 'not_getting_leads' && budget >= 10000) {
+                return {
+                    product: 'Website Redesign + Marketing',
+                    price: 12000,
+                    period: 'year',
+                    description: 'Website optimization + conversion tracking + lead generation campaigns',
+                    confidence: 90,
+                    reason: 'Your website exists but needs optimization to generate leads effectively'
+                };
+            }
+            
+            // Challenge-based priority routing
+            if (data.challenge === 'not_getting_leads' && budget >= 15000) {
+                return {
+                    product: 'Digital Marketing Package',
+                    price: 15000,
+                    period: 'month',
+                    description: 'SEO, Google Ads, Social Media - complete lead generation solution',
+                    confidence: 90,
+                    reason: 'Directly addresses your customer acquisition challenge'
+                };
+            }
+            
+            // Custom solutions for premium budget
+            if (budget >= 50000 || data.budget === 'custom') {
+                return {
+                    product: 'HEBT Custom Solution',
+                    price: 300000,
+                    period: 'project',
+                    description: 'Custom enterprise solution tailored to your business',
+                    confidence: 85,
+                    reason: 'Premium budget allows for fully customized solution'
+                };
+            }
+            
+            // Enhanced business type specific recommendations
+            if (data.businessType) {
+                // Food & Restaurant businesses - Online ordering focus
+                if (['restaurant'].includes(data.businessType) && budget >= 8000) {
+                    return {
+                        product: 'Topiko + Online Ordering',
+                        price: 10000,
+                        period: 'year',
+                        description: 'SEO-friendly website + direct online ordering, no commission',
+                        confidence: 88,
+                        reason: 'Eliminates delivery app commissions and builds direct customer relationships'
+                    };
+                }
+                
+                // Visual showcase businesses - Product display focus
+                if (['retail', 'boutique', 'salon', 'fitness', 'automotive', 'electronics'].includes(data.businessType)) {
+                    if (budget >= 6000) {
+                        return {
+                            product: 'Topiko Showcase',
+                            price: 7000,
+                            period: 'year',
+                            description: 'Visual-first website with gallery, booking system, and customer reviews',
+                            confidence: 86,
+                            reason: 'Visual businesses need stunning galleries to showcase work and attract customers'
+                        };
+                    } else {
+                        return {
+                            product: 'Disblay',
+                            price: 1500,
+                            period: 'year',
+                            description: 'Digital catalog, SEO-friendly, mobile-ready showcase',
+                            confidence: 85,
+                            reason: 'Cost-effective way to showcase your products and services professionally'
+                        };
+                    }
+                }
+                
+                // Professional service businesses - Lead generation focus
+                if (['services', 'consulting', 'healthcare', 'education', 'real_estate'].includes(data.businessType)) {
+                    if (budget >= 12000 && data.challenge === 'not_getting_leads') {
+                        return {
+                            product: 'Topiko Pro + Lead Generation',
+                            price: 12000,
+                            period: 'year',
+                            description: 'Professional website + integrated lead capture, appointment booking, and CRM',
+                            confidence: 92,
+                            reason: 'Professional services need credibility + systematic lead generation to grow'
+                        };
+                    } else if (budget >= 6000) {
+                        return {
+                            product: 'Topiko Professional',
+                            price: 8000,
+                            period: 'year',
+                            description: 'Professional website with contact forms, testimonials, and service pages',
+                            confidence: 84,
+                            reason: 'Professional services need credible online presence to build trust'
+                        };
+                    }
+                }
+                
+                // Manufacturing & B2B businesses - Enterprise focus
+                if (['manufacturing', 'travel'].includes(data.businessType) && budget >= 15000) {
+                    return {
+                        product: 'Topiko Enterprise',
+                        price: 20000,
+                        period: 'year',
+                        description: 'B2B-focused website with catalog, quote system, and client portal',
+                        confidence: 88,
+                        reason: 'B2B businesses need sophisticated systems for client management and quotes'
+                    };
+                }
+                
+                // Generic 'other' category
+                if (data.businessType === 'other' && budget >= 5000) {
+                    return {
+                        product: 'Topiko Custom',
+                        price: 8000,
+                        period: 'year',
+                        description: 'Customizable website solution tailored to your unique business needs',
+                        confidence: 75,
+                        reason: 'Flexible solution that can be adapted to your specific business requirements'
+                    };
+                }
+            }
+            
+            // Challenge-specific fallbacks
+            if (data.challenge === 'dont_know_start') {
+                return {
+                    product: 'Topiko Basic + Consultation',
+                    price: 6000,
+                    period: 'year',
+                    description: 'Full website + strategic consultation to guide your digital journey',
+                    confidence: 80,
+                    reason: 'Comprehensive support to get you started with confidence'
+                };
+            }
+            
+            if (data.challenge === 'no_time' && budget >= 8000) {
+                return {
+                    product: 'Topiko Managed',
+                    price: 8000,
+                    period: 'year',
+                    description: 'Fully managed website + content updates',
+                    confidence: 85,
+                    reason: 'Hands-off solution for busy business owners'
+                };
+            }
+            
+            // Budget-based recommendations
+            if (budget <= 3000) {
                 return {
                     product: 'Disblay',
                     price: 1500,
                     period: 'year',
-                    description: 'Digital catalog, SEO-friendly, mobile-ready'
+                    description: 'Digital catalog, SEO-friendly, mobile-ready',
+                    confidence: 75,
+                    reason: 'Cost-effective solution that fits your budget'
                 };
             }
             
-            // Option 3: TOPIKO + ORDERING (Rs 10,000/year)  
-            if (budget >= 10000 &&
-                (data.businessType && ['restaurant', 'food'].includes(data.businessType)) ||
-                (data.goals && data.goals.includes('stop_commissions'))) {
+            if (budget >= 15000 && (data.goals.includes('get_customers') || data.challenge === 'low_sales')) {
                 return {
-                    product: 'Topiko + Online Ordering',
-                    price: 10000,
-                    period: 'year', 
-                    description: 'SEO-friendly, direct orders, no commission'
+                    product: 'Topiko Pro + Marketing',
+                    price: 15000,
+                    period: 'year',
+                    description: 'Professional website + digital marketing campaigns',
+                    confidence: 90,
+                    reason: 'Complete growth solution combining website and customer acquisition'
                 };
             }
             
-            // Option 2: TOPIKO (Rs 5,000/year) - Default for most cases
+            // Default recommendation - Topiko Basic
             return {
                 product: 'Topiko',
                 price: 5000,
                 period: 'year',
-                description: 'Full website, SEO-friendly, professionally designed'
+                description: 'Full website, SEO-friendly, professionally designed',
+                confidence: 70,
+                reason: 'Solid foundation for your digital presence'
             };
         }
 
@@ -3344,10 +3521,15 @@
             document.getElementById('userBudget').textContent = userBudget;
             document.getElementById('userPainPoint').textContent = userPainPoint;
             
-            // Product recommendation
+            // Product recommendation with confidence and reasoning
             document.getElementById('productRecommendation').textContent = 
                 `🌐 ${productRecommendation.product}: Rs ${productRecommendation.price.toLocaleString()}/${productRecommendation.period}`;
-            document.getElementById('productDescription').textContent = productRecommendation.description;
+            
+            // Enhanced description with reasoning and confidence
+            const confidenceText = productRecommendation.confidence ? ` (${productRecommendation.confidence}% match)` : '';
+            const reasonText = productRecommendation.reason ? `\n\n💡 Why this recommendation: ${productRecommendation.reason}` : '';
+            document.getElementById('productDescription').textContent = 
+                productRecommendation.description + confidenceText + reasonText;
             
             // Context-aware testimonial
             const testimonial = getContextualTestimonial(formData);

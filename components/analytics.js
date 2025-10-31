@@ -5,7 +5,7 @@ class TopikoAnalytics {
     constructor(supabaseClient, sessionId) {
         this.supabase = supabaseClient;
         this.sessionId = this.getOrCreateSessionId(sessionId);
-        this.currentScreen = 'landing';
+        this.currentScreen = null; // Start with no current screen to allow first tracking
         this.screenStartTime = Date.now();
         this.isInitialized = false;
         
@@ -335,8 +335,11 @@ class TopikoAnalytics {
             const now = Date.now();
             const timeSpent = Math.round((now - this.screenStartTime) / 1000);
 
-            // Track previous screen exit if not first screen
+            console.log(`📊 trackScreenView: ${screenName}, currentScreen: ${this.currentScreen}`);
+
+            // CRITICAL FIX: Only track screen exit if actually transitioning to different screen
             if (this.currentScreen && this.currentScreen !== screenName) {
+                console.log(`📊 Creating screen_exit record: ${this.currentScreen} -> ${screenName}`);
                 await this.supabase
                     .from('funnel_analytics')
                     .insert({
@@ -348,21 +351,28 @@ class TopikoAnalytics {
                         next_screen: screenName,
                         conversion_step: this.getConversionStep(this.currentScreen)
                     });
+            } else {
+                console.log(`📊 Skipping screen_exit - same screen or first screen`);
             }
 
-            // Track new screen entry
-            await this.supabase
-                .from('funnel_analytics')
-                .insert({
-                    session_id: this.sessionId,
-                    screen_name: screenName,
-                    action_type: 'screen_view',
-                    action_details: actionDetails,
-                    conversion_step: this.getConversionStep(screenName)
-                });
+            // CRITICAL FIX: Only track screen view if not already on this screen
+            if (this.currentScreen !== screenName) {
+                console.log(`📊 Creating screen_view record: ${screenName}`);
+                await this.supabase
+                    .from('funnel_analytics')
+                    .insert({
+                        session_id: this.sessionId,
+                        screen_name: screenName,
+                        action_type: 'screen_view',
+                        action_details: actionDetails,
+                        conversion_step: this.getConversionStep(screenName)
+                    });
 
-            this.currentScreen = screenName;
-            this.screenStartTime = now;
+                this.currentScreen = screenName;
+                this.screenStartTime = now;
+            } else {
+                console.log(`📊 Skipping screen_view - already on ${screenName}`);
+            }
         } catch (error) {
             console.log('📊 Analytics: Screen tracking failed (non-critical):', error);
         }

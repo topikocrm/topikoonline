@@ -1,5 +1,5 @@
 -- Supabase Analytics Tables Setup
--- Run this script in your Supabase SQL editor: https://supabase.com/dashboard/project/uyaubwfmxelcshuyaf/sql
+-- Run this script in your Supabase SQL editor: https://supabase.com/dashboard/project/uyaubwfmxmxelcshuyaf/sql
 
 -- 1. Page Visits Table - Track every page view with UTM data
 CREATE TABLE IF NOT EXISTS page_visits (

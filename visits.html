@@ -592,17 +592,23 @@
             
             const steps = [
                 { name: 'Landing Page', key: 'landing', step: 1 },
-                { name: 'Mobile Entry', key: 'mobile_entry', step: 2 },
-                { name: 'Basic Info', key: 'basic_info', step: 3 },
-                { name: 'Assessment', key: 'assessment', step: 4 },
-                { name: 'Results', key: 'results', step: 5 }
+                { name: 'OTP Verification', key: 'otp_verification', step: 2 },
+                { name: 'Assessment', key: 'assessment', step: 3 },
+                { name: 'Results', key: 'results', step: 4 }
             ];
             
             const stepCounts = {};
             steps.forEach(step => {
-                const count = funnelData.filter(f => 
-                    f.screen_name === step.key && f.action_type === 'screen_view'
-                ).length;
+                let count;
+                if (step.key === 'landing') {
+                    // For landing page, count any landing screen action (screen_view, screen_exit, etc.)
+                    count = funnelData.filter(f => f.screen_name === step.key).length;
+                } else {
+                    // For other steps, only count screen_view actions
+                    count = funnelData.filter(f => 
+                        f.screen_name === step.key && f.action_type === 'screen_view'
+                    ).length;
+                }
                 stepCounts[step.key] = count;
                 console.log(`📊 ${step.name} (${step.key}): ${count} views`);
             });

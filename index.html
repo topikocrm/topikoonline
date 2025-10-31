@@ -3443,6 +3443,18 @@
                 }
             }
             
+            // Goal-based recommendations (should come before challenge fallbacks)
+            if (data.goals && data.goals.includes('showcase_products') && budget <= 8000) {
+                return {
+                    product: 'Disblay',
+                    price: 1500,
+                    period: 'year',
+                    description: 'Digital catalog, SEO-friendly, mobile-ready showcase',
+                    confidence: 85,
+                    reason: 'Perfect for showcasing products with cost-effective solution'
+                };
+            }
+            
             // Challenge-specific fallbacks
             if (data.challenge === 'dont_know_start') {
                 return {

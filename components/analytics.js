@@ -125,29 +125,80 @@ class TopikoAnalytics {
         try {
             console.log('🌍 Getting location info...');
             
-            // Try ipapi.co first (free, 1000 requests/day)
-            const response = await fetch('https://ipapi.co/json/', {
-                timeout: 5000 // 5 second timeout
-            });
+            // Try multiple geolocation services
+            const services = [
+                {
+                    name: 'ipapi.co',
+                    url: 'https://ipapi.co/json/',
+                    parser: (data) => ({
+                        city: data.city || 'Unknown',
+                        region: data.region || 'Unknown', 
+                        country: data.country_name || 'Unknown',
+                        country_code: data.country_code || 'Unknown',
+                        timezone: data.timezone || 'Unknown',
+                        ip: data.ip || 'Unknown',
+                        isp: data.org || 'Unknown'
+                    })
+                },
+                {
+                    name: 'ipinfo.io',
+                    url: 'https://ipinfo.io/json',
+                    parser: (data) => ({
+                        city: data.city || 'Unknown',
+                        region: data.region || 'Unknown',
+                        country: data.country || 'Unknown',
+                        country_code: data.country || 'Unknown',
+                        timezone: data.timezone || 'Unknown',
+                        ip: data.ip || 'Unknown',
+                        isp: data.org || 'Unknown'
+                    })
+                },
+                {
+                    name: 'ip-api.com',
+                    url: 'http://ip-api.com/json/',
+                    parser: (data) => ({
+                        city: data.city || 'Unknown',
+                        region: data.regionName || 'Unknown',
+                        country: data.country || 'Unknown',
+                        country_code: data.countryCode || 'Unknown',
+                        timezone: data.timezone || 'Unknown',
+                        ip: data.query || 'Unknown',
+                        isp: data.isp || 'Unknown'
+                    })
+                }
+            ];
             
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
+            for (const service of services) {
+                try {
+                    console.log(`🌍 Trying ${service.name}...`);
+                    
+                    const response = await fetch(service.url, {
+                        timeout: 5000 // 5 second timeout
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    // Check if service returned an error
+                    if (data.error || data.status === 'fail') {
+                        throw new Error(data.message || `${service.name} returned error`);
+                    }
+                    
+                    const locationInfo = service.parser(data);
+                    console.log(`🌍 Location detected via ${service.name}:`, locationInfo);
+                    return locationInfo;
+                    
+                } catch (serviceError) {
+                    console.log(`🌍 ${service.name} failed:`, serviceError.message);
+                    continue; // Try next service
+                }
             }
             
-            const data = await response.json();
-            
-            const locationInfo = {
-                city: data.city || 'Unknown',
-                region: data.region || 'Unknown', 
-                country: data.country_name || 'Unknown',
-                country_code: data.country_code || 'Unknown',
-                timezone: data.timezone || 'Unknown',
-                ip: data.ip || 'Unknown',
-                isp: data.org || 'Unknown'
-            };
-            
-            console.log('🌍 Location detected:', locationInfo);
-            return locationInfo;
+            // All services failed
+            throw new Error('All geolocation services failed');
             
         } catch (error) {
             console.log('🌍 Location detection failed (non-critical):', error);

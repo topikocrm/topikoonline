@@ -70,23 +70,9 @@ class TopikoAnalytics {
             if (window.trackingQueue && window.trackingQueue.length > 0) {
                 console.log(`📊 Processing ${window.trackingQueue.length} queued tracking calls`);
                 
-                // Filter out landing page calls if already tracked
-                const filteredQueue = window.trackingQueue.filter(call => {
-                    if (call.type === 'screenView' && call.screenName === 'landing') {
-                        if (window.landingPageTracked) {
-                            console.log(`📊 Skipping queued landing page - already tracked`);
-                            return false;
-                        } else {
-                            console.log(`📊 Processing queued landing page - first time`);
-                            window.landingPageTracked = true;
-                            return true;
-                        }
-                    }
-                    return true;
-                });
-                
-                filteredQueue.forEach(call => {
+                window.trackingQueue.forEach(call => {
                     if (call.type === 'screenView') {
+                        console.log(`📊 Processing queued call: ${call.screenName}`);
                         this.trackScreenView(call.screenName, call.details);
                     }
                 });
@@ -498,7 +484,7 @@ window.TopikoAnalytics = TopikoAnalytics;
 window.trackScreenView = function(screenName, details = {}) {
     console.log(`📊 trackScreenView called: ${screenName}`, details);
     
-    // Prevent duplicate landing page tracking
+    // Prevent duplicate landing page tracking - set flag IMMEDIATELY
     if (screenName === 'landing') {
         if (window.landingPageTracked) {
             console.log(`📊 Landing page already tracked, skipping duplicate`);
@@ -512,12 +498,15 @@ window.trackScreenView = function(screenName, details = {}) {
             console.log(`📊 Landing page already in queue, skipping duplicate queue entry`);
             return;
         }
+        
+        // Set flag immediately to prevent race conditions
+        console.log(`📊 Setting landingPageTracked flag to prevent duplicates`);
+        window.landingPageTracked = true;
     }
     
     if (window.analytics && window.analytics.isInitialized) {
         console.log(`📊 Analytics ready - tracking ${screenName}`);
         window.analytics.trackScreenView(screenName, details);
-        if (screenName === 'landing') window.landingPageTracked = true;
     } else {
         console.log(`📊 Analytics not ready - queuing ${screenName}`);
         // Queue the tracking call for when analytics is ready

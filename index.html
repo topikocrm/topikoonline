@@ -2243,7 +2243,6 @@
                 });
                 if (currentScreen === 0 && !window.landingPageTracked) { // Only track if still on landing page and not tracked yet
                     console.log('📊 ✅ Tracking initial landing page view');
-                    window.landingPageTracked = true;
                     trackScreenView('landing');
                 } else {
                     console.log('📊 ❌ Skipping initial landing page view - already tracked or not on landing');
@@ -2561,7 +2560,6 @@
                 });
                 if (previousScreen !== 0 && !window.landingPageTracked) {
                     console.log('📊 ✅ Tracking: return to landing screen view');
-                    window.landingPageTracked = true;
                     trackScreenView('landing');
                 } else {
                     console.log('📊 ❌ Skipping return to landing - already tracked or initial load');

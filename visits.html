@@ -307,10 +307,12 @@
                     <div class="chart-title">🌍 Traffic Sources</div>
                     <canvas id="trafficChart" width="400" height="200"></canvas>
                 </div>
+                <!-- Temporarily disabled - causing infinite loading
                 <div class="chart-container">
                     <div class="chart-title">⏰ Peak Hours</div>
                     <canvas id="hoursChart" width="400" height="200"></canvas>
                 </div>
+                -->
             </div>
             
             <div class="chart-container">
@@ -558,7 +560,7 @@
             // updateVisitsChart(visits); // Temporarily disabled for performance
             updateDeviceChart(sessions);
             updateTrafficChart(sessions);
-            updateHoursChart(visits);
+            // updateHoursChart(visits); // Temporarily disabled for performance
         }
         
         // Visits over time chart - TEMPORARILY DISABLED FOR PERFORMANCE
@@ -657,7 +659,8 @@
             });
         }
         
-        // Peak hours chart
+        // Peak hours chart - TEMPORARILY DISABLED FOR PERFORMANCE
+        /*
         function updateHoursChart(visits) {
             const ctx = document.getElementById('hoursChart').getContext('2d');
             
@@ -691,6 +694,7 @@
                 }
             });
         }
+        */
         
         // Update UTM table
         function updateUTMTable(utmData) {

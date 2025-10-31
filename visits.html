@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Topiko Analytics Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/supabase@2.39.3/dist/umd/supabase.min.js"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2.38.0/dist/umd/supabase.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
@@ -334,7 +334,24 @@
         // Initialize Supabase (same config as main app)
         const SUPABASE_URL = 'https://uyaubwfmxelcshuyaf.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5YXVid2ZteGVsY3NodXlhZiIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzI5NDI2MDc3LCJleHAiOjIwNDUwMDIwNzd9.CYAFUNeBgGaQKRKNrhBBHN_bSyySKE2qzYTWLUYgGPI';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        let supabase;
+        try {
+            if (typeof window.supabase !== 'undefined') {
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                console.log('📊 Supabase initialized for analytics dashboard');
+            } else {
+                throw new Error('Supabase library not loaded');
+            }
+        } catch (error) {
+            console.error('❌ Failed to initialize Supabase:', error);
+            document.getElementById('error').style.display = 'block';
+            document.getElementById('error').innerHTML = `
+                <h3>Analytics Unavailable</h3>
+                <p>Unable to connect to analytics database. Please check your connection and refresh the page.</p>
+                <p>Error: ${error.message}</p>
+            `;
+        }
         
         let currentPeriod = 'today';
         let charts = {};
@@ -389,6 +406,10 @@
         // Load analytics data
         async function loadAnalytics() {
             try {
+                if (!supabase) {
+                    throw new Error('Analytics database not available');
+                }
+                
                 document.getElementById('loading').style.display = 'block';
                 document.getElementById('error').style.display = 'none';
                 document.getElementById('dashboard-content').style.display = 'none';

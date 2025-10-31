@@ -812,6 +812,48 @@
             text-align: center;
         }
 
+        .testimonials-section {
+            margin-top: 16px;
+            padding: 20px 0;
+            position: relative;
+            height: 120px;
+            overflow: hidden;
+        }
+
+        .testimonial {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: absolute;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .testimonial.active {
+            opacity: 1;
+        }
+
+        .testimonial-text {
+            font-size: 14px;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+        }
+
+        .testimonial-author {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 4px;
+        }
+
+        .stars {
+            color: #ffc107;
+            font-size: 14px;
+        }
+
         .landing-small-print {
             margin-top: 16px;
             font-size: 12px;
@@ -1402,12 +1444,12 @@
                 <!-- Welcome Message -->
                 <div class="landing-content">
                     <h1 class="landing-title">Get Your Business Found Online</h1>
-                    <p class="landing-subtitle">Discover untapped growth opportunities<br>Join 10,000+ businesses scaling digitally</p>
+                    <p class="landing-subtitle">See what digital solution fits for your business growth. Free personalized plan in 2 minutes</p>
                     <div class="landing-benefits">
-                        <div class="benefit-item">✓ Get personalized growth strategy</div>
-                        <div class="benefit-item">✓ Outpace local competition</div>
-                        <div class="benefit-item">✓ Find hidden revenue opportunities</div>
-                        <div class="benefit-item">✓ Free consultation included</div>
+                        <div class="benefit-item">✓ See exactly what your business needs</div>
+                        <div class="benefit-item">✓ Get personalized digital plan in 2 minutes</div>
+                        <div class="benefit-item">✓ Free expert consultation included</div>
+                        <div class="benefit-item">✓ Join 10,000+ businesses growing online</div>
                     </div>
                     <div class="landing-urgency">🎯 Get Free Consultation and Guaranteed discounts worth rupees 15000*</div>
                 </div>
@@ -1427,7 +1469,42 @@
                     
                     <button class="btn btn-large landing-start-btn" id="landingOtpBtn" disabled onclick="handleLandingOTP()">Send OTP</button>
                 </div>
-                <p class="landing-small-print">Takes less than 2 minutes • Instant insights • Join 10,000+ growing businesses</p>
+                
+                <!-- Testimonials Section -->
+                <div class="testimonials-section">
+                    <div class="testimonial active">
+                        <div class="testimonial-text">"Finally visible to local customers"</div>
+                        <div class="testimonial-author">— Boutique Owner, Goa</div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial-text">"Quick assessment, perfect recommendations"</div>
+                        <div class="testimonial-author">— Restaurant Owner, Mumbai</div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial-text">"Best investment for my salon business"</div>
+                        <div class="testimonial-author">— Salon Owner, Delhi</div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial-text">"Customers started finding us online"</div>
+                        <div class="testimonial-author">— Electronics Shop, Bangalore</div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial-text">"Digital marketing made simple for us"</div>
+                        <div class="testimonial-author">— Cafe Owner, Chennai</div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                    <div class="testimonial">
+                        <div class="testimonial-text">"Got more bookings than ever before"</div>
+                        <div class="testimonial-author">— Clinic Owner, Pune</div>
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                    </div>
+                </div>
+                
+                <p class="landing-small-print">Takes 2 minutes • Free plan • No spam 🔒</p>
             </div>
         </div>
 
@@ -4723,6 +4800,30 @@ www.topikopartner.com`;
         // Continuous particle generation for desktop
         if (window.innerWidth >= 768) {
             setInterval(createFloatingParticles, 20000); // Create new batch every 20 seconds
+        }
+
+        // Testimonials Carousel
+        const testimonials = document.querySelectorAll('.testimonial');
+        let currentTestimonial = 0;
+        
+        function showNextTestimonial() {
+            // Hide current testimonial
+            if (testimonials[currentTestimonial]) {
+                testimonials[currentTestimonial].classList.remove('active');
+            }
+            
+            // Move to next testimonial
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            
+            // Show next testimonial
+            if (testimonials[currentTestimonial]) {
+                testimonials[currentTestimonial].classList.add('active');
+            }
+        }
+        
+        // Start testimonial carousel if testimonials exist
+        if (testimonials.length > 0) {
+            setInterval(showNextTestimonial, 5000); // Change every 5 seconds
         }
     </script>
     </div> <!-- Close mobile-container -->

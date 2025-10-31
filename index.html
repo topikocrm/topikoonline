@@ -1954,10 +1954,6 @@
 
         <!-- Screen 4: Results -->
         <div id="screen4" class="screen">
-            <!-- Progress Indicator -->
-            <div style="text-align: center; margin-bottom: 16px; font-size: 12px; color: rgba(255,255,255,0.6);">
-                Step 4 of 4 ✅ Complete
-            </div>
             
             <div class="results-container">
                 <!-- Personal Greeting -->
@@ -1973,8 +1969,10 @@
                 <div class="results-section">
                     <h3 id="businessSummaryTitle">📊 YOUR [BusinessType] IN [City]:</h3>
                     <div class="business-summary">
-                        <div>Currently: <span id="currentState">[CurrentState]</span></div>
+                        <div>Current State: <span id="currentState">[CurrentState]</span></div>
                         <div>Goal: <span id="userGoal">[Goal]</span></div>
+                        <div>Budget: <span id="userBudget">[Budget]</span></div>
+                        <div>Pain Point: <span id="userPainPoint">[PainPoint]</span></div>
                     </div>
                 </div>
                 
@@ -3244,6 +3242,16 @@
         }
 
         function getNewProductRecommendation(data) {
+            // Check for custom solution first
+            if (data.goals && data.goals.includes('custom_solution')) {
+                return {
+                    product: 'HEBT Custom',
+                    price: 300000,
+                    period: 'project',
+                    description: 'Custom enterprise solution'
+                };
+            }
+            
             // Extract budget from form data
             let budget = 0;
             if (data.budget) {
@@ -3296,15 +3304,19 @@
             document.getElementById('personalGreeting').textContent = `Hi ${firstName}! 👋`;
             
             // Business summary
-            const businessType = getBusinessTypeLabel(formData.businessType) || 'BUSINESS';
+            const businessName = formData.businessName || 'BUSINESS';
             const city = formData.cityLocation || 'YOUR CITY';
-            document.getElementById('businessSummaryTitle').textContent = `📊 YOUR ${businessType.toUpperCase()} IN ${city.toUpperCase()}:`;
+            document.getElementById('businessSummaryTitle').textContent = `📊 YOUR ${businessName.toUpperCase()} BUSINESS IN ${city.toUpperCase()}:`;
             
-            // Current state and goal
+            // Current state, goal, budget, and pain point
             const currentState = getCurrentStateDescription(formData);
             const userGoal = getUserGoalDescription(formData);
+            const userBudget = getBudgetDescription(formData);
+            const userPainPoint = getPainPointDescription(formData);
             document.getElementById('currentState').textContent = currentState;
             document.getElementById('userGoal').textContent = userGoal;
+            document.getElementById('userBudget').textContent = userBudget;
+            document.getElementById('userPainPoint').textContent = userPainPoint;
             
             // Product recommendation
             document.getElementById('productRecommendation').textContent = 
@@ -3344,6 +3356,27 @@
                 return goalMap[data.goals[0]] || data.goals[0];
             }
             return 'Grow business online';
+        }
+
+        function getBudgetDescription(data) {
+            const budgetMap = {
+                'below_2k': 'Under Rs 2,000',
+                '2k_10k': 'Rs 2,000 - 10,000',
+                '10k_25k': 'Rs 10,000 - 25,000',
+                '25k_50k': 'Rs 25,000 - 50,000',
+                'above_50k': 'Above Rs 50,000'
+            };
+            return budgetMap[data.budget] || 'Not specified';
+        }
+
+        function getPainPointDescription(data) {
+            const challengeMap = {
+                'not_getting_leads': 'Not getting enough leads',
+                'low_sales': 'Low sales from existing presence',
+                'dont_know_start': 'Not sure where to start',
+                'no_time': 'No time to manage digital presence'
+            };
+            return challengeMap[data.challenge] || 'Not specified';
         }
 
         function getContextualTestimonial(data) {

@@ -2145,7 +2145,7 @@
                 trackScreenView('landing');
             } else {
                 document.getElementById(`screen${currentScreen}`).classList.add('active');
-                const screenNames = {1: 'mobile_entry', 2: 'otp_verification', 3: 'basic_info', 4: 'assessment', 5: 'results'};
+                const screenNames = {1: 'mobile_entry', 2: 'assessment', 3: 'basic_info', 4: 'results', 5: 'results'};
                 trackScreenView(screenNames[currentScreen] || `screen_${currentScreen}`);
             }
             

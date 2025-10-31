@@ -560,12 +560,18 @@
         function updateStats(visits, sessions, funnel) {
             const totalVisits = visits.length;
             const uniqueVisitors = sessions.length; // Each session = unique visitor
-            const completedSessions = sessions.filter(s => s.conversion_status === 'completed').length;
-            const conversionRate = uniqueVisitors > 0 ? ((completedSessions / uniqueVisitors) * 100).toFixed(1) : 0;
+            
+            // Count assessments completed - look for 'results' screen views OR assessment completion actions
+            const assessmentCompletions = funnel.filter(f => 
+                (f.screen_name === 'results' && f.action_type === 'screen_view') ||
+                (f.action_type === 'conversion' && f.action_details && f.action_details.type === 'assessment_completed')
+            ).length;
+            
+            const conversionRate = uniqueVisitors > 0 ? ((assessmentCompletions / uniqueVisitors) * 100).toFixed(1) : 0;
             
             document.getElementById('total-visits').textContent = totalVisits.toLocaleString();
             document.getElementById('unique-visitors').textContent = uniqueVisitors.toLocaleString();
-            document.getElementById('conversions').textContent = completedSessions.toLocaleString();
+            document.getElementById('conversions').textContent = assessmentCompletions.toLocaleString();
             document.getElementById('conversion-rate').textContent = conversionRate + '%';
         }
         

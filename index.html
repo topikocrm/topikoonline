@@ -694,6 +694,199 @@
             }
         }
 
+        /* RESULTS PAGE STYLES */
+        .results-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 16px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .results-greeting h2 {
+            font-size: 24px;
+            margin: 0 0 8px 0;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .results-greeting p {
+            font-size: 18px;
+            margin: 0 0 20px 0;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .results-divider {
+            color: rgba(255, 255, 255, 0.3);
+            text-align: center;
+            margin: 20px 0;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .results-section {
+            margin: 20px 0;
+        }
+
+        .results-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 12px 0;
+            color: #fff;
+        }
+
+        .business-summary div {
+            margin: 8px 0;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .business-summary span {
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .product-recommendation {
+            margin: 16px 0;
+        }
+
+        .primary-product, .optional-marketing {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin: 12px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .primary-product strong {
+            color: #4CAF50;
+            font-size: 18px;
+        }
+
+        .optional-marketing strong {
+            color: #FF9800;
+            font-size: 16px;
+        }
+
+        .testimonial-quote {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid #4CAF50;
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 8px;
+        }
+
+        .testimonial-quote em {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .social-proof {
+            margin-top: 12px;
+            color: #4CAF50;
+            font-weight: 500;
+        }
+
+        .bonus-items div {
+            margin: 8px 0;
+            color: #4CAF50;
+            font-weight: 500;
+        }
+
+        .expiry-time {
+            margin-top: 12px;
+            color: #FF5722;
+            font-weight: 500;
+        }
+
+        .results-cta {
+            text-align: center;
+            margin: 24px 0;
+        }
+
+        .cta-primary {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            min-height: 48px;
+            box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .cta-subtitle, .call-promise {
+            margin-top: 8px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .results-footer {
+            text-align: center;
+        }
+
+        .value-prop {
+            margin: 16px 0;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .contact-options {
+            margin-top: 16px;
+        }
+
+        .contact-options div {
+            margin: 8px 0;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-btn:hover {
+            background: #22c55e;
+            transform: translateY(-1px);
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 480px) {
+            .results-container {
+                padding: 12px;
+                font-size: 15px;
+            }
+            
+            .results-greeting h2 {
+                font-size: 22px;
+            }
+            
+            .cta-primary {
+                font-size: 16px;
+                padding: 14px 24px;
+            }
+            
+            .results-divider {
+                font-size: 12px;
+                margin: 16px 0;
+            }
+        }
+
         /* SOCIAL PROOF STYLES */
         .social-proof {
             position: fixed;
@@ -1635,48 +1828,101 @@
 
         <!-- Screen 4: Results -->
         <div id="screen4" class="screen">
-            <div class="chat-message" id="chatMessage4">🎉 Congratulations! Your personalized digital strategy is ready.</div>
+            <!-- Progress Indicator -->
+            <div style="text-align: center; margin-bottom: 16px; font-size: 12px; color: rgba(255,255,255,0.6);">
+                Step 4 of 4 ✅ Complete
+            </div>
             
-            <div class="question-card">
-                <div class="question-title" style="text-align: center; margin-bottom: 24px;">Your Assessment Results</div>
+            <div class="results-container">
+                <!-- Personal Greeting -->
+                <div class="results-greeting">
+                    <h2 id="personalGreeting">Hi [Name]! 👋</h2>
+                    <p>Your custom plan is ready.</p>
+                </div>
                 
-                <!-- Two Score Display -->
-                <div style="display: flex; justify-content: space-between; margin-bottom: 24px; gap: 16px;">
-                    <!-- Digital Readiness Score -->
-                    <div style="flex: 1; text-align: center;">
-                        <div style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 8px;">Digital Readiness</div>
-                        <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);">
-                            <div style="font-size: 24px; font-weight: 800; color: white;" id="digitalReadinessScore">35</div>
-                        </div>
-                        <div style="font-size: 12px; color: rgba(255,255,255,0.7);" id="readinessLabel">Digital Opportunity</div>
-                    </div>
-                    
-                    <!-- Solution Match Score -->
-                    <div style="flex: 1; text-align: center;">
-                        <div style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 8px;">Solution Match</div>
-                        <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; box-shadow: 0 4px 16px rgba(245, 87, 108, 0.3);">
-                            <div style="font-size: 24px; font-weight: 800; color: white;" id="solutionMatchScore">85</div>
-                        </div>
-                        <div style="font-size: 12px; color: rgba(255,255,255,0.7);" id="matchLabel">Perfect Match</div>
+                <!-- Section Divider -->
+                <div class="results-divider">━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+                
+                <!-- Business Summary -->
+                <div class="results-section">
+                    <h3 id="businessSummaryTitle">📊 YOUR [BusinessType] IN [City]:</h3>
+                    <div class="business-summary">
+                        <div>Currently: <span id="currentState">[CurrentState]</span></div>
+                        <div>Goal: <span id="userGoal">[Goal]</span></div>
                     </div>
                 </div>
                 
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;" id="scoreTitle">Great Growth Potential!</div>
-                    <div style="font-size: 14px; color: rgba(255, 255, 255, 0.7);" id="scoreDescription">Perfect starting point for digital transformation.</div>
+                <!-- Section Divider -->
+                <div class="results-divider">━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+                
+                <!-- Product Recommendation -->
+                <div class="results-section">
+                    <h3>✨ WHAT YOU NEED:</h3>
+                    <div class="product-recommendation">
+                        <div class="primary-product">
+                            <strong id="productRecommendation">🌐 Topiko: Rs 5,000/year</strong><br>
+                            <span id="productDescription">Mobile-ready, SEO-friendly, professionally designed</span><br>
+                            <span>Live in 3-4 days</span>
+                        </div>
+                        <div class="optional-marketing">
+                            <strong>📱 Marketing: Rs 15,000/month (optional)</strong><br>
+                            <span>50-100 leads/month, managed by us</span>
+                        </div>
+                    </div>
                 </div>
                 
-                <div id="recommendationContent">
-                    <!-- Personalized recommendations will be inserted here -->
+                <!-- Section Divider -->
+                <div class="results-divider">━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+                
+                <!-- Testimonials -->
+                <div class="results-section">
+                    <h3>💬 WHAT BUSINESSES SAY:</h3>
+                    <div class="testimonial-quote">
+                        <em id="testimonialText">"Best investment for my business"</em><br>
+                        <span id="testimonialAuthor">— Priya S., Pune ⭐⭐⭐⭐⭐</span>
+                    </div>
+                    <div class="social-proof">✓ 5,000+ businesses trust us</div>
                 </div>
                 
-                <div class="nav-buttons" style="flex-direction: column; gap: 12px;">
-                    <button class="btn" onclick="startDetailedAudit()">🔍 Get My Detailed Plan</button>
-                    <button class="btn btn-secondary" onclick="skipAuditAndBookCall()" style="background: linear-gradient(135deg, #667eea 0%, #f093fb 100%); color: white; border: none;">
-                        ⚡ Skip Audit - Book Consultation Now
+                <!-- Section Divider -->
+                <div class="results-divider">━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+                
+                <!-- Urgency Section -->
+                <div class="results-section">
+                    <h3>⏰ FREE TODAY (<span id="urgencyTimer">24 hrs</span>):</h3>
+                    <div class="bonus-items">
+                        <div>✓ Logo design (Rs 2,500 value)</div>
+                        <div>✓ Google Business setup</div>
+                    </div>
+                    <div class="expiry-time">Expires: <span id="expiryTime">[ExpiryTime]</span></div>
+                </div>
+                
+                <!-- Section Divider -->
+                <div class="results-divider">━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+                
+                <!-- Primary CTA -->
+                <div class="results-cta">
+                    <button class="cta-primary" id="primaryCTA" onclick="makeCall()">
+                        📞 TALK TO US NOW
                     </button>
-                    <div style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 8px;">
-                        We have enough information to help you. The detailed audit is optional.
+                    <div class="cta-subtitle">Available 9 AM - 8 PM</div>
+                    <div class="call-promise">We'll call you within 1 hour (9 AM - 8 PM)</div>
+                </div>
+                
+                <!-- Section Divider -->
+                <div class="results-divider">━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+                
+                <!-- Value Proposition & WhatsApp -->
+                <div class="results-footer">
+                    <div class="value-prop">
+                        <strong>Why us?</strong> Rs 5K not Rs 50K.<br>
+                        We do it for you. Lifetime support.
+                    </div>
+                    <div class="contact-options">
+                        <div>🔒 No spam. Promise.</div>
+                        <button class="whatsapp-btn" id="whatsappCTA" onclick="openWhatsApp()">
+                            WhatsApp: +91-<span id="userPhoneNumber">[PhoneNumber]</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -2810,17 +3056,8 @@
             }
         }
 
-        // Digital Readiness & Recommendation Engine
+        // New Results Page Generator
         async function generateResults() {
-            const recommendation = getTopikkoRecommendation(formData);
-            const digitalReadiness = calculateDigitalReadiness(formData);
-            
-            // Calculate realistic solution match using the scoring system
-            const recommendedProduct = recommendation?.primary_recommendation?.product || recommendation?.product || 'Topiko';
-            const solutionMatch = window.digitalReadinessScorer ? 
-                window.digitalReadinessScorer.calculateSolutionMatchScore(formData, recommendedProduct) : 
-                75; // Fallback to 75 if scorer not available
-            
             // Create assessment in database if not already created
             if (!assessmentId) {
                 await createAssessment();
@@ -2829,46 +3066,235 @@
             // Update assessment with results
             await updateAssessmentResults();
             
-            // Update Digital Readiness Score
-            document.getElementById('digitalReadinessScore').textContent = digitalReadiness;
+            // Get product recommendation based on new logic
+            const productRecommendation = getNewProductRecommendation(formData);
             
-            // Update Solution Match Score  
-            document.getElementById('solutionMatchScore').textContent = solutionMatch;
+            // Track results page view
+            trackScreenView('results', { 
+                product_recommended: productRecommendation.product,
+                user_business_type: formData.businessType,
+                user_city: formData.cityLocation 
+            });
             
-            // Update readiness label
-            let readinessLabel;
-            if (digitalReadiness >= 80) readinessLabel = "Digital Leader";
-            else if (digitalReadiness >= 60) readinessLabel = "Growth Mode";
-            else if (digitalReadiness >= 40) readinessLabel = "Digital Potential";
-            else readinessLabel = "Digital Opportunity";
-            document.getElementById('readinessLabel').textContent = readinessLabel;
+            // Update all dynamic content
+            updateResultsContent(productRecommendation);
             
-            // Update solution match label
-            let matchLabel;
-            if (solutionMatch >= 90) matchLabel = "Perfect Match";
-            else if (solutionMatch >= 80) matchLabel = "Great Match";
-            else if (solutionMatch >= 70) matchLabel = "Good Match";
-            else matchLabel = "Suitable Match";
-            document.getElementById('matchLabel').textContent = matchLabel;
+            // Set up urgency timer
+            setupUrgencyTimer();
             
-            // Update main title and description based on combination
-            let title, description;
-            if (digitalReadiness >= 60) {
-                title = "Digital Growth Ready!";
-                description = "Strong foundation with excellent solution match.";
-            } else if (digitalReadiness >= 40) {
-                title = "Great Growth Potential!";
-                description = "Perfect starting point for digital transformation.";
-            } else {
-                title = "Digital Transformation Opportunity!";
-                description = "Ideal time to build your digital presence.";
+            // Track completion
+            trackConversion('results_viewed', {
+                product: productRecommendation.product,
+                price: productRecommendation.price
+            });
+        }
+
+        function getNewProductRecommendation(data) {
+            // Extract budget from form data
+            let budget = 0;
+            if (data.budget) {
+                if (data.budget.includes('1000-2000')) budget = 1500;
+                else if (data.budget.includes('2000-5000')) budget = 3500;
+                else if (data.budget.includes('5000-10000')) budget = 7500;
+                else if (data.budget.includes('10000-25000')) budget = 17500;
+                else if (data.budget.includes('25000+')) budget = 50000;
+                else budget = 5000; // Default
             }
             
-            document.getElementById('scoreTitle').textContent = title;
-            document.getElementById('scoreDescription').textContent = description;
+            // Product recommendation logic from .md file
             
-            // Generate recommendations based on engine results
-            generateRecommendations(recommendation, digitalReadiness, solutionMatch);
+            // Option 1: DISBLAY (Rs 1,500/year)
+            if (budget < 2000 || 
+                (data.businessType && ['retail', 'boutique'].includes(data.businessType)) ||
+                (data.goals && data.goals.includes('showcase_products'))) {
+                return {
+                    product: 'Disblay',
+                    price: 1500,
+                    period: 'year',
+                    description: 'Digital catalog, SEO-friendly, mobile-ready'
+                };
+            }
+            
+            // Option 3: TOPIKO + ORDERING (Rs 10,000/year)  
+            if (budget >= 10000 &&
+                (data.businessType && ['restaurant', 'food'].includes(data.businessType)) ||
+                (data.goals && data.goals.includes('stop_commissions'))) {
+                return {
+                    product: 'Topiko + Online Ordering',
+                    price: 10000,
+                    period: 'year', 
+                    description: 'SEO-friendly, direct orders, no commission'
+                };
+            }
+            
+            // Option 2: TOPIKO (Rs 5,000/year) - Default for most cases
+            return {
+                product: 'Topiko',
+                price: 5000,
+                period: 'year',
+                description: 'Full website, SEO-friendly, professionally designed'
+            };
+        }
+
+        function updateResultsContent(productRecommendation) {
+            // Personal greeting
+            const firstName = formData.fullName ? formData.fullName.split(' ')[0] : 'there';
+            document.getElementById('personalGreeting').textContent = `Hi ${firstName}! 👋`;
+            
+            // Business summary
+            const businessType = getBusinessTypeLabel(formData.businessType) || 'BUSINESS';
+            const city = formData.cityLocation || 'YOUR CITY';
+            document.getElementById('businessSummaryTitle').textContent = `📊 YOUR ${businessType.toUpperCase()} IN ${city.toUpperCase()}:`;
+            
+            // Current state and goal
+            const currentState = getCurrentStateDescription(formData);
+            const userGoal = getUserGoalDescription(formData);
+            document.getElementById('currentState').textContent = currentState;
+            document.getElementById('userGoal').textContent = userGoal;
+            
+            // Product recommendation
+            document.getElementById('productRecommendation').textContent = 
+                `🌐 ${productRecommendation.product}: Rs ${productRecommendation.price.toLocaleString()}/${productRecommendation.period}`;
+            document.getElementById('productDescription').textContent = productRecommendation.description;
+            
+            // Context-aware testimonial
+            const testimonial = getContextualTestimonial(formData);
+            document.getElementById('testimonialText').textContent = testimonial.text;
+            document.getElementById('testimonialAuthor').textContent = testimonial.author;
+            
+            // User phone number for WhatsApp
+            const phoneNumber = formData.mobileNumber || document.getElementById('landingMobileNumber')?.value || 'XXXXXXXXXX';
+            document.getElementById('userPhoneNumber').textContent = phoneNumber;
+            
+            // Context-aware CTA text
+            const ctaText = getContextualCTAText(formData);
+            document.getElementById('primaryCTA').textContent = ctaText;
+        }
+
+        function getCurrentStateDescription(data) {
+            if (data.digitalStatus === 'just_starting') return 'Just getting started online';
+            if (data.digitalStatus === 'some_presence') return 'Basic online presence';  
+            if (data.digitalStatus === 'established') return 'Established digital presence';
+            return 'Ready for digital growth';
+        }
+
+        function getUserGoalDescription(data) {
+            if (data.goals && data.goals.length > 0) {
+                const goalMap = {
+                    'get_customers': 'Get more customers',
+                    'showcase_products': 'Showcase products/services',
+                    'build_brand': 'Build professional brand',
+                    'create_website': 'Professional website',
+                    'stop_commissions': 'Stop paying commissions'
+                };
+                return goalMap[data.goals[0]] || data.goals[0];
+            }
+            return 'Grow business online';
+        }
+
+        function getContextualTestimonial(data) {
+            // Location-aware testimonials when possible
+            const city = data.cityLocation?.toLowerCase();
+            
+            if (city && city.includes('pune')) {
+                return {
+                    text: '"Best investment for my salon business"',
+                    author: '— Priya S., Pune ⭐⭐⭐⭐⭐'
+                };
+            } else if (city && city.includes('mumbai')) {
+                return {
+                    text: '"Finally visible to local customers"',
+                    author: '— Ravi K., Mumbai ⭐⭐⭐⭐⭐'
+                };
+            } else if (data.businessType === 'restaurant') {
+                return {
+                    text: '"Quick assessment, perfect recommendations"',
+                    author: '— Ravi K., Restaurant Owner ⭐⭐⭐⭐⭐'
+                };
+            } else if (data.businessType === 'salon') {
+                return {
+                    text: '"Best investment for my salon business"',
+                    author: '— Priya S., Salon Owner ⭐⭐⭐⭐⭐'
+                };
+            }
+            
+            // Default testimonial
+            return {
+                text: '"Best investment for my business"',
+                author: '— Priya S., Pune ⭐⭐⭐⭐⭐'
+            };
+        }
+
+        function getContextualCTAText(data) {
+            if (data.businessType === 'restaurant') return '📞 GET MY ONLINE ORDERING SYSTEM';
+            if (data.businessType === 'retail' || data.businessType === 'boutique') return '📞 BUILD MY PRODUCT SHOWCASE';
+            if (data.businessType === 'salon') return '📞 CREATE MY SALON PRESENCE';
+            return '📞 TALK TO US NOW';
+        }
+
+        function setupUrgencyTimer() {
+            // Calculate expiry time (19 hours from now)
+            const now = new Date();
+            const expiryTime = new Date(now.getTime() + (19 * 60 * 60 * 1000));
+            
+            // Format expiry time
+            const options = { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true
+            };
+            const timeString = expiryTime.toLocaleTimeString('en-US', options);
+            const tomorrow = new Date(now);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            document.getElementById('expiryTime').textContent = 
+                `Tomorrow ${timeString}`;
+            
+            // Real-time countdown
+            updateCountdown(expiryTime);
+            setInterval(() => updateCountdown(expiryTime), 60000); // Update every minute
+        }
+
+        function updateCountdown(expiryTime) {
+            const now = new Date();
+            const timeLeft = expiryTime - now;
+            
+            if (timeLeft > 0) {
+                const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById('urgencyTimer').textContent = `${hours}h ${minutes}m left`;
+            } else {
+                document.getElementById('urgencyTimer').textContent = 'Limited time';
+            }
+        }
+
+        // CTA Functions for Results Page
+        function makeCall() {
+            // Track CTA click
+            trackConversion('cta_clicked', { 
+                action: 'phone_call',
+                business_type: formData.businessType,
+                product: document.getElementById('productRecommendation').textContent
+            });
+            
+            // Replace with actual business phone number
+            const businessPhone = '+91-8858868889'; // Update with real number
+            window.location.href = `tel:${businessPhone}`;
+        }
+
+        function openWhatsApp() {
+            // Track WhatsApp click
+            trackConversion('whatsapp_clicked', { 
+                user_phone: formData.mobileNumber,
+                business_type: formData.businessType
+            });
+            
+            const userPhone = formData.mobileNumber || document.getElementById('landingMobileNumber')?.value;
+            const businessWhatsApp = '+918858868889'; // Update with real WhatsApp number
+            const message = encodeURIComponent(`Hi! I just completed the business assessment and got my recommendations. I'd like to discuss the ${document.getElementById('productRecommendation').textContent} plan. My phone: ${userPhone}`);
+            
+            const whatsappURL = `https://wa.me/${businessWhatsApp.replace('+', '')}?text=${message}`;
+            window.open(whatsappURL, '_blank');
         }
         
         function getTopikkoRecommendation(data) {

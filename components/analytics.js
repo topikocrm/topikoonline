@@ -269,7 +269,7 @@ class TopikoAnalytics {
                 .from('user_sessions')
                 .select('*')
                 .eq('session_id', this.sessionId)
-                .single();
+                .maybeSingle(); // Use maybeSingle instead of single to avoid 406 when no rows found
                 
             if (selectError && selectError.code !== 'PGRST116') {
                 // PGRST116 = no rows returned, which is OK
@@ -292,16 +292,20 @@ class TopikoAnalytics {
                     throw updateError;
                 }
             } else {
-                // Create new session
+                // Create new session with clean data
                 const sessionData = {
                     session_id: this.sessionId,
-                    ...this.sessionInfo,
-                    ...this.utmParams,
-                    // Add location data if available
-                    ...(this.locationInfo && {
-                        city: this.locationInfo.city !== 'Unknown' ? this.locationInfo.city : null,
-                        country: this.locationInfo.country !== 'Unknown' ? this.locationInfo.country : null
-                    })
+                    device_type: this.sessionInfo?.device_type || 'unknown',
+                    browser: this.sessionInfo?.browser || 'unknown',
+                    traffic_source: this.sessionInfo?.traffic_source || 'direct',
+                    landing_page: this.sessionInfo?.landing_page || window.location.href,
+                    // UTM data
+                    utm_source: this.utmParams?.utm_source || null,
+                    utm_medium: this.utmParams?.utm_medium || null,
+                    utm_campaign: this.utmParams?.utm_campaign || null,
+                    // Location data
+                    city: this.locationInfo?.city && this.locationInfo.city !== 'Unknown' ? this.locationInfo.city : null,
+                    country: this.locationInfo?.country && this.locationInfo.country !== 'Unknown' ? this.locationInfo.country : null
                 };
 
                 console.log('📊 Creating new session:', sessionData);

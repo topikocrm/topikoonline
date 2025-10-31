@@ -2154,10 +2154,25 @@
                 trackScreenView('landing');
             } else {
                 document.getElementById(`screen${currentScreen}`).classList.add('active');
-                const screenNames = {1: 'basic_info', 2: 'assessment', 3: 'otp_verification', 4: 'results', 5: 'results'};
+                const screenNames = {
+                    1: 'basic_info', 
+                    2: 'assessment_start',  // Assessment start will be tracked per question
+                    3: 'contact_info',     // Contact/final info screen
+                    4: 'results', 
+                    5: 'results'
+                };
                 const screenName = screenNames[currentScreen] || `screen_${currentScreen}`;
                 console.log(`📊 Tracking: ${screenName} screen view`);
-                trackScreenView(screenName);
+                
+                // Add context for each screen
+                const screenContext = {
+                    1: { step: 'basic_info_collection' },
+                    2: { step: 'assessment_questions' },
+                    3: { step: 'final_contact_collection' },
+                    4: { step: 'results_display' }
+                };
+                
+                trackScreenView(screenName, screenContext[currentScreen] || {});
             }
             
             // Update progress and profile
@@ -2235,6 +2250,32 @@
             
             currentQuestionIndex = index;
             const question = questions[index];
+            
+            // Track each assessment question view
+            const questionMappings = {
+                0: 'assessment_q1', // Business goals
+                1: 'assessment_q2', // Digital status
+                2: 'assessment_q3', // Budget range
+                3: 'assessment_q4'  // Main challenge
+            };
+            
+            const screenKey = questionMappings[index];
+            if (screenKey) {
+                console.log(`📊 Loading question ${index + 1}: ${screenKey}`);
+                trackScreenView(screenKey, { 
+                    question_number: index + 1, 
+                    question_id: question.id,
+                    question_text: question.question.substring(0, 50) + '...'
+                });
+            
+            // Always track assessment start for the first question load
+            if (index === 0) {
+                console.log('📊 Assessment started - tracking assessment_start');
+                trackScreenView('assessment_start', { 
+                    total_questions: questions.length,
+                    question_id: question.id
+                });
+            }
             
             document.getElementById('currentQuestion').textContent = question.question;
             
@@ -2708,7 +2749,7 @@
             } else if (formData.otpVerified) {
                 // Go to basic info screen
                 console.log('📊 Mobile OTP verified - tracking mobile_entry');
-                trackScreenView('mobile_entry'); // Track mobile entry completion
+                trackScreenView('mobile_entry', { mobile: mobile }); // Track mobile entry completion
                 
                 document.getElementById('landingScreen').classList.remove('active');
                 document.getElementById('screen1').classList.add('active');
@@ -2717,7 +2758,9 @@
                 
                 // Track basic info screen view
                 console.log('📊 Now showing screen 1 - tracking basic_info');
-                setTimeout(() => trackScreenView('basic_info'), 500);
+                setTimeout(() => trackScreenView('basic_info', { 
+                    from_mobile_verification: true 
+                }), 500);
                 
                 // Initialize social proof after starting assessment
                 setTimeout(() => showSocialProof(), 3000);

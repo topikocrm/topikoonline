@@ -61,7 +61,7 @@ class TopikoAnalytics {
             // Track initial page visit
             await this.trackPageVisit();
             await this.initializeSession();
-            await this.trackScreenView('landing');
+            // Note: Landing screen view will be tracked by the main app, not here
 
             this.isInitialized = true;
             console.log('📊 Analytics initialized successfully');

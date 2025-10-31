@@ -142,6 +142,132 @@
             color: rgba(255, 255, 255, 0.6);
         }
 
+        /* WORLD-CLASS CHECKBOX STYLES */
+        .checkbox-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .checkbox-card:hover {
+            border-color: rgba(102, 126, 234, 0.4);
+            background: rgba(102, 126, 234, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+        }
+
+        .checkbox-card.selected {
+            border-color: #4CAF50;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.15) 0%, rgba(102, 126, 234, 0.1) 100%);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.2);
+        }
+
+        .checkbox-card.selected::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+        }
+
+        .checkbox-custom {
+            position: relative;
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .checkbox-custom input[type="checkbox"] {
+            opacity: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .checkbox-checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .checkbox-card:hover .checkbox-checkmark {
+            border-color: rgba(102, 126, 234, 0.6);
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .checkbox-card.selected .checkbox-checkmark {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            border-color: #4CAF50;
+            transform: scale(1.1);
+        }
+
+        .check-icon {
+            width: 14px;
+            height: 14px;
+            fill: white;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .checkbox-card.selected .check-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .checkbox-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .checkbox-label {
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.4;
+            transition: color 0.3s ease;
+        }
+
+        .checkbox-card.selected .checkbox-label {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* Mobile optimization for checkboxes */
+        @media (max-width: 480px) {
+            .checkbox-card {
+                padding: 14px;
+                margin-bottom: 10px;
+                gap: 14px;
+            }
+            
+            .checkbox-label {
+                font-size: 15px;
+            }
+        }
+
         /* CHECKBOXES */
         .checkbox-item {
             display: flex;
@@ -2021,7 +2147,7 @@
         const questions = [
             {
                 id: 'goals',
-                question: 'What drives your business forward? (Choose up to 3)',
+                question: 'What do you want to achieve for your business? (Choose up to 3)',
                 type: 'checkbox',
                 options: [
                     { value: 'get_customers', label: '📢 Need more customers' },
@@ -2081,11 +2207,13 @@
 
         // Initialize event listeners when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
-            // Track initial landing page view
-            console.log('📊 Initial page load - tracking landing page view');
+            // Track initial landing page view once when page loads
             setTimeout(() => {
-                trackScreenView('landing');
-            }, 1000); // Wait for analytics to initialize
+                if (currentScreen === 0) { // Only track if still on landing page
+                    console.log('📊 Initial landing page view');
+                    trackScreenView('landing');
+                }
+            }, 1500); // Wait for analytics to initialize
             
             // Landing page OTP inputs
             document.getElementById('landingMobileNumber').addEventListener('input', handleLandingContactInput);
@@ -2096,6 +2224,42 @@
             document.getElementById('businessName').addEventListener('input', handleBusinessNameInput);
             document.getElementById('businessType').addEventListener('change', handleBusinessTypeChange);
             document.getElementById('cityLocation').addEventListener('input', handleCityInput);
+            
+            // Add Enter key support for progressive form fields
+            document.getElementById('fullName').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && this.value.trim().length > 2) {
+                    e.preventDefault();
+                    // Trigger the same logic as handleNameInput
+                    if (currentStep === 0) {
+                        currentStep = 1;
+                        updateProgress();
+                        document.getElementById('businessNameSection').style.display = 'block';
+                        setTimeout(() => document.getElementById('businessName').focus(), 100);
+                    }
+                }
+            });
+            
+            document.getElementById('businessName').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && this.value.trim().length > 2) {
+                    e.preventDefault();
+                    if (currentStep === 1) {
+                        currentStep = 2;
+                        updateProgress();
+                        document.getElementById('businessTypeSection').style.display = 'block';
+                        setTimeout(() => document.getElementById('businessType').focus(), 100);
+                    }
+                }
+            });
+            
+            document.getElementById('cityLocation').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && this.value.trim().length > 2) {
+                    e.preventDefault();
+                    const continueBtn = document.getElementById('continueBtn');
+                    if (!continueBtn.disabled) {
+                        continueBtn.click();
+                    }
+                }
+            });
             document.getElementById('continueBtn').addEventListener('click', async () => {
                 // Create assessment in database when user has provided basic info
                 if (!assessmentId && formData.fullName && formData.businessName) {
@@ -2332,6 +2496,8 @@
         async function showScreen(screenNumber) {
             console.log(`🔄 Screen transition: ${currentScreen} → ${screenNumber}`);
             
+            const previousScreen = currentScreen;
+            
             // Hide current screen
             if (currentScreen === 0) {
                 document.getElementById('landingScreen').classList.remove('active');
@@ -2343,8 +2509,11 @@
             currentScreen = screenNumber;
             if (currentScreen === 0) {
                 document.getElementById('landingScreen').classList.add('active');
-                console.log('📊 Tracking: landing screen view');
-                trackScreenView('landing');
+                // Only track landing screen view if this is a navigation back to landing (not initial load)
+                if (previousScreen !== 0) {
+                    console.log('📊 Tracking: return to landing screen view');
+                    trackScreenView('landing');
+                }
             } else {
                 document.getElementById(`screen${currentScreen}`).classList.add('active');
                 const screenNames = {
@@ -2491,11 +2660,21 @@
             } else if (question.type === 'checkbox') {
                 question.options.forEach(option => {
                     const checked = formData[question.id].includes(option.value) ? 'checked' : '';
+                    const selectedClass = checked ? 'selected' : '';
                     html += `
-                        <label class="checkbox-item">
-                            <input type="checkbox" value="${option.value}" ${checked} data-question="${question.id}">
-                            <span>${option.label}</span>
-                        </label>
+                        <div class="checkbox-card ${selectedClass}" data-question="${question.id}" data-value="${option.value}">
+                            <div class="checkbox-custom">
+                                <input type="checkbox" value="${option.value}" ${checked} data-question="${question.id}">
+                                <div class="checkbox-checkmark">
+                                    <svg viewBox="0 0 24 24" class="check-icon">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="checkbox-content">
+                                <span class="checkbox-label">${option.label}</span>
+                            </div>
+                        </div>
                     `;
                 });
             }
@@ -2505,6 +2684,10 @@
             // Add event listeners for new content
             document.querySelectorAll('.option-card').forEach(card => {
                 card.addEventListener('click', handleOptionSelect);
+            });
+            
+            document.querySelectorAll('.checkbox-card').forEach(card => {
+                card.addEventListener('click', handleCheckboxCardClick);
             });
             
             document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
@@ -2546,6 +2729,29 @@
             
             
             validateCurrentQuestion();
+        }
+
+        function handleCheckboxCardClick(e) {
+            const card = e.currentTarget;
+            const checkbox = card.querySelector('input[type="checkbox"]');
+            const questionId = card.dataset.question;
+            const value = card.dataset.value;
+            
+            // Toggle checkbox state
+            if (!checkbox.checked) {
+                // For goals question, limit to 3 selections
+                if (questionId === 'goals' && formData[questionId] && formData[questionId].length >= 3) {
+                    return; // Don't allow more than 3 selections
+                }
+                checkbox.checked = true;
+                card.classList.add('selected');
+            } else {
+                checkbox.checked = false;
+                card.classList.remove('selected');
+            }
+            
+            // Trigger the checkbox change event
+            checkbox.dispatchEvent(new Event('change'));
         }
 
         function handleCheckboxChange(e) {

@@ -2107,10 +2107,6 @@
         let sessionId = generateSessionId();
         let assessmentId = null;
         
-        // Initialize landing page tracking flag early to prevent duplicates
-        if (typeof window.landingPageTracked === 'undefined') {
-            window.landingPageTracked = false;
-        }
         
         try {
             if (typeof window.supabase !== 'undefined') {
@@ -2234,19 +2230,10 @@
 
         // Initialize event listeners when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
-            // Track initial landing page view once when page loads
+            // SINGLE LANDING PAGE TRACKING - Only track once on page load
             setTimeout(() => {
-                console.log('📊 Landing page tracking check:', {
-                    currentScreen,
-                    landingPageTracked: window.landingPageTracked,
-                    shouldTrack: currentScreen === 0 && !window.landingPageTracked
-                });
-                if (currentScreen === 0 && !window.landingPageTracked) { // Only track if still on landing page and not tracked yet
-                    console.log('📊 ✅ Tracking initial landing page view');
-                    trackScreenView('landing');
-                } else {
-                    console.log('📊 ❌ Skipping initial landing page view - already tracked or not on landing');
-                }
+                console.log('📊 SINGLE landing page tracking on page load');
+                trackScreenView('landing');
             }, 1500); // Wait for analytics to initialize
             
             // Landing page OTP inputs
@@ -2552,18 +2539,8 @@
             currentScreen = screenNumber;
             if (currentScreen === 0) {
                 document.getElementById('landingScreen').classList.add('active');
-                // Only track landing screen view if this is a navigation back to landing (not initial load) and not already tracked
-                console.log('📊 showScreen landing check:', {
-                    previousScreen,
-                    landingPageTracked: window.landingPageTracked,
-                    shouldTrack: previousScreen !== 0 && !window.landingPageTracked
-                });
-                if (previousScreen !== 0 && !window.landingPageTracked) {
-                    console.log('📊 ✅ Tracking: return to landing screen view');
-                    trackScreenView('landing');
-                } else {
-                    console.log('📊 ❌ Skipping return to landing - already tracked or initial load');
-                }
+                // REMOVED: No additional landing page tracking on screen navigation
+                console.log('📊 Landing screen shown - no tracking (already tracked on page load)');
             } else {
                 document.getElementById(`screen${currentScreen}`).classList.add('active');
                 const screenNames = {

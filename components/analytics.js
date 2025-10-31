@@ -480,29 +480,9 @@ class TopikoAnalytics {
 // Utility functions for easy integration
 window.TopikoAnalytics = TopikoAnalytics;
 
-// Safe tracking wrapper functions with enhanced logging
+// Safe tracking wrapper functions - SIMPLIFIED
 window.trackScreenView = function(screenName, details = {}) {
     console.log(`📊 trackScreenView called: ${screenName}`, details);
-    
-    // Prevent duplicate landing page tracking - set flag IMMEDIATELY
-    if (screenName === 'landing') {
-        if (window.landingPageTracked) {
-            console.log(`📊 Landing page already tracked, skipping duplicate`);
-            return;
-        }
-        
-        // Check if landing is already in queue to prevent double queuing
-        if (window.trackingQueue && window.trackingQueue.some(call => 
-            call.type === 'screenView' && call.screenName === 'landing'
-        )) {
-            console.log(`📊 Landing page already in queue, skipping duplicate queue entry`);
-            return;
-        }
-        
-        // Set flag immediately to prevent race conditions
-        console.log(`📊 Setting landingPageTracked flag to prevent duplicates`);
-        window.landingPageTracked = true;
-    }
     
     if (window.analytics && window.analytics.isInitialized) {
         console.log(`📊 Analytics ready - tracking ${screenName}`);

@@ -636,21 +636,10 @@
             const funnelContainer = document.getElementById('funnel-steps');
             funnelContainer.innerHTML = '';
             
-            let previousCount = stepCounts.landing || 0;
-            
             steps.forEach((step, index) => {
                 const count = stepCounts[step.key] || 0;
-                let rate;
                 
-                if (index === 0) {
-                    rate = '100%'; // Landing page is always 100%
-                } else if (previousCount === 0) {
-                    rate = count > 0 ? '∞' : '0%'; // Show infinity if we have count but no previous, otherwise 0%
-                } else {
-                    rate = ((count / previousCount) * 100).toFixed(1) + '%';
-                }
-                
-                console.log(`📊 ${step.name}: ${count} users, ${rate} conversion from previous step`);
+                console.log(`📊 ${step.name}: ${count} users`);
                 
                 const stepDiv = document.createElement('div');
                 stepDiv.className = 'funnel-step';
@@ -658,12 +647,10 @@
                     <div class="step-name">${step.name}</div>
                     <div class="step-stats">
                         <div class="step-count">${count.toLocaleString()}</div>
-                        <div class="step-rate">${rate}</div>
                     </div>
                 `;
                 
                 funnelContainer.appendChild(stepDiv);
-                previousCount = count;
             });
         }
         

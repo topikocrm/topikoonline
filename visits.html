@@ -410,6 +410,8 @@
         // Load analytics data
         async function loadAnalytics() {
             try {
+                console.log('📊 Starting analytics load...');
+                
                 if (!supabase) {
                     throw new Error('Analytics database not available');
                 }
@@ -419,19 +421,38 @@
                 document.getElementById('dashboard-content').style.display = 'none';
                 
                 const { start, end } = getDateRange();
+                console.log('📅 Date range:', { start, end });
                 
-                // Load all data in parallel
+                // Load all data in parallel with timeout
+                console.log('🔄 Loading data from database...');
+                const dataPromises = [
+                    loadVisitsData(start, end),
+                    loadSessionsData(start, end),
+                    loadFunnelData(start, end),
+                    loadUTMData(start, end)
+                ];
+                
+                // Add 10-second timeout to prevent infinite loading
+                const timeoutPromise = new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error('Database query timeout (10s)')), 10000)
+                );
+                
                 const [
                     visitsData,
                     sessionsData,
                     funnelData,
                     utmData
-                ] = await Promise.all([
-                    loadVisitsData(start, end),
-                    loadSessionsData(start, end),
-                    loadFunnelData(start, end),
-                    loadUTMData(start, end)
+                ] = await Promise.race([
+                    Promise.all(dataPromises),
+                    timeoutPromise
                 ]);
+                
+                console.log('✅ Data loaded:', { 
+                    visits: visitsData.length,
+                    sessions: sessionsData.length,
+                    funnel: funnelData.length,
+                    utm: utmData.length
+                });
                 
                 // Update dashboard
                 updateStats(visitsData, sessionsData, funnelData);
@@ -451,53 +472,93 @@
         
         // Load visits data
         async function loadVisitsData(start, end) {
-            const { data, error } = await supabase
-                .from('page_visits')
-                .select('*')
-                .gte('timestamp', start)
-                .lt('timestamp', end)
-                .order('timestamp');
-            
-            if (error) throw error;
-            return data || [];
+            try {
+                console.log('📊 Loading page visits...');
+                const { data, error } = await supabase
+                    .from('page_visits')
+                    .select('*')
+                    .gte('timestamp', start)
+                    .lt('timestamp', end)
+                    .order('timestamp');
+                
+                if (error) {
+                    console.error('❌ Page visits error:', error);
+                    throw error;
+                }
+                console.log('✅ Page visits loaded:', data?.length || 0);
+                return data || [];
+            } catch (error) {
+                console.error('❌ Page visits failed:', error);
+                return []; // Return empty array on error
+            }
         }
         
         // Load sessions data
         async function loadSessionsData(start, end) {
-            const { data, error } = await supabase
-                .from('user_sessions')
-                .select('*')
-                .gte('first_visit', start)
-                .lt('first_visit', end)
-                .order('first_visit');
-            
-            if (error) throw error;
-            return data || [];
+            try {
+                console.log('👥 Loading user sessions...');
+                const { data, error } = await supabase
+                    .from('user_sessions')
+                    .select('*')
+                    .gte('first_visit', start)
+                    .lt('first_visit', end)
+                    .order('first_visit');
+                
+                if (error) {
+                    console.error('❌ User sessions error:', error);
+                    throw error;
+                }
+                console.log('✅ User sessions loaded:', data?.length || 0);
+                return data || [];
+            } catch (error) {
+                console.error('❌ User sessions failed:', error);
+                return [];
+            }
         }
         
         // Load funnel data
         async function loadFunnelData(start, end) {
-            const { data, error } = await supabase
-                .from('funnel_analytics')
-                .select('*')
-                .gte('created_at', start)
-                .lt('created_at', end);
-            
-            if (error) throw error;
-            return data || [];
+            try {
+                console.log('📈 Loading funnel analytics...');
+                const { data, error } = await supabase
+                    .from('funnel_analytics')
+                    .select('*')
+                    .gte('created_at', start)
+                    .lt('created_at', end);
+                
+                if (error) {
+                    console.error('❌ Funnel analytics error:', error);
+                    throw error;
+                }
+                console.log('✅ Funnel analytics loaded:', data?.length || 0);
+                return data || [];
+            } catch (error) {
+                console.error('❌ Funnel analytics failed:', error);
+                return [];
+            }
         }
         
         // Load UTM data
         async function loadUTMData(start, end) {
-            const { data, error } = await supabase
-                .from('page_visits')
-                .select('utm_source, utm_medium, utm_campaign')
-                .gte('timestamp', start)
-                .lt('timestamp', end)
-                .not('utm_source', 'is', null);
-            
-            if (error) throw error;
-            return data || [];
+            try {
+                console.log('🎯 Loading UTM data...');
+                const { data, error } = await supabase
+                    .from('page_visits')
+                    .select('utm_source, utm_medium, utm_campaign')
+                    .gte('timestamp', start)
+                    .lt('timestamp', end)
+                    .not('utm_source', 'is', null);
+                
+                if (error) {
+                    console.error('❌ UTM data error:', error);
+                    throw error;
+                }
+                console.log('✅ UTM data loaded:', data?.length || 0);
+                return data || [];
+            } catch (error) {
+                console.error('❌ UTM data failed:', error);
+                return [];
+            }
         }
         
         // Update stats cards

@@ -591,31 +591,27 @@
             console.log('🔍 Debug summary by screen-action:', debugSummary);
             
             const steps = [
-                { name: 'Landing Page', key: 'landing', step: 1 },
-                { name: 'Mobile Entry', key: 'mobile_entry', step: 2 },
-                { name: 'Basic Info', key: 'basic_info', step: 3 },
-                { name: 'Assessment Start', key: 'assessment_start', step: 4 },
-                { name: 'Q1: Business Goals', key: 'assessment_q1', step: 5 },
-                { name: 'Q2: Digital Status', key: 'assessment_q2', step: 6 },
-                { name: 'Q3: Budget Range', key: 'assessment_q3', step: 7 },
-                { name: 'Q4: Main Challenge', key: 'assessment_q4', step: 8 },
-                { name: 'Contact Info', key: 'contact_info', step: 9 },
-                { name: 'Results', key: 'results', step: 10 }
+                { name: 'Mobile Entry', key: 'mobile_entry', step: 1 },
+                { name: 'Basic Info', key: 'basic_info', step: 2 },
+                { name: 'Assessment Start', key: 'assessment_start', step: 3 },
+                { name: 'Q1: Business Goals', key: 'assessment_q1', step: 4 },
+                { name: 'Q2: Digital Status', key: 'assessment_q2', step: 5 },
+                { name: 'Q3: Budget Range', key: 'assessment_q3', step: 6 },
+                { name: 'Q4: Main Challenge', key: 'assessment_q4', step: 7 },
+                { name: 'Contact Info', key: 'contact_info', step: 8 },
+                { name: 'Results', key: 'results', step: 9 }
             ];
             
             const stepCounts = {};
             steps.forEach(step => {
                 let count;
-                if (step.key === 'landing') {
-                    // For landing page, count any landing screen action
-                    count = funnelData.filter(f => f.screen_name === step.key).length;
-                } else if (step.key.startsWith('assessment_q')) {
+                if (step.key.startsWith('assessment_q')) {
                     // For assessment questions, count question-specific tracking
                     count = funnelData.filter(f => 
                         f.screen_name === step.key && f.action_type === 'screen_view'
                     ).length;
                 } else {
-                    // For other steps, count screen_view actions and fallback to legacy names
+                    // For all other steps, count screen_view actions and fallback to legacy names
                     const legacyMappings = {
                         'mobile_entry': 'otp_verification',
                         'basic_info': 'basic_info',

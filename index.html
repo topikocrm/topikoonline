@@ -2230,11 +2230,8 @@
 
         // Initialize event listeners when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
-            // SINGLE LANDING PAGE TRACKING - Only track once on page load
-            setTimeout(() => {
-                console.log('📊 SINGLE landing page tracking on page load');
-                trackScreenView('landing');
-            }, 1500); // Wait for analytics to initialize
+            // REMOVED: No landing page tracking - using total visits instead
+            console.log('📊 Landing page tracking removed - relying on total visits count');
             
             // Landing page OTP inputs
             document.getElementById('landingMobileNumber').addEventListener('input', handleLandingContactInput);

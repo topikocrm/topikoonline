@@ -416,12 +416,11 @@ class TopikoAnalytics {
     // Get conversion step number
     getConversionStep(screenName) {
         const steps = {
-            'landing': 1,
-            'mobile_entry': 2,
-            'otp_verification': 3,
-            'basic_info': 4,
-            'assessment': 5,
-            'results': 6
+            'mobile_entry': 1,
+            'otp_verification': 2,
+            'basic_info': 3,
+            'assessment': 4,
+            'results': 5
         };
         return steps[screenName] || 0;
     }

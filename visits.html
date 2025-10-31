@@ -274,10 +274,6 @@
                     <div class="stat-label">Total Visits</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number" id="unique-visitors">-</div>
-                    <div class="stat-label">Unique Visitors</div>
-                </div>
-                <div class="stat-card">
                     <div class="stat-number" id="conversions">-</div>
                     <div class="stat-label">Assessments Completed</div>
                 </div>
@@ -292,28 +288,7 @@
                 <div id="funnel-steps"></div>
             </div>
             
-            <div class="charts-grid">
-                <!-- Temporarily disabled - causing performance issues
-                <div class="chart-container">
-                    <div class="chart-title">📅 Visits Over Time</div>
-                    <canvas id="visitsChart" width="400" height="200"></canvas>
-                </div>
-                -->
-                <div class="chart-container">
-                    <div class="chart-title">📱 Device Types</div>
-                    <canvas id="deviceChart" width="400" height="200"></canvas>
-                </div>
-                <div class="chart-container">
-                    <div class="chart-title">🌍 Traffic Sources</div>
-                    <canvas id="trafficChart" width="400" height="200"></canvas>
-                </div>
-                <!-- Temporarily disabled - causing infinite loading
-                <div class="chart-container">
-                    <div class="chart-title">⏰ Peak Hours</div>
-                    <canvas id="hoursChart" width="400" height="200"></canvas>
-                </div>
-                -->
-            </div>
+            <!-- Charts section removed for now - will add back later -->
             
             <div class="chart-container">
                 <div class="chart-title">🎯 UTM Campaign Performance</div>
@@ -457,7 +432,6 @@
                 // Update dashboard
                 updateStats(visitsData, sessionsData, funnelData);
                 updateFunnel(funnelData);
-                updateCharts(visitsData, sessionsData);
                 updateUTMTable(utmData);
                 
                 document.getElementById('loading').style.display = 'none';
@@ -564,12 +538,10 @@
         // Update stats cards
         function updateStats(visits, sessions, funnel) {
             const totalVisits = visits.length;
-            const uniqueVisitors = new Set(visits.map(v => v.session_id)).size;
             const completedSessions = sessions.filter(s => s.conversion_status === 'completed').length;
-            const conversionRate = uniqueVisitors > 0 ? ((completedSessions / uniqueVisitors) * 100).toFixed(1) : 0;
+            const conversionRate = totalVisits > 0 ? ((completedSessions / totalVisits) * 100).toFixed(1) : 0;
             
             document.getElementById('total-visits').textContent = totalVisits.toLocaleString();
-            document.getElementById('unique-visitors').textContent = uniqueVisitors.toLocaleString();
             document.getElementById('conversions').textContent = completedSessions.toLocaleString();
             document.getElementById('conversion-rate').textContent = conversionRate + '%';
         }
@@ -616,13 +588,15 @@
             });
         }
         
-        // Update charts
+        // Update charts - COMPLETELY DISABLED FOR NOW
+        /*
         function updateCharts(visits, sessions) {
             // updateVisitsChart(visits); // Temporarily disabled for performance
             updateDeviceChart(sessions);
             updateTrafficChart(sessions);
             // updateHoursChart(visits); // Temporarily disabled for performance
         }
+        */
         
         // Visits over time chart - TEMPORARILY DISABLED FOR PERFORMANCE
         /*
@@ -664,6 +638,8 @@
         }
         */
         
+        // ALL CHART FUNCTIONS DISABLED FOR NOW
+        /*
         // Device types chart
         function updateDeviceChart(sessions) {
             const ctx = document.getElementById('deviceChart').getContext('2d');
@@ -719,6 +695,7 @@
                 }
             });
         }
+        */
         
         // Peak hours chart - TEMPORARILY DISABLED FOR PERFORMANCE
         /*

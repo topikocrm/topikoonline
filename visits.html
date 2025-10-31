@@ -274,6 +274,10 @@
                     <div class="stat-label">Total Visits</div>
                 </div>
                 <div class="stat-card">
+                    <div class="stat-number" id="unique-visitors">-</div>
+                    <div class="stat-label">Unique Visitors</div>
+                </div>
+                <div class="stat-card">
                     <div class="stat-number" id="conversions">-</div>
                     <div class="stat-label">Assessments Completed</div>
                 </div>
@@ -290,6 +294,22 @@
             
             <!-- Charts section removed for now - will add back later -->
             
+            <div class="chart-container">
+                <div class="chart-title">🌍 Top Locations</div>
+                <table class="utm-table" id="location-table">
+                    <thead>
+                        <tr>
+                            <th>City</th>
+                            <th>Country</th>
+                            <th>Visits</th>
+                            <th>Conversions</th>
+                            <th>Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody id="location-tbody"></tbody>
+                </table>
+            </div>
+
             <div class="chart-container">
                 <div class="chart-title">🎯 UTM Campaign Performance</div>
                 <table class="utm-table" id="utm-table">
@@ -432,6 +452,7 @@
                 // Update dashboard
                 updateStats(visitsData, sessionsData, funnelData);
                 updateFunnel(funnelData);
+                updateLocationTable(sessionsData);
                 updateUTMTable(utmData);
                 
                 document.getElementById('loading').style.display = 'none';
@@ -538,10 +559,12 @@
         // Update stats cards
         function updateStats(visits, sessions, funnel) {
             const totalVisits = visits.length;
+            const uniqueVisitors = sessions.length; // Each session = unique visitor
             const completedSessions = sessions.filter(s => s.conversion_status === 'completed').length;
-            const conversionRate = totalVisits > 0 ? ((completedSessions / totalVisits) * 100).toFixed(1) : 0;
+            const conversionRate = uniqueVisitors > 0 ? ((completedSessions / uniqueVisitors) * 100).toFixed(1) : 0;
             
             document.getElementById('total-visits').textContent = totalVisits.toLocaleString();
+            document.getElementById('unique-visitors').textContent = uniqueVisitors.toLocaleString();
             document.getElementById('conversions').textContent = completedSessions.toLocaleString();
             document.getElementById('conversion-rate').textContent = conversionRate + '%';
         }
@@ -733,6 +756,57 @@
             });
         }
         */
+        
+        // Update location table
+        function updateLocationTable(sessionsData) {
+            const locationGroups = {};
+            
+            sessionsData.forEach(session => {
+                const city = session.city || 'Unknown';
+                const country = session.country || 'Unknown';
+                const key = `${city}, ${country}`;
+                
+                if (!locationGroups[key]) {
+                    locationGroups[key] = {
+                        city: city,
+                        country: country,
+                        visits: 0,
+                        conversions: 0
+                    };
+                }
+                
+                locationGroups[key].visits++;
+                if (session.conversion_status === 'completed') {
+                    locationGroups[key].conversions++;
+                }
+            });
+            
+            const tbody = document.getElementById('location-tbody');
+            tbody.innerHTML = '';
+            
+            // Sort by visits count
+            const sortedLocations = Object.values(locationGroups).sort((a, b) => b.visits - a.visits);
+            
+            sortedLocations.forEach(location => {
+                const rate = location.visits > 0 ? ((location.conversions / location.visits) * 100).toFixed(1) : '0.0';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${location.city}</td>
+                    <td>${location.country}</td>
+                    <td>${location.visits}</td>
+                    <td>${location.conversions}</td>
+                    <td>${rate}%</td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            if (sortedLocations.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = '<td colspan="5" style="text-align: center; color: #666;">No location data available for this period</td>';
+                tbody.appendChild(row);
+            }
+        }
         
         // Update UTM table
         function updateUTMTable(utmData) {

@@ -4,13 +4,43 @@
 class TopikoAnalytics {
     constructor(supabaseClient, sessionId) {
         this.supabase = supabaseClient;
-        this.sessionId = sessionId;
+        this.sessionId = this.getOrCreateSessionId(sessionId);
         this.currentScreen = 'landing';
         this.screenStartTime = Date.now();
         this.isInitialized = false;
         
         // Initialize analytics safely
         this.init();
+    }
+
+    // Get existing session ID from localStorage or create new one
+    getOrCreateSessionId(providedSessionId) {
+        try {
+            const storageKey = 'topiko_session_id';
+            const storedSessionId = localStorage.getItem(storageKey);
+            
+            // If we have a stored session that's less than 24 hours old, use it
+            const sessionTimestamp = localStorage.getItem(storageKey + '_timestamp');
+            const now = Date.now();
+            const twentyFourHours = 24 * 60 * 60 * 1000;
+            
+            if (storedSessionId && sessionTimestamp && (now - parseInt(sessionTimestamp)) < twentyFourHours) {
+                console.log('📊 Using existing session:', storedSessionId);
+                return storedSessionId;
+            }
+            
+            // Create new session
+            const newSessionId = providedSessionId || ('sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9));
+            localStorage.setItem(storageKey, newSessionId);
+            localStorage.setItem(storageKey + '_timestamp', now.toString());
+            
+            console.log('📊 Created new session:', newSessionId);
+            return newSessionId;
+            
+        } catch (error) {
+            console.log('📊 LocalStorage not available, using provided session ID');
+            return providedSessionId || ('sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9));
+        }
     }
 
     async init() {
@@ -24,6 +54,9 @@ class TopikoAnalytics {
             this.pageInfo = this.getPageInfo();
             this.utmParams = this.getUTMParams();
             this.sessionInfo = this.getSessionInfo();
+            
+            // Get geographic location data
+            this.locationInfo = await this.getLocationInfo();
 
             // Track initial page visit
             await this.trackPageVisit();
@@ -87,6 +120,51 @@ class TopikoAnalytics {
         };
     }
 
+    // Get geographic location from IP
+    async getLocationInfo() {
+        try {
+            console.log('🌍 Getting location info...');
+            
+            // Try ipapi.co first (free, 1000 requests/day)
+            const response = await fetch('https://ipapi.co/json/', {
+                timeout: 5000 // 5 second timeout
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            const locationInfo = {
+                city: data.city || 'Unknown',
+                region: data.region || 'Unknown', 
+                country: data.country_name || 'Unknown',
+                country_code: data.country_code || 'Unknown',
+                timezone: data.timezone || 'Unknown',
+                ip: data.ip || 'Unknown',
+                isp: data.org || 'Unknown'
+            };
+            
+            console.log('🌍 Location detected:', locationInfo);
+            return locationInfo;
+            
+        } catch (error) {
+            console.log('🌍 Location detection failed (non-critical):', error);
+            
+            // Fallback to basic timezone detection
+            return {
+                city: 'Unknown',
+                region: 'Unknown',
+                country: 'Unknown', 
+                country_code: 'Unknown',
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown',
+                ip: 'Unknown',
+                isp: 'Unknown'
+            };
+        }
+    }
+
     // Determine traffic source
     getTrafficSource() {
         const referrer = document.referrer;
@@ -113,7 +191,11 @@ class TopikoAnalytics {
             const visitData = {
                 session_id: this.sessionId,
                 ...this.pageInfo,
-                ...this.utmParams
+                ...this.utmParams,
+                // Add location data if available
+                ...(this.locationInfo && {
+                    ip_address: this.locationInfo.ip !== 'Unknown' ? this.locationInfo.ip : null
+                })
             };
 
             const { error } = await this.supabase
@@ -152,7 +234,12 @@ class TopikoAnalytics {
                 const sessionData = {
                     session_id: this.sessionId,
                     ...this.sessionInfo,
-                    ...this.utmParams
+                    ...this.utmParams,
+                    // Add location data if available
+                    ...(this.locationInfo && {
+                        city: this.locationInfo.city !== 'Unknown' ? this.locationInfo.city : null,
+                        country: this.locationInfo.country !== 'Unknown' ? this.locationInfo.country : null
+                    })
                 };
 
                 await this.supabase

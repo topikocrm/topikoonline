@@ -293,8 +293,7 @@ class TopikoAnalytics {
                 const { error: updateError } = await this.supabase
                     .from('user_sessions')
                     .update({
-                        last_activity: new Date().toISOString(),
-                        total_page_views: existingSession.total_page_views + 1
+                        last_activity: new Date().toISOString()
                     })
                     .eq('session_id', this.sessionId);
                     

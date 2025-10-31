@@ -2749,6 +2749,7 @@
                 }
             } else if (formData.otpVerified) {
                 // Go to basic info screen
+                const mobile = document.getElementById('landingMobileNumber').value.trim();
                 console.log('📊 Mobile OTP verified - tracking mobile_entry');
                 trackScreenView('mobile_entry', { mobile: mobile }); // Track mobile entry completion
                 

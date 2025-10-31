@@ -265,21 +265,32 @@ class TopikoAnalytics {
             if (!this.supabase) return;
 
             // Check if session exists
-            const { data: existingSession } = await this.supabase
+            const { data: existingSession, error: selectError } = await this.supabase
                 .from('user_sessions')
                 .select('*')
                 .eq('session_id', this.sessionId)
                 .single();
+                
+            if (selectError && selectError.code !== 'PGRST116') {
+                // PGRST116 = no rows returned, which is OK
+                console.log('📊 Session lookup failed:', selectError);
+                throw selectError;
+            }
 
             if (existingSession) {
                 // Update existing session
-                await this.supabase
+                const { error: updateError } = await this.supabase
                     .from('user_sessions')
                     .update({
                         last_activity: new Date().toISOString(),
                         total_page_views: existingSession.total_page_views + 1
                     })
                     .eq('session_id', this.sessionId);
+                    
+                if (updateError) {
+                    console.log('📊 Session update failed:', updateError);
+                    throw updateError;
+                }
             } else {
                 // Create new session
                 const sessionData = {
@@ -293,9 +304,16 @@ class TopikoAnalytics {
                     })
                 };
 
-                await this.supabase
+                console.log('📊 Creating new session:', sessionData);
+                
+                const { error: insertError } = await this.supabase
                     .from('user_sessions')
                     .insert(sessionData);
+                    
+                if (insertError) {
+                    console.log('📊 Session insert failed:', insertError);
+                    throw insertError;
+                }
             }
         } catch (error) {
             console.log('📊 Analytics: Session tracking failed (non-critical):', error);

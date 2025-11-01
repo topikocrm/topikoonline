@@ -3287,9 +3287,21 @@
                 else budget = 5000; // Default to affordable
             }
             
-            // Enhanced product recommendation logic with challenge, business type, and digital status consideration
+            // Enhanced product recommendation logic with goal-based priority first
             
-            // Digital status + Challenge combination logic (highest priority)
+            // Goal-based recommendations (highest priority - what user specifically wants)
+            if (data.goals && data.goals.includes('showcase_products') && budget <= 8000) {
+                return {
+                    product: 'Disblay',
+                    price: 1500,
+                    period: 'year',
+                    description: 'Digital catalog, SEO-friendly, mobile-ready showcase',
+                    confidence: 85,
+                    reason: 'Perfect for showcasing products with cost-effective solution'
+                };
+            }
+            
+            // Digital status + Challenge combination logic (second priority)
             if (data.digitalStatus === 'active_no_results' && data.challenge === 'not_getting_leads' && budget >= 12000) {
                 return {
                     product: 'Digital Marketing + Website Optimization',
@@ -3441,18 +3453,6 @@
                         reason: 'Flexible solution that can be adapted to your specific business requirements'
                     };
                 }
-            }
-            
-            // Goal-based recommendations (should come before challenge fallbacks)
-            if (data.goals && data.goals.includes('showcase_products') && budget <= 8000) {
-                return {
-                    product: 'Disblay',
-                    price: 1500,
-                    period: 'year',
-                    description: 'Digital catalog, SEO-friendly, mobile-ready showcase',
-                    confidence: 85,
-                    reason: 'Perfect for showcasing products with cost-effective solution'
-                };
             }
             
             // Challenge-specific fallbacks

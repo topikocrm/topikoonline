@@ -2420,20 +2420,26 @@
 
             // Add Enter key support for mobile number fields
             document.getElementById('landingMobileNumber').addEventListener('keypress', function(e) {
+                console.log('🔘 Enter key pressed on landing mobile:', e.key, 'Value length:', this.value.trim().length);
                 if (e.key === 'Enter' && this.value.trim().length === 10) {
                     e.preventDefault();
                     const otpBtn = document.getElementById('landingOtpBtn');
-                    if (!otpBtn.disabled) {
+                    console.log('🔘 OTP button found:', otpBtn, 'Disabled:', otpBtn?.disabled);
+                    if (otpBtn && !otpBtn.disabled) {
+                        console.log('🔘 Clicking OTP button');
                         otpBtn.click();
                     }
                 }
             });
 
             document.getElementById('mobileNumber').addEventListener('keypress', function(e) {
+                console.log('🔘 Enter key pressed on mobile:', e.key, 'Value length:', this.value.trim().length);
                 if (e.key === 'Enter' && this.value.trim().length === 10) {
                     e.preventDefault();
                     const otpBtn = document.getElementById('otpBtn');
-                    if (!otpBtn.disabled) {
+                    console.log('🔘 Screen 3 OTP button found:', otpBtn, 'Disabled:', otpBtn?.disabled);
+                    if (otpBtn && !otpBtn.disabled) {
+                        console.log('🔘 Clicking Screen 3 OTP button');
                         otpBtn.click();
                     }
                 }
@@ -3734,8 +3740,11 @@
             const confidenceText = productRecommendation.confidence ? `\n\n${productRecommendation.confidence}% match for your needs` : '';
             const reasonText = productRecommendation.reason ? `\n\nWhy this is perfect: ${productRecommendation.reason}` : '';
             
-            document.getElementById('productDescription').textContent = 
-                formattedDescription + confidenceText + reasonText;
+            // Use innerHTML to preserve line breaks and format properly
+            const htmlDescription = (formattedDescription + confidenceText + reasonText)
+                .replace(/\n/g, '<br>')
+                .replace(/•/g, '•');
+            document.getElementById('productDescription').innerHTML = htmlDescription;
             
             // Set delivery time based on product type
             const deliveryTimes = {

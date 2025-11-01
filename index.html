@@ -3290,14 +3290,14 @@
             // Enhanced product recommendation logic with goal-based priority first
             
             // Goal-based recommendations (highest priority - what user specifically wants)
-            if (data.goals && data.goals.includes('showcase_products') && budget <= 8000) {
+            if (data.goals && data.goals.includes('showcase_products') && data.budget === 'affordable') {
                 return {
                     product: 'Disblay',
                     price: 1500,
                     period: 'year',
                     description: 'Digital catalog, SEO-friendly, mobile-ready showcase',
                     confidence: 85,
-                    reason: 'Perfect for showcasing products with cost-effective solution'
+                    reason: 'Perfect for showcasing products with cost-effective solution that fits your budget'
                 };
             }
             
@@ -3373,7 +3373,7 @@
             // Enhanced business type specific recommendations
             if (data.businessType) {
                 // Food & Restaurant businesses - Online ordering focus
-                if (['restaurant'].includes(data.businessType) && budget >= 8000) {
+                if (['restaurant'].includes(data.businessType) && (data.budget === 'quality' || data.budget === 'premium' || data.budget === 'custom')) {
                     return {
                         product: 'Topiko + Online Ordering',
                         price: 10000,
@@ -3386,7 +3386,7 @@
                 
                 // Visual showcase businesses - Product display focus
                 if (['retail', 'boutique', 'salon', 'fitness', 'automotive', 'electronics'].includes(data.businessType)) {
-                    if (budget >= 6000) {
+                    if (data.budget === 'quality' || data.budget === 'premium' || data.budget === 'custom') {
                         return {
                             product: 'Topiko Showcase',
                             price: 7000,
@@ -3418,7 +3418,7 @@
                             confidence: 92,
                             reason: 'Professional services need credibility + systematic lead generation to grow'
                         };
-                    } else if (budget >= 6000) {
+                    } else if (data.budget === 'quality' || data.budget === 'premium') {
                         return {
                             product: 'Topiko Professional',
                             price: 8000,
@@ -3467,7 +3467,7 @@
                 };
             }
             
-            if (data.challenge === 'no_time' && budget >= 8000) {
+            if (data.challenge === 'no_time' && (data.budget === 'quality' || data.budget === 'premium' || data.budget === 'custom')) {
                 return {
                     product: 'Topiko Managed',
                     price: 8000,

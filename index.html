@@ -902,14 +902,43 @@
         .primary-product, .optional-marketing {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
-            padding: 16px;
-            margin: 12px 0;
+            padding: 20px;
+            margin: 16px 0;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .primary-product strong {
+        .product-header {
+            margin-bottom: 12px;
+        }
+
+        .product-header strong {
             color: #4CAF50;
-            font-size: 18px;
+            font-size: 20px;
+            font-weight: 700;
+            display: block;
+        }
+
+        .product-description {
+            margin: 12px 0;
+            padding: 8px 0;
+            line-height: 1.5;
+        }
+
+        .product-description span {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 15px;
+        }
+
+        .delivery-time {
+            margin-top: 12px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .delivery-time span {
+            color: #FFA726;
+            font-weight: 600;
+            font-size: 14px;
         }
 
         .optional-marketing strong {
@@ -987,6 +1016,28 @@
             margin: 16px 0;
             font-size: 16px;
             color: rgba(255, 255, 255, 0.9);
+        }
+        .value-header {
+            margin-bottom: 12px;
+        }
+        .value-header strong {
+            color: #4CAF50;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .value-points {
+            line-height: 1.6;
+        }
+        .value-points div {
+            margin: 6px 0;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+        }
+        .privacy-note {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+            text-align: center;
+            margin-top: 10px;
         }
 
         .contact-options {
@@ -2008,9 +2059,15 @@
                     <h3>✨ WHAT YOU NEED:</h3>
                     <div class="product-recommendation">
                         <div class="primary-product">
-                            <strong id="productRecommendation">🌐 Topiko: Rs 5,000/year</strong><br>
-                            <span id="productDescription">Mobile-ready, SEO-friendly, professionally designed</span><br>
-                            <span>Live in 3-4 days</span>
+                            <div class="product-header">
+                                <strong id="productRecommendation">🌐 Topiko: Rs 5,000/year</strong>
+                            </div>
+                            <div class="product-description">
+                                <span id="productDescription">Mobile-ready, SEO-friendly, professionally designed</span>
+                            </div>
+                            <div class="delivery-time">
+                                <span id="deliveryTime">Live in 3-4 days</span>
+                            </div>
                         </div>
                         <div id="additionalRecommendations">
                             <!-- Additional recommendations will be dynamically inserted here -->
@@ -2062,14 +2119,17 @@
                 <!-- Value Proposition & WhatsApp -->
                 <div class="results-footer">
                     <div class="value-prop">
-                        <strong>Why us?</strong> Rs 5K not Rs 50K.<br>
-                        We do it for you. Lifetime support.
+                        <div class="value-header">
+                            <strong>💎 Why us?</strong>
+                        </div>
+                        <div class="value-points">
+                            <div>✓ Rs 5K not Rs 50K</div>
+                            <div>✓ We do it for you</div>
+                            <div>✓ Lifetime support</div>
+                        </div>
                     </div>
                     <div class="contact-options">
-                        <div>🔒 No spam. Promise.</div>
-                        <button class="whatsapp-btn" id="whatsappCTA" onclick="openWhatsApp()">
-                            WhatsApp: +91-<span id="userPhoneNumber">[PhoneNumber]</span>
-                        </button>
+                        <div class="privacy-note">🔒 No spam. Promise.</div>
                     </div>
                 </div>
             </div>
@@ -2513,9 +2573,14 @@
                     1: 'Getting started...',
                     2: 'Assessment in progress...',
                     3: 'Almost complete!',
-                    4: 'Assessment complete!'
+                    4: '' // Removed "Assessment complete!" notification
                 };
-                status.textContent = statusMessages[currentScreen] || 'Building profile...';
+                const statusText = statusMessages[currentScreen] || 'Building profile...';
+                if (statusText) {
+                    status.textContent = statusText;
+                } else {
+                    status.style.display = 'none'; // Hide the status when empty
+                }
             }
         }
 
@@ -3541,6 +3606,29 @@
             const reasonText = productRecommendation.reason ? `\n\n💡 Why this recommendation: ${productRecommendation.reason}` : '';
             document.getElementById('productDescription').textContent = 
                 productRecommendation.description + confidenceText + reasonText;
+            
+            // Set delivery time based on product type
+            const deliveryTimes = {
+                'Disblay': 'Live in 24 hours',
+                'Topiko': 'Live in 3-4 days',
+                'Topiko Foundation + Setup': 'Live in 3-4 days',
+                'Topiko + Social Integration': 'Live in 3-4 days',
+                'Topiko Showcase': 'Live in 3-4 days',
+                'Topiko Professional': 'Live in 3-4 days',
+                'Topiko Pro + Lead Generation': 'Live in 3-4 days',
+                'Topiko + Online Ordering': 'Live in 3-4 days',
+                'Topiko Enterprise': 'Live in 7-10 days',
+                'Topiko Custom': 'Live in 7-10 days',
+                'Topiko Managed': 'Live in 3-4 days',
+                'Topiko Basic + Consultation': 'Live in 3-4 days',
+                'HEBT Custom Solution': 'Based on requirements',
+                'Digital Marketing Package': 'Campaign starts in 2-3 days',
+                'Digital Marketing + Website Optimization': 'Live in 5-7 days',
+                'Website Redesign + Marketing': 'Live in 5-7 days',
+                'Topiko Pro + Marketing': 'Live in 5-7 days'
+            };
+            const deliveryTime = deliveryTimes[productRecommendation.product] || 'Live in 3-4 days';
+            document.getElementById('deliveryTime').textContent = deliveryTime;
             
             // Context-aware testimonial
             const testimonial = getContextualTestimonial(formData);

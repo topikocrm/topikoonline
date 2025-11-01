@@ -1008,6 +1008,68 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
+        .cta-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 12px 0;
+            width: 100%;
+        }
+
+        .cta-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .schedule-slots {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .schedule-title {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+
+        .time-slot {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            font-size: 14px;
+        }
+
+        .time-slot:hover {
+            background: rgba(76, 175, 80, 0.3);
+            border-color: rgba(76, 175, 80, 0.5);
+        }
+
+        .time-slot.selected {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            border-color: #4CAF50;
+        }
+
         .results-footer {
             text-align: center;
         }
@@ -1895,8 +1957,7 @@
                     <input type="tel" class="form-input" id="landingMobileNumber" placeholder="Enter 10-digit mobile number" maxlength="10">
                     
                     <div id="landingOtpSection" style="display: none;">
-                        <div class="question-title" style="margin-top: 20px; font-size: 16px;">Verification Code</div>
-                        <input type="text" class="form-input" id="landingOtpInput" placeholder="Enter 4-digit code" maxlength="4">
+                        <input type="text" class="form-input" id="landingOtpInput" placeholder="Enter 4-digit OTP" maxlength="4">
                         <div style="font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 8px;" id="landingOtpStatus">
                             Enter the verification code sent to your mobile
                         </div>
@@ -2005,8 +2066,7 @@
                 <input type="tel" class="form-input" id="mobileNumber" placeholder="Enter 10-digit mobile number" maxlength="10">
                 
                 <div id="otpSection" style="display: none;">
-                    <div class="question-title" style="margin-top: 20px; font-size: 16px;">Verification Code</div>
-                    <input type="text" class="form-input" id="otpInput" placeholder="Enter 4-digit code" maxlength="4">
+                    <input type="text" class="form-input" id="otpInput" placeholder="Enter 4-digit OTP" maxlength="4">
                     <div style="font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 8px;" id="otpStatus">
                         Enter the verification code sent to your mobile
                     </div>
@@ -2111,6 +2171,17 @@
                     </button>
                     <div class="cta-subtitle">Available 9 AM - 8 PM</div>
                     <div class="call-promise">We'll call you within 1 hour (9 AM - 8 PM)</div>
+                    
+                    <button class="cta-secondary" id="scheduleBtn" onclick="showScheduleSlots()">
+                        📅 SCHEDULE APPOINTMENT
+                    </button>
+                    
+                    <div id="scheduleSlots" class="schedule-slots" style="display: none;">
+                        <div class="schedule-title">Choose your preferred time:</div>
+                        <div class="time-slots" id="timeSlots">
+                            <!-- Time slots will be populated by JavaScript -->
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Section Divider -->
@@ -2346,6 +2417,48 @@
                     }
                 }
             });
+
+            // Add Enter key support for mobile number fields
+            document.getElementById('landingMobileNumber').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && this.value.trim().length === 10) {
+                    e.preventDefault();
+                    const otpBtn = document.getElementById('landingOtpBtn');
+                    if (!otpBtn.disabled) {
+                        otpBtn.click();
+                    }
+                }
+            });
+
+            document.getElementById('mobileNumber').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && this.value.trim().length === 10) {
+                    e.preventDefault();
+                    const otpBtn = document.getElementById('otpBtn');
+                    if (!otpBtn.disabled) {
+                        otpBtn.click();
+                    }
+                }
+            });
+
+            // Add Enter key support for OTP fields
+            document.getElementById('landingOtpInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && this.value.trim().length === 4) {
+                    e.preventDefault();
+                    const otpBtn = document.getElementById('landingOtpBtn');
+                    if (otpBtn.textContent === 'Verify OTP' && !otpBtn.disabled) {
+                        otpBtn.click();
+                    }
+                }
+            });
+
+            document.getElementById('otpInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && this.value.trim().length === 4) {
+                    e.preventDefault();
+                    const otpBtn = document.getElementById('otpBtn');
+                    if (otpBtn.textContent === 'Verify OTP' && !otpBtn.disabled) {
+                        otpBtn.click();
+                    }
+                }
+            });
             document.getElementById('continueBtn').addEventListener('click', async () => {
                 // Create assessment in database when user has provided basic info
                 if (!assessmentId && formData.fullName && formData.businessName) {
@@ -2575,9 +2688,10 @@
                     3: 'Almost complete!',
                     4: '' // Removed "Assessment complete!" notification
                 };
-                const statusText = statusMessages[currentScreen] || 'Building profile...';
+                const statusText = statusMessages[currentScreen] || '';
                 if (statusText) {
                     status.textContent = statusText;
+                    status.style.display = 'block';
                 } else {
                     status.style.display = 'none'; // Hide the status when empty
                 }
@@ -3601,11 +3715,27 @@
             document.getElementById('productRecommendation').textContent = 
                 `🌐 ${productRecommendation.product}: Rs ${productRecommendation.price.toLocaleString()}/${productRecommendation.period}`;
             
-            // Enhanced description with reasoning and confidence
-            const confidenceText = productRecommendation.confidence ? ` (${productRecommendation.confidence}% match)` : '';
-            const reasonText = productRecommendation.reason ? `\n\n💡 Why this recommendation: ${productRecommendation.reason}` : '';
+            // Enhanced description with formatted bullet points
+            const description = productRecommendation.description || '';
+            let formattedDescription = '';
+            
+            // Format based on product type for better readability
+            if (productRecommendation.product === 'Disblay') {
+                formattedDescription = '• Digital Catalog\n• SEO-Friendly\n• Mobile Ready';
+            } else if (description.includes(',')) {
+                // Split by comma and format as bullet points
+                const points = description.split(',').map(point => point.trim());
+                formattedDescription = points.map(point => `• ${point}`).join('\n');
+            } else {
+                // Keep original description but clean it up
+                formattedDescription = `• ${description}`;
+            }
+            
+            const confidenceText = productRecommendation.confidence ? `\n\n${productRecommendation.confidence}% match for your needs` : '';
+            const reasonText = productRecommendation.reason ? `\n\nWhy this is perfect: ${productRecommendation.reason}` : '';
+            
             document.getElementById('productDescription').textContent = 
-                productRecommendation.description + confidenceText + reasonText;
+                formattedDescription + confidenceText + reasonText;
             
             // Set delivery time based on product type
             const deliveryTimes = {
@@ -3773,6 +3903,151 @@
             // Replace with actual business phone number
             const businessPhone = '+91-8858868889'; // Update with real number
             window.location.href = `tel:${businessPhone}`;
+        }
+
+        function showScheduleSlots() {
+            const slotsContainer = document.getElementById('scheduleSlots');
+            const timeSlotsContainer = document.getElementById('timeSlots');
+            
+            // Generate time slots
+            const slots = generateTimeSlots();
+            
+            // Clear existing slots
+            timeSlotsContainer.innerHTML = '';
+            
+            // Create slot elements
+            slots.forEach(slot => {
+                const slotElement = document.createElement('div');
+                slotElement.className = 'time-slot';
+                slotElement.textContent = slot.display;
+                slotElement.onclick = () => selectTimeSlot(slot, slotElement);
+                timeSlotsContainer.appendChild(slotElement);
+            });
+            
+            // Show/hide the slots
+            if (slotsContainer.style.display === 'none') {
+                slotsContainer.style.display = 'block';
+                document.getElementById('scheduleBtn').textContent = '📅 HIDE SLOTS';
+            } else {
+                slotsContainer.style.display = 'none';
+                document.getElementById('scheduleBtn').textContent = '📅 SCHEDULE APPOINTMENT';
+            }
+        }
+
+        function generateTimeSlots() {
+            const slots = [];
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinutes = now.getMinutes();
+            
+            // Start from next rounded hour
+            let startHour = currentHour + 1;
+            if (currentMinutes > 30) {
+                startHour = currentHour + 2;
+            }
+            
+            // Business hours: 9 AM to 7 PM
+            const businessStart = 9;
+            const businessEnd = 19;
+            
+            // If current time is after business hours, start from next day 9 AM
+            let startDate = new Date(now);
+            if (startHour >= businessEnd) {
+                startDate.setDate(startDate.getDate() + 1);
+                startHour = businessStart;
+            } else if (startHour < businessStart) {
+                startHour = businessStart;
+            }
+            
+            // Generate 8 slots with 2-hour gaps
+            for (let i = 0; i < 8; i++) {
+                const slotDate = new Date(startDate);
+                let slotHour = startHour + (i * 2);
+                
+                // If we go beyond business hours, move to next day
+                if (slotHour >= businessEnd) {
+                    slotDate.setDate(slotDate.getDate() + Math.floor((slotHour - businessStart) / (businessEnd - businessStart)));
+                    slotHour = businessStart + ((slotHour - businessStart) % (businessEnd - businessStart));
+                }
+                
+                slotDate.setHours(slotHour, 0, 0, 0);
+                
+                // Format the time display
+                const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                const slotDay = new Date(slotDate.getFullYear(), slotDate.getMonth(), slotDate.getDate());
+                const isToday = slotDay.getTime() === today.getTime();
+                const isTomorrow = slotDay.getTime() === today.getTime() + (24 * 60 * 60 * 1000);
+                
+                let dayLabel = '';
+                if (isToday) dayLabel = 'Today';
+                else if (isTomorrow) dayLabel = 'Tomorrow';
+                else dayLabel = slotDate.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric' });
+                
+                const timeLabel = slotDate.toLocaleTimeString('en-IN', { 
+                    hour: 'numeric', 
+                    minute: '2-digit', 
+                    hour12: true 
+                });
+                
+                slots.push({
+                    datetime: slotDate,
+                    display: `${dayLabel}\n${timeLabel}`,
+                    value: slotDate.toISOString()
+                });
+            }
+            
+            return slots;
+        }
+
+        function selectTimeSlot(slot, element) {
+            // Remove previous selection
+            document.querySelectorAll('.time-slot.selected').forEach(el => {
+                el.classList.remove('selected');
+            });
+            
+            // Add selection to clicked slot
+            element.classList.add('selected');
+            
+            // Track the selection
+            trackConversion('appointment_selected', {
+                selected_time: slot.value,
+                business_type: formData.businessType,
+                user_phone: formData.mobileNumber
+            });
+            
+            // After 1 second, confirm the appointment
+            setTimeout(() => {
+                confirmAppointment(slot);
+            }, 1000);
+        }
+
+        function confirmAppointment(slot) {
+            const userPhone = formData.mobileNumber || document.getElementById('landingMobileNumber')?.value;
+            const businessWhatsApp = '+918858868889';
+            
+            const message = encodeURIComponent(
+                `Hi! I'd like to schedule an appointment.\n\n` +
+                `📅 Preferred Time: ${slot.display.replace('\n', ' ')}\n` +
+                `📱 My Phone: ${userPhone}\n` +
+                `💼 Business: ${formData.businessName || 'Not specified'}\n` +
+                `🎯 Interest: ${document.getElementById('productRecommendation')?.textContent || 'Business consultation'}\n\n` +
+                `Please confirm if this time works for you.`
+            );
+            
+            const whatsappURL = `https://wa.me/${businessWhatsApp}?text=${message}`;
+            
+            // Track appointment booking
+            trackConversion('appointment_booked', {
+                appointment_time: slot.value,
+                business_type: formData.businessType,
+                user_phone: userPhone
+            });
+            
+            // Open WhatsApp
+            window.open(whatsappURL, '_blank');
+            
+            // Show confirmation
+            alert(`📅 Appointment request sent!\n\nTime: ${slot.display.replace('\n', ' ')}\n\nWe'll confirm via WhatsApp shortly.`);
         }
 
         function openWhatsApp() {

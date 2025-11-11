@@ -1314,8 +1314,9 @@
             font-size: 14px;
         }
 
-        .landing-otp-section {
-            margin-top: 8px;
+        .landing-start-section {
+            margin-top: 24px;
+            text-align: center;
         }
 
         .landing-small-print {
@@ -1907,8 +1908,8 @@
                 
                 <!-- Welcome Message -->
                 <div class="landing-content">
-                    <h1 class="landing-title">Every business grows differently. Let's find what works best for yours.</h1>
-                    <p class="landing-subtitle">We'll help you discover the right digital steps for your business — simple, practical, and built around your goals.</p>
+                    <h1 class="landing-title">Welcome to Topiko. Let's talk about your business — and see what can help it grow online.</h1>
+                    <p class="landing-subtitle">In just a few minutes, you'll see what can help your business grow online — simple, clear, and easy to follow.</p>
                     <div class="landing-benefits">
                         <div class="benefit-item">✓ Simple questions, clear results</div>
                         <div class="benefit-item">✓ Quick 2-minute process</div>
@@ -1951,19 +1952,11 @@
                     
                 </div>
                 
-                <!-- Mobile Number & OTP Section -->
-                <div class="landing-otp-section">
-                    <div class="question-title" style="margin-bottom: 16px; font-size: 16px;">Enter your mobile number to get started</div>
-                    <input type="tel" class="form-input" id="landingMobileNumber" placeholder="Enter 10-digit mobile number" maxlength="10">
-                    
-                    <div id="landingOtpSection" style="display: none;">
-                        <input type="text" class="form-input" id="landingOtpInput" placeholder="Enter 4-digit OTP" maxlength="4">
-                        <div style="font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 8px;" id="landingOtpStatus">
-                            Enter the verification code sent to your mobile
-                        </div>
-                    </div>
-                    
-                    <button class="btn btn-large landing-start-btn" id="landingOtpBtn" disabled onclick="handleLandingOTP()">Send OTP</button>
+                <!-- Start Button Section -->
+                <div class="landing-start-section">
+                    <button class="btn btn-large landing-start-btn" id="landingStartBtn" onclick="startAssessment()">
+                        🚀 Start
+                    </button>
                     
                     <p class="landing-small-print">No spam 🔒 • Free plan • Takes 2 minutes</p>
                 </div>
@@ -2358,14 +2351,25 @@
             }
         ];
 
+        // Start Assessment Function (called from landing page)
+        function startAssessment() {
+            // Track assessment start
+            trackScreenView('assessment_start', { 
+                source: 'landing_page',
+                direct_start: true
+            });
+            
+            // Hide landing screen and show first assessment screen
+            document.getElementById('landingScreen').style.display = 'none';
+            showScreen(1); // Go directly to Basic Info screen
+        }
+
         // Initialize event listeners when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             // REMOVED: No landing page tracking - using total visits instead
             console.log('📊 Landing page tracking removed - relying on total visits count');
             
-            // Landing page OTP inputs
-            document.getElementById('landingMobileNumber').addEventListener('input', handleLandingContactInput);
-            document.getElementById('landingOtpInput').addEventListener('input', handleLandingOTPInput);
+            // Note: Landing page now uses simple Start button, no OTP needed
             
             // Screen 1 inputs
             document.getElementById('fullName').addEventListener('input', handleNameInput);
@@ -2418,19 +2422,7 @@
                 }
             });
 
-            // Add Enter key support for mobile number fields
-            document.getElementById('landingMobileNumber').addEventListener('keypress', function(e) {
-                console.log('🔘 Enter key pressed on landing mobile:', e.key, 'Value length:', this.value.trim().length);
-                if (e.key === 'Enter' && this.value.trim().length === 10) {
-                    e.preventDefault();
-                    const otpBtn = document.getElementById('landingOtpBtn');
-                    console.log('🔘 OTP button found:', otpBtn, 'Disabled:', otpBtn?.disabled);
-                    if (otpBtn && !otpBtn.disabled) {
-                        console.log('🔘 Clicking OTP button');
-                        otpBtn.click();
-                    }
-                }
-            });
+            // Landing page mobile Enter key support removed (now using Start button)
 
             document.getElementById('mobileNumber').addEventListener('keypress', function(e) {
                 console.log('🔘 Enter key pressed on mobile:', e.key, 'Value length:', this.value.trim().length);
@@ -2445,16 +2437,7 @@
                 }
             });
 
-            // Add Enter key support for OTP fields
-            document.getElementById('landingOtpInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter' && this.value.trim().length === 4) {
-                    e.preventDefault();
-                    const otpBtn = document.getElementById('landingOtpBtn');
-                    if (otpBtn.textContent === 'Verify OTP' && !otpBtn.disabled) {
-                        otpBtn.click();
-                    }
-                }
-            });
+            // Landing page OTP Enter key support removed (now using Start button)
 
             document.getElementById('otpInput').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter' && this.value.trim().length === 4) {
@@ -3265,23 +3248,10 @@
             }
         }
 
-        // Landing OTP Functions
-        function handleLandingContactInput() {
-            const mobile = document.getElementById('landingMobileNumber').value.trim();
-            
-            formData.mobileNumber = mobile;
-            
-            const otpBtn = document.getElementById('landingOtpBtn');
-            const isValid = mobile.length === 10 && /^\d+$/.test(mobile);
-            
-            otpBtn.disabled = !isValid;
-            
-            if (isValid && !formData.otpSent) {
-                otpBtn.textContent = 'Send OTP';
-            }
-        }
+        // Landing OTP Functions removed - now using simple Start button
 
-        async function handleLandingOTP() {
+        // REMOVED: handleLandingOTP function - no longer needed with Start button
+        async function handleLandingOTP_REMOVED() {
             if (!formData.otpSent) {
                 // Send real OTP
                 const mobile = document.getElementById('landingMobileNumber').value.trim();
@@ -3376,7 +3346,8 @@
             }
         }
 
-        function handleLandingOTPInput() {
+        // REMOVED: handleLandingOTPInput function - no longer needed with Start button  
+        function handleLandingOTPInput_REMOVED() {
             const otp = document.getElementById('landingOtpInput').value.trim();
             const otpBtn = document.getElementById('landingOtpBtn');
             const mobile = document.getElementById('landingMobileNumber').value.trim();
